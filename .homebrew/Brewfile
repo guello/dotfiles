@@ -1,4 +1,3 @@
-tap "anomalyco/tap"
 # Browser automation CLI for AI agents
 brew "agent-browser"
 # YAML Parser
@@ -59,10 +58,6 @@ brew "shellcheck"
 brew "shfmt"
 # Official tldr client written in Rust
 brew "tlrc"
-# Terminal multiplexer
-brew "tmux"
-# OpenCode V2 - the AI coding agent for the terminal
-brew "anomalyco/tap/opencode-v2", trusted: true
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
 # Command-line interface for 1Password
@@ -80,8 +75,6 @@ cask "nordvpn"
 cask "orbstack"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
-# Unpacks archive files
-cask "the-unarchiver"
 # Open-source BitTorrent client
 cask "transmission"
 # Open-source code editor
