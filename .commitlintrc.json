@@ -18,13 +18,12 @@
         "pi",
         "cask",
         "mas",
-        "ghostty",
+        "nvim",
+        "vim",
         "vscode",
         "npm",
         "bash",
-        "zsh",
-        "nvim",
-        "vim"
+        "zsh"
       ]
     ],
     "subject-empty": [
@@ -52,14 +51,11 @@
         "agents",
         "brew",
         "chore",
-        "docs",
-        "git",
-        "gui",
+        "editor",
         "node",
         "python",
         "ruby",
-        "shell",
-        "tui"
+        "shell"
       ]
     ]
   }

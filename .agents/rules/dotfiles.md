@@ -1,6 +1,6 @@
 ---
 description: "Use only in the $HOME dotfiles repository: portability, allowlist tracking, and the commit convention; routes agent config, shell internals, and launch agents to companion rules."
-applyTo: ".agents/**,.claude/**,.codex/**,.config/**,.copilot/**,.github/**,.homebrew/**,.local/**,.npm/**,.pi/**,.vscode/**,.zed/**,.zsh/**,Library/**,.CFUserTextEncoding,.bash_profile,.bashrc,.commitlintrc.json,.editorconfig,.gitconfig,.gitignore,.install.sh,.irbrc,.npmrc,.oxfmtrc.json,.profile,.rubocop.yml,.shellcheckrc,.vimrc,.zprofile,.zshenv,.zshrc"
+applyTo: ".agents/**,.claude/**,.codex/**,.config/**,.copilot/**,.github/**,.homebrew/**,.local/**,.npm/**,.pi/**,.vscode/**,.zed/**,.zsh/**,Library/**,.bash_profile,.bashrc,.commitlintrc.json,.editorconfig,.gitconfig,.gitignore,.install.sh,.irbrc,.npmrc,.oxfmtrc.json,.profile,.rubocop.yml,.shellcheckrc,.vimrc,.zprofile,.zshenv,.zshrc"
 paths:
   - ".agents/**"
   - ".claude/**"
@@ -15,7 +15,6 @@ paths:
   - ".zed/**"
   - ".zsh/**"
   - "Library/**"
-  - ".CFUserTextEncoding"
   - ".bash_profile"
   - ".bashrc"
   - ".commitlintrc.json"
@@ -57,13 +56,11 @@ These rules apply only when `$HOME` is the active repository. Treat every file u
 
 ## Commit convention
 
-- `.commitlintrc.json` and the `commit-msg` hook enforce an allowlisted lower-case type, an optional allowlisted scope, and a subject with no trailing period.
+- `.commitlintrc.json` and the `commit-msg` hook enforce an allowlisted lower-case type and optional scope, and a subject with no trailing period.
 - Leave a blank line before any body and keep the subject lower-case.
-- Allowed types: `agents`, `brew`, `chore`, `docs`, `git`, `gui`, `node`, `python`, `ruby`, `shell`, `tui`. Never use `feat`, `fix`, or `refactor`.
-- Allowed scopes: the `scope-enum` list in `.commitlintrc.json`.
-- `gui` covers native GUI applications; `tui` covers terminal-UI applications such as Neovim.
+- Allowed types and scopes are in `.commitlintrc.json` under `type-enum` and `scope-enum`: never use the `feat`, `fix`, or `refactor` types or scopes outside the allowlist.
 - Use `agents` for shared agent configuration and a tool scope only for that tool's native, non-shared configuration.
-- When `.commitlintrc.json` changes, update the mirrored lists in `.codex/settings.toml` and the VS Code commit prompt in `.vscode/settings.json`.
+- When this section changes, update the instructions mirrored in `.codex/settings.toml` (`git-commit-instructions`) and the VS Code commit prompt in `.vscode/settings.json` (`github.copilot.chat.commitMessageGeneration.instructions`).
 
 ## Scoped rules
 
