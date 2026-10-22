@@ -44,6 +44,7 @@ Conditional workflow routed from `../AGENTS.md`. Read before coding, file change
 ## Delegation
 
 - Delegate bounded, independent, read-only tasks to the configured explorers and reviewers, never nested, at most 3 concurrent.
+- Run output-heavy commands (full test suites, builds, log searches) in a general-purpose subagent that returns failures and a short summary. Run quick checks directly.
 - Give each delegate a root, a scope, the evidence to return, and a stop condition.
 - The primary owns writes, architecture, synthesis, and verification.
 - Parallel writers need explicit permission, isolated worktrees, and disjoint files.

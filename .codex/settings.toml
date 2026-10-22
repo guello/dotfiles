@@ -8,6 +8,8 @@ model_verbosity = "low"
 plan_mode_reasoning_effort = "xhigh"
 personality = "pragmatic"
 service_tier = "default"
+model_auto_compact_token_limit = 400000
+model_post_turn_compact_threshold_percent = 75
 
 # Auth and approvals
 approval_policy = "on-request"
@@ -24,7 +26,6 @@ max_concurrent_threads_per_session = 3
 [features]
 memories = true
 prevent_idle_sleep = true
-
 [memories]
 generate_memories = true
 use_memories = true

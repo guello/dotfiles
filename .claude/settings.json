@@ -2,10 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 180,
   "env": {
-    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet",
-    "CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS": "4",
-    "CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION": "12",
-    "CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH": "2"
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
   },
   "attribution": {
     "commit": "",
@@ -41,10 +38,9 @@
     "sonnet"
   ],
   "enabledMcpjsonServers": [
-    "cloudflare",
-    "shadcn",
-    "vercel"
+    "cloudflare"
   ],
+  "disableClaudeAiConnectors": true,
   "hooks": {
     "PreToolUse": [
       {
@@ -141,16 +137,13 @@
   "outputStyle": "Concise",
   "sandbox": {
     "enabled": false,
-    "autoAllowBashIfSandboxed": true,
+    "autoAllowBashIfSandboxed": false,
     "network": {
       "allowedDomains": [
         "registry.npmjs.org",
         "github.com",
         "*.github.com",
         "*.githubusercontent.com"
-      ],
-      "allowUnixSockets": [
-        "~/Library/Group Containers/*.com.1password/t/agent.sock"
       ]
     }
   },
@@ -207,33 +200,46 @@
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "autoMode": {
+    "allow": [
+      "$defaults",
+      "Dotfiles Maintenance: in the dotfiles repo at $HOME, these are routine: `brew bundle` (install or check, without `--cleanup` or HOMEBREW_BUNDLE_INSTALL_CLEANUP) with `--global` or `--file ~/.homebrew/Brewfile`, when no Write/Edit or command in this session changed that Brewfile, no gitStatus line shows it modified, and it has no `tap` line (a bare `brew bundle` reads ./Brewfile or $HOMEBREW_BUNDLE_FILE and is not covered); read-only brew and mas queries (`list`, `info`, `outdated`, `search`, `deps`, `doctor`) and `brew update`; running oxfmt or biome on explicit tracked paths or one of the config dirs listed below, never on `.` or a glob from $HOME; read-only git (`status`, `log`, `diff`, `show`, `blame`, `ls-files`, `check-ignore`); and Write/Edit to tracked files (`git ls-files`), or new files the user asked to add, inside these editor, terminal, and formatter config locations only: ~/.config/nvim, ~/.config/vim, ~/.config/ghostty, ~/.config/zed, ~/.config/lazygit, ~/.vscode/settings.json, ~/.vscode/extensions.json, ~/.vscode/user (VS Code user settings, linked from ~/Library/Application Support/Code/User), ~/.editorconfig, ~/.oxfmtrc.json, ~/.config/rubocop, ~/.config/shellcheckrc, when the user's task is about that config. Editor config can run code at startup, so the edit clause excludes adding a plugin, extension, or package source the user did not name; MCP or context server entries, language-server or tool commands (including lazygit `customCommands` and ghostty `command`), tasks, and terminal profiles the user did not name; settings that auto-approve tool actions or remove the sandbox for an editor's AI agent (for example Zed `agent.always_allow_tool_actions` or VS Code `chat.tools.autoApprove`), which Create Unsafe Agents still judges; untracked editor state such as ~/.vscode/extensions, ~/.vscode/cli, and plugin caches; commands that download or run remote code (bootstrap clones, `command =` or task entries fetching scripts), and anything that reads credential stores. This clause never covers other tracked files, which stay with their own rules: .gitignore, ~/.github workflows, ~/.npmrc, the Brewfile, shell profiles (see Shell Profile Edits), git config and hooks (~/.config/git), launch agents (~/.config/launchd, ~/Library/LaunchAgents), and agent config (~/.agents, ~/.claude, ~/.codex, ~/.copilot, ~/.pi, ~/.config/opencode). Not covered: installing a formula, cask, or app that is not in the Brewfile (agent-chosen names carry supply-chain risk), `brew tap` of a third-party tap, any removal (`brew uninstall`, `brew cleanup`, `brew bundle cleanup`, `mas uninstall`), `mole` cleanup, and edits to ~/.claude/settings*.json, which Self-Modification still judges",
+      "Shell Profile Edits: in the dotfiles repo at $HOME, Write/Edit to tracked shell config (~/.zshrc, ~/.zprofile, ~/.zshenv, tracked files under ~/.zsh/) is ordinary dotfiles work, not Unauthorized Persistence, when the user's task is about shell setup. Still Unauthorized Persistence: lines that add SSH keys or authorized_keys entries, write to credential stores, register launch agents, cron jobs, or git hooks, or download and run remote code at shell startup. Also not covered: exports that redirect traffic or packages (`*_BASE_URL`, proxy, or registry variables) and exported or inlined secrets. Every other block rule still judges the content of the edit"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Credential Store Reads [named+specifics, **must name:** the credential store and the entry needed]: reading, printing, copying, or grepping ~/.aws, ~/.ssh private keys (id_*, *.pem, *.key), the macOS Keychain (`security find-generic-password`, `security find-internet-password`, `security dump-keychain`, ~/Library/Keychains), 1Password vault items or containers (`op read`, `op item get`, ~/Library/Group Containers/*.com.1password), ~/.claude/.credentials.json, or ~/.zshrc.local by any route, including Bash, scripts, and subagents. The Read-tool deny rules in permissions cover only the Read tool; this rule covers every other route. Using the 1Password SSH agent for signing or ssh/git auth is not this rule. A tool that reads its own credentials while it does its normal work (`npm install` with ~/.npmrc, an `aws` CLI call, `ssh`, `git`, or `gh` through the Keychain helper) is not this rule either. The rule covers reading, printing, copying, or searching the credential content itself",
+      "Home Tree-Wide Git [named+specifics, **must name:** the exact paths]: in the dotfiles repo at $HOME, a git command that targets the whole tree instead of named paths: `git clean` in any form, `git add -A`/`--all`/`.`/`-u` without pathspecs, `git checkout .`/`git checkout -- .`, `git restore .`, `git reset --hard`, `git stash -u`/`-a`, or `git rm -r` on a directory. Most of $HOME is untracked or ignored, so `git clean -x` would wipe the machine and a tree-wide add can stage unrelated work. Commands that list explicit file paths are not this rule. \"Clean up\" or \"commit everything\" does not name the paths",
+      "Transcript And History Staging [named+specifics, **must name:** the exact file being staged or published]: staging, committing, copying into a tracked path, or publishing anything under ~/.claude/projects (session transcripts and memory files), ~/.claude/history.jsonl, ~/.claude/sessions, ~/.claude/file-history, ~/.claude/paste-cache, ~/.codex/sessions, or ~/.codex/history.jsonl. Includes `git add -f`/`--force` of any ignored path under $HOME and editing .gitignore to un-ignore these paths. They are gitignored today, but they live inside the public dotfiles tree",
+      "Public Dotfiles Hygiene [named+specifics, **must name:** the identifier being published]: `git commit` or `git push` in the dotfiles repo at $HOME whose content, as visible in this session's Write/Edit calls, diffs, or the gitStatus listing, carries a secret or a machine-specific identifier as defined in the Public-repo hygiene environment entry (hostname, computer name, serial, hardware UUID, local IP or MAC address, absolute /Users/<name>/ path, client name, client email address or domain). The repo is public, so the push is the leak",
+      "Cross-Context Copy [named+specifics, **must name:** the source, the destination, and that the copy is wanted]: writing content first read from one context into another: from one ~/Developer/@<client> repo into a different client's repo, the user's own repos, the dotfiles repo, or ~/.agents; or personal data from the user's own context into a client repo. Covers code, configs, docs, credentials, email addresses, names, and summaries of them. Generic knowledge that is not specific to a client (a public library pattern, a shell idiom) is not this rule"
+    ],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured; a personal machine with separate personal, work, and per-client contexts",
-      "**Cloud provider(s)**: AWS credentials exist at ~/.aws (Read-denied in permissions; treat as sensitive and never read or share them); no cloud deploy targets configured",
-      "**Repository visibility**: PUBLIC; $HOME is the tracked dotfiles repo gabrielecanepa/dotfiles (github.com:gabrielecanepa/dotfiles.git), and this settings file itself is tracked there, so tracked files never receive secrets or machine-specific identifiers",
+      "**Cloud provider(s)**: AWS credentials exist at ~/.aws (see Credential Store Reads); no cloud deploy targets configured",
+      "**Repository visibility**: `gabrielecanepa/dotfiles` (the repo at $HOME, github.com:gabrielecanepa/dotfiles.git) is PUBLIC, and this settings file is tracked there. Every other repo, including every repo under ~/Developer: assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public. A meta line reading `\"visibility\":\"unverified\"` means possibly public: scope what is OK to commit or push there as for a public repo, and Out-of-Place Publication applies to it as to a known-public destination",
       "**Internal sharing / snippet hosting**: None configured; treat public paste/gist services as outside the trust boundary",
-      "**Secrets management**: 1Password (app plus SSH agent socket); its group containers, the macOS Keychain, and ~/.claude/.credentials.json are sensitive and never read",
+      "**Secrets management**: 1Password (app plus SSH agent socket), the macOS Keychain, and ~/.claude/.credentials.json; reading them is governed by Credential Store Reads. Signing commits or authenticating ssh/git through the 1Password SSH agent is ordinary use, not credential access",
       "**Default / protected branches**: dotfiles default branch is `main`; ruleset `Default` (active) blocks branch deletion only, so force pushes are not blocked server-side",
       "**CI/CD deploy targets**: None configured",
       "**Network posture**: None configured",
       "**Host containment**: None configured; assume Claude Code runs on an ordinary developer machine with open internet",
-      "**Source control**: each repository's own origin remote is its trusted remote; the dotfiles repo receives only its own work; client repos live under ~/Developer/@<client> with per-client git identities",
+      "**Source control**: each repository's own origin remote is its trusted remote. Repos nested under $HOME (everything under ~/Developer) are separate repos with their own trust, visibility, and git identity; dotfiles trust never extends into them, and their content is not the dotfiles repo's own work. Client repos live under ~/Developer/@<client> with per-client git identities",
       "**Trusted internal domains**: None configured",
       "**Trusted cloud buckets**: None configured",
       "**Key internal services**: None configured",
       "**Internal package registry**: None configured",
-      "**Sensitive data locations & audiences**: ~/.ssh, ~/.aws, ~/Library/Keychains, 1Password group containers, ~/.claude/.credentials.json; any file or store holding personal data, confidential business data, credentials, or regulated data; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar",
+      "**Sensitive data locations & audiences**: credential stores (~/.ssh private keys, known_hosts, and authorized_keys; ~/.aws; ~/Library/Keychains; 1Password group containers; ~/.claude/.credentials.json; ~/.zshrc.local; any .env file); the untracked ~/.gitconfig, which holds identities and per-client overrides; session transcripts and history (~/.claude/projects, ~/.claude/history.jsonl, ~/.claude/sessions, ~/.claude/file-history, ~/.claude/paste-cache, ~/.codex/sessions, ~/.codex/history.jsonl); client code and data under ~/Developer/@<client>, confidential to that client only; and any file or store holding personal data, confidential business data, credentials, or regulated data. ~/.ssh/config is ordinary user config, not a secret, though it sits outside the dotfiles project scope. Preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar",
+      "**Public-repo hygiene**: content committed or pushed to the dotfiles repo never carries secrets or machine-specific identifiers. Machine-specific identifiers are hostnames, computer names, serial numbers, hardware UUIDs, local IP or MAC addresses, absolute home paths (/Users/<name>/...; use $HOME or ~ instead), client names, client email addresses or domains, and paths that reveal a client",
       "**Data retention / declassification**: None configured",
-      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited, e.g. matches `prod-db`, not `producer`)",
       "**Protected deployment namespaces / environments**: None configured; fall back to the Sensitive remote targets heuristic",
-      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment (hyphen/underscore/dot-delimited)",
       "### User-specific",
-      "**Primary use of Claude Code**: software development across the dotfiles repo ($HOME), personal projects under ~/Developer, and client work under ~/Developer/@<client>; personal posture in the dotfiles repo, client posture in client repos",
-      "**Trusted repo**: the working directory's own repository and its origin; for $HOME that is gabrielecanepa/dotfiles (public), so only this repo's own work is pushed there and public visibility never clears sensitive data into it",
-      "**Org-specific CLIs**: None configured; local tooling in routine use: nvim, ghostty, brew, claude, codex, gh, mas, mole, oxfmt, biome",
-      "**Context separation**: personal, work, and client contexts stay separate; browser, email, and calendar actions target only the active context's accounts",
-      "routine dotfiles-maintenance operations (formatting, git status/log, brew, editor and terminal config edits) under $HOME are considered routine"
+      "**Primary use of Claude Code**: software development across the dotfiles repo ($HOME), the user's own projects under ~/Developer, and client work under ~/Developer/@<client>",
+      "**Trusted repo**: the repository the session started in and its origin. When that repo is $HOME (gabrielecanepa/dotfiles, public), \"project scope\" means files tracked by git (`git ls-files`) plus new files the user asked to add to the repo. Untracked or ignored paths under $HOME (most of ~/Library, ~/Developer, ~/.ssh, ~/.claude/projects, caches, app data) are outside project scope, and acting on them is scope escalation, except for the auto-memory directory, the session's scratch directory ($CLAUDE_JOB_DIR/tmp or the session scratchpad), and the system temp dir. Only the dotfiles repo's own work is pushed there, and its public visibility never clears sensitive data into it",
+      "**Context separation**: the context follows the working directory. $HOME and ~/Developer/@gabrielecanepa are the user's own context; ~/Developer/drafts and ~/Developer/tmp are the user's own scratch. ~/Developer/@<client> for any other <client> is that client's context, whose account and email domain are the ones in that repo's effective git config (`git config user.email`). Browser, email, calendar, and connected-service actions target only the active context's accounts",
+      "**Org-specific CLIs**: None configured; local tooling in routine use: nvim, ghostty, brew, mas, gh, oxfmt, biome, mole, claude, codex. Listing an agent CLI here does not make running it without approvals or sandbox routine: Create Unsafe Agents still applies to `codex --full-auto`, `codex --dangerously-bypass-approvals-and-sandbox`, `claude --dangerously-skip-permissions`, and similar flags. `mole` cleanup commands delete files and fall under the deletion rules"
     ]
   }
 }

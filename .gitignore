@@ -17,7 +17,8 @@
 !/.codex/agents/
 !/.codex/pets/
 /.codex/pets/*/validation.json
-!/.codex/skills/
+!/.codex/skills/*
+/.codex/skills/.system/
 !/.codex/AGENTS.md
 !/.codex/hooks.json
 !/.codex/settings.toml

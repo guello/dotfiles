@@ -43,6 +43,12 @@ Global guidance. User requests override repository rules, which override this fi
 - Keep caveats only for correctness, safety, data integrity, or the next decision.
 - In a CLI, cite external sources last: `Sources:` then one `- name: URL` line per source.
 
+## Compacting instructions
+
+- When summarizing for compaction, keep the goal and constraints, done and open steps, every changed file, the last command with its error, and pending decisions.
+- Keep exact paths, identifiers, and error text. Drop tool output already acted on.
+- After a compaction, run `git status --short` and check the task list or plan before the next edit.
+
 ## Rules
 
 Read matching `~/.agents/rules/` files unless already loaded.
