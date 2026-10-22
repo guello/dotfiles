@@ -15,7 +15,7 @@ completions <cli> [<cli>...]              # call each cli and cache the completi
 <cli> completion zsh | completions <cli>  # cache completion text from stdin
 ```
 
-Cached files are created in `$ZSH_CACHE_DIR/completions` and rewritten only when the output changes. When `ZSH_CACHE_DIR` is unset, the cache uses `${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions`. The plugin creates the directory and adds it to `fpath`.
+Cached files are created in `${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions`, next to the completion dump, and rewritten only when the output changes. The plugin avoids `$ZSH_CACHE_DIR` because cleanup tools such as Mole empty `~/.oh-my-zsh/cache`, which breaks completion in shells that are already open. The plugin creates the directory and adds it to `fpath`.
 
 At startup, missing completions are generated inline and activated in the current session, while an existing cache is refreshed in a detached background job only when the CLI or its link is newer than the cache.
 

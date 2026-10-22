@@ -1,4 +1,4 @@
-typeset -g _completions_dir=${ZSH_CACHE_DIR:-${XDG_CACHE_HOME:-~/.cache}/zsh}/completions
+typeset -g _completions_dir=${XDG_CACHE_HOME:-~/.cache}/zsh/completions
 (( ${fpath[(Ie)$_completions_dir]} )) || fpath=($_completions_dir $fpath)
 
 _completions::load() {
