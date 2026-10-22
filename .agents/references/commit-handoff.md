@@ -42,7 +42,7 @@ Include a body only when the subject cannot explain the full intent.
 
 Write the body as imperative prose that explains why the change was made and how behavior differs.
 
-Switch to bullets only for independent enumerable changes: hyphen, single space, short imperative fragments, no terminal period.
+Use bullets for independent enumerable changes: hyphen, single space, short imperative fragments, no terminal period. When the changes share a reason, state it in one prose sentence before the bullets.
 
 Never end the subject with a period.
 

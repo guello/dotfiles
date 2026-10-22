@@ -60,8 +60,7 @@ These rules apply only when `$HOME` is the active repository. Treat every file u
 - `.commitlintrc.json` and the `commit-msg` hook enforce an allowlisted lower-case type, an optional allowlisted scope, and a subject with no trailing period.
 - Leave a blank line before any body and keep the subject lower-case.
 - Allowed types: `agents`, `brew`, `chore`, `docs`, `git`, `gui`, `node`, `python`, `ruby`, `shell`, `tui`. Never use `feat`, `fix`, or `refactor`.
-- Scopes by type: `agents` uses `claude`, `codex`, `copilot`, `opencode`, or `pi`; `brew` uses `cask` or `mas`; `gui` uses `ghostty`, `vscode`, or `zed`.
-- More scopes: `node` uses `npm`; `shell` uses `bash`, `sh`, or `zsh`; `tui` uses `neovim`, `nvim`, or `vim`.
+- Allowed scopes: the `scope-enum` list in `.commitlintrc.json`.
 - `gui` covers native GUI applications; `tui` covers terminal-UI applications such as Neovim.
 - Use `agents` for shared agent configuration and a tool scope only for that tool's native, non-shared configuration.
 - When `.commitlintrc.json` changes, update the mirrored lists in `.codex/settings.toml` and the VS Code commit prompt in `.vscode/settings.json`.
