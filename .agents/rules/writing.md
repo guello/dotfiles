@@ -1,5 +1,5 @@
 ---
-description: "Use when producing human-facing prose: docs, READMEs, essays, marketing or UI copy, release notes, PR and issue descriptions, emails. Enforces the humanizer skill and bans AI-writing tells."
+description: "Use when producing text that people read: docs, READMEs, rules, specs, commit messages, PR, issue, and release text, review comments, essays, marketing or UI copy, emails. Enforces Simplified Technical English for technical text and the humanizer skill for other prose."
 applyTo: "**/*.markdown,**/*.md,**/*.mdc,**/*.mdx,**/*.rst,**/*.txt,**/README*,**/docs/**"
 paths:
   - "**/*.markdown"
@@ -14,45 +14,48 @@ paths:
 
 # Writing and prose
 
-Applies to substantial human-facing prose in files, chat, PR, issue, and release descriptions, and UI copy.
+Applies to text that people read in files, chat, commits, PRs, issues, releases, reviews, and UI copy.
 
 ## Scope
 
-- Skip the humanizer voice treatment for code, code comments, terse factual chat answers, and commit subjects.
-- Skip it for pure technical reference where neutral plain text is the correct voice, including instruction and config docs like this one.
-- The dash ban has no skip: it covers every committed file, reference docs included.
+- Write technical text in ASD-STE100 Simplified Technical English (STE): docs, READMEs, rules, specs, plans, commit messages, PR, issue, and release text, review comments, and chat answers.
+- STE does not apply to code, identifiers, quotations, UI copy, marketing, announcements, essays, or personal writing.
+- The mechanics section applies to all committed text. The dash ban has no exception.
 
-## Humanizer skill
+## STE
 
-- Run the `humanizer` skill on any prose longer than a few sentences that a person reads as writing.
-- That covers docs, READMEs, essays, marketing copy, announcements, release notes, and long PR descriptions.
-- For shorter prose, apply the baseline below inline without the full skill loop.
-- The skill loop is draft, then audit ("what still makes this read as AI?"), then final.
-- Before returning file content, scan it for em and en dashes; any hit means it is not done.
-- The humanizer's voice-matching guidance never overrides committed-file restrictions.
-- To audit a repository's existing human docs (README, CONTRIBUTING, CHANGELOG, guides), run `/sync-docs`.
+The `simplified-technical-english` skill holds the full rules, the approved word list, and examples. Load it for long text and for vocabulary checks.
 
-## Baseline rules
+- Use approved words with their approved meaning and part of speech. Technical names and technical verbs keep their exact form.
+- Use one word for one meaning. Do not use phrasal verbs. Keep noun clusters at 3 words or fewer.
+- Use the simple present, simple past, or future tense. Use the active voice, and the imperative for instructions.
+- Use only `can`, `must`, and `will` as helping verbs. Do not use `-ing` forms, except approved words and technical names.
+- Keep procedural sentences at 20 words or fewer and descriptive sentences at 25 or fewer. Keep paragraphs at 6 sentences or fewer.
+- Write one instruction in each sentence. Keep the articles. Do not write contractions or semicolons.
+- Use a vertical list for steps or complex text, with a colon at the end of the lead line.
+- A Conventional Commits header keeps its `type(scope):` format. STE applies to its description and to the body.
+- Never claim that a word is approved without a check against the word list.
 
-- Never write an em or en dash into any committed file, these rule and config docs included.
-- Replace a dash with a period, comma, colon, hyphen, parentheses, or a rewrite; live chat output is the only exception.
-- Never hard-wrap committed markdown: write each paragraph and list item as one physical line and let editors soft-wrap.
-- Follow a project's declared wrap convention only where one exists; code and its comments keep the language's own wrapping.
-- Cut promotional inflation: "stands as a testament", "pivotal moment", "rich tapestry", "vibrant", "nestled in the heart of", "showcases", "underscores".
-- Prefer `is`, `are`, and `has` over copula avoidance ("serves as", "boasts", "represents a").
-- Cut rule-of-three padding, false ranges ("from X to Y"), synonym cycling, negative parallelisms ("not just X, it's Y"), and tailing negations.
-- Cut AI vocabulary and filler: delve, leverage, crucial, seamless, "in order to", "it is important to note", excessive hedging.
+## Enforcement
 
-## Voice and mechanics
+- `guard-committed-writing.sh` blocks net-new semicolons, contractions, and sentences over 25 words in committed markdown and text files, and in commit and GitHub text.
+- The hook returns the other checker findings as advice. Fix each finding, or keep the word when it is a technical name.
 
-- Cut collaborative artifacts ("Great question!", "I hope this helps", "Let me know") and signposting ("Let's dive in", "Here's what you need to know").
+## Mechanics
+
+- Never write an em or en dash into any committed file, these rule and config docs included. Live chat output is the only exception.
+- Replace a dash with a period, comma, colon, hyphen, parentheses, or a rewrite.
+- Never hard-wrap committed markdown. Write each paragraph and list item as one physical line.
+- Follow a project wrap convention only where one exists. Code and its comments keep the wrap style of the language.
 - Use sentence-case headings, straight quotes, no decorative emoji, and no mechanical boldface or inline-header bullet lists.
-- Write in active voice with specific detail and varied sentence length.
-- Add opinion or voice only for essays and personal writing; reference, technical, and legal text stays neutral and plain.
+- Before you return file content, scan it for em and en dashes. A hit means that the work is not done.
 
-## Do not over-correct
+## Prose outside STE
 
-- Edit for clusters of tells, not isolated ones.
-- A lone "however", a single curly quote, formal vocabulary, or polished grammar is not evidence of AI.
-- Preserve specific detail, dated references, genuine asides, and earned voice.
-- Read the skill's "What NOT to flag" section before gutting legitimate prose.
+- For marketing, announcements, essays, and personal writing longer than a few sentences, run the `humanizer` skill: draft, audit, then final.
+- For shorter prose of that type, cut AI tells inline: promotional inflation, filler, signposts, and collaborative artifacts such as "I hope this helps".
+- UI copy follows `design.md`: plain verbs, sentence case, and the product voice.
+- Add opinion or voice only to essays and personal writing.
+- Edit for clusters of tells, not isolated ones. Read the humanizer "What NOT to flag" section before you cut legitimate prose.
+- The humanizer voice guidance never overrides the mechanics above.
+- To audit the human docs of a repository, run `/sync-docs`.

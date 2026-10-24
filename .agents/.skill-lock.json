@@ -29,6 +29,15 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/anthropics/skills.git",
       "updatedAt": "2026-06-14T19:39:19.357Z"
+    },
+    "simplified-technical-english": {
+      "source": "0xpili/simplified-technical-english",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/0xpili/simplified-technical-english.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "1e148d670cba46685ad2b4c3f2354a637a7fdbbe",
+      "installedAt": "2026-10-24T08:34:21.349Z",
+      "updatedAt": "2026-10-24T08:34:21.349Z"
     }
   },
   "dismissed": {

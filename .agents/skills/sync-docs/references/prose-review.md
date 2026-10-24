@@ -109,7 +109,7 @@ Edit for clusters of tells, not isolated hits.
 - Cut AI vocabulary and filler: delve, leverage, crucial, seamless, robust, streamline, "in order to", "it is important to note", hedging.
 - Cut sycophantic and signposting artifacts: "Great question!", "Let's dive in", "Here's what you need to know", "without further ado".
 - Fix mechanics: sentence-case headings, straight quotes, no decorative emoji, no mechanical boldface, no inline-header bullet lists.
-- Prefer active voice with concrete detail, and vary sentence length.
+- Prefer active voice with concrete detail. In technical docs, apply Simplified Technical English: 25 words or fewer in each sentence.
 
 ### Where plain is correct
 
