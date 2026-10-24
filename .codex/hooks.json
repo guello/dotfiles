@@ -23,6 +23,11 @@
             "type": "command",
             "command": "$HOME/.agents/hooks/guard-remote-execution.sh",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.agents/hooks/guard-committed-writing.sh",
+            "timeout": 5
           }
         ]
       }
