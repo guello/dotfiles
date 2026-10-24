@@ -51,16 +51,6 @@
     "when": "!editorFocus"
   },
   {
-    "key": "alt+cmd+right",
-    "command": "-workbench.action.terminal.focusNextPane",
-    "when": "terminalFocus && terminalProcessSupported"
-  },
-  {
-    "key": "alt+cmd+right",
-    "command": "-workbench.action.terminal.focusNextPane",
-    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
-  },
-  {
     "key": "alt+s",
     "command": "markdown.extension.editing.toggleStrikethrough",
     "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
@@ -176,8 +166,18 @@
     "command": "-workbench.action.reloadWindow"
   },
   {
+    "key": "ctrl+alt+down",
+    "command": "workbench.action.terminal.focusNext",
+    "when": "terminalHasBeenCreated || terminalProcessSupported"
+  },
+  {
     "key": "ctrl+alt+p",
     "command": "git.push"
+  },
+  {
+    "key": "ctrl+alt+up",
+    "command": "workbench.action.terminal.focusPrevious",
+    "when": "terminalHasBeenCreated || terminalProcessSupported"
   },
   {
     "key": "ctrl+cmd+left",
@@ -204,6 +204,10 @@
   {
     "key": "ctrl+cmd+right",
     "command": "workbench.action.moveEditorRightInGroup"
+  },
+  {
+    "key": "ctrl+cmd+s",
+    "command": "github.copilot.chat.completions.toggle"
   },
   {
     "key": "ctrl+s",
@@ -254,6 +258,18 @@
     "key": "ctrl+shift+left",
     "command": "-editor.action.smartSelect.shrink",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "-editor.action.toggleTabFocusMode"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "-markdown.showPreviewToSide"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "markdown.showLockedPreviewToSide"
   },
   {
     "key": "ctrl+shift+right",

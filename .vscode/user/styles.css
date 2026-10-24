@@ -417,7 +417,8 @@
 }
 
 /* Pi */
-.show-file-icons .\.pi-name-folder-icon::before {
+.show-file-icons .\.pi-name-folder-icon::before,
+.show-file-icons .agent-name-dir-icon.append_system\.md-name-file-icon::before {
   font-family: unset !important;
   font-size: 145% !important;
   content: "π" !important;
@@ -576,9 +577,12 @@
 }
 
 /* Tmp */
+.show-file-icons .tmp-name-folder-icon::before,
 .show-file-icons .\.tmp-name-folder-icon::before {
   font-family: fa !important;
   content: "\f253" !important;
+  font-size: 101% !important;
+  margin-left: 1.5px !important;
 }
 
 /* Todo */

@@ -224,8 +224,8 @@
   "github.copilot.chat.updated53CodexPrompt.enabled": false,
   "github.copilot.enable": {
     "*": true,
-    "markdown": true,
-    "plaintext": true,
+    "markdown": false,
+    "plaintext": false,
     "scminput": false
   },
   "github.copilot.nextEditSuggestions.eagerness": "low",
@@ -276,6 +276,7 @@
   "shfmt.formatIgnored": false,
   "staple.ghosttySyntax.enabled": false,
   "staple.optimizeImages.app": "ImageOptim",
+  "staple.sortObjectsByKey.allowNonJson": true,
   "terminal.external.osxExec": "Ghostty.app",
   "terminal.integrated.confirmOnExit": "hasChildProcesses",
   "terminal.integrated.copyOnSelection": true,
