@@ -71,10 +71,13 @@ Conditional workflow routed from `../AGENTS.md`. Read before coding, file change
 
 ## Commit decision
 
-- Read the unpushed history first: `git log --oneline @{upstream}..`, or the whole branch when no upstream exists.
-- A standalone change, feature, or fix gets a new commit.
-- A continuation of unpushed work (the rest of a feature, a fix on top, review follow-ups) is proposed as an amend or squash.
-- Name each amend or squash target by its short hash and subject.
-- Mixed concerns get the fewest commits, one even when its scope fits loosely; split only when the repository's history keeps such concerns apart.
-- Never rewrite pushed history unless asked; when the matching commit is pushed, propose a new commit.
+- Read the branch history first: `git log --oneline <base>..` on a PR branch, else `git log --oneline @{upstream}..`.
+- When the repository merges PRs by squash, skip the fold: push each fix as a new commit, and keep the PR title a Conventional Commit header.
+- Avoid new commits. A PR holds only the essential commits that compose its final result, so that it merges as is with no history change.
+- Fold each fix, adjustment, and review follow-up into the commit that it changes: `git commit --fixup=<sha>`, then `git rebase -i --autosquash <base>`.
+- Make a new commit only for a standalone change that must stay apart in the history.
+- Name each fold target by its short hash and subject.
+- Mixed concerns get the fewest commits. Split them only when they must stay apart.
+- The fold also applies to pushed commits on an unmerged PR branch that you own. Push the rewrite with `git push --force-with-lease`.
+- Never rewrite the default branch, a merged branch, or a branch that another person also pushes to. For those, propose a new commit.
 - When the work addresses a GitHub issue, reference it in the footer (`Closes #12`, `Fixes #12` for bugs, `Refs #12` for partial work) per `../rules/github.md`.

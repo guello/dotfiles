@@ -5,12 +5,12 @@ The commit safety and proposal format routed from `../AGENTS.md`. Read this file
 ## Commit safety
 
 - Commits are signed via Git's `ssh-keygen` signer; never disable signing or pass `--no-gpg-sign`.
-- Follow the repository's commit convention; a `Claude-Session: <url>` trailer may close a commit or pull request body.
+- Follow the repository's commit convention; never add a session link or a `Claude-Session:` trailer to a commit or pull request.
 - In the `$HOME` repository, use the commit types and scopes in `../rules/dotfiles.md`.
 
 ## Proposal format
 
-Choose between a new commit, an amend or squash, and a split per the "Commit decision" section of `verification.md`.
+Choose between a fold into an existing commit, a new commit, and a split per the "Commit decision" section of `verification.md`. Prefer the fold.
 
 Render the block itself, never a description of it, even when the prompt asks what you would do.
 

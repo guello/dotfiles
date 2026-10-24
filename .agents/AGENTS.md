@@ -22,7 +22,8 @@ Global guidance. User requests override repository rules, which override this fi
 - Keep scratch files in the session scratchpad or system temp.
 - For code, file changes, reviews, commands, or delegation, read `~/.agents/references/verification.md`.
 - For commit-worthy work, read `~/.agents/references/commit-handoff.md` and render its block.
-- Never add co-author credit or `Generated with` markers; session trailers are allowed.
+- Avoid new commits: fold each fix into the commit it changes, so a PR holds only its essential commits, unless the repository merges by squash (`verification.md`, "Commit decision").
+- Never add co-author credit, `Generated with` markers, or session links or trailers.
 
 ## Reasoning
 
@@ -37,7 +38,7 @@ Global guidance. User requests override repository rules, which override this fi
 
 ## Output
 
-- Lead with the result in short, specific Simplified Technical English; omit preambles, process narration, and closing recaps.
+- Lead with the result in short, specific Simplified Technical English per `writing.md`; omit preambles, process narration, and closing recaps.
 - Compare options in a best-first table: 0-10 ratings and per-row recommendations.
 - Number user-run steps, one bounded action each.
 - Keep caveats only for correctness, safety, data integrity, or the next decision.
@@ -64,9 +65,9 @@ Read matching `~/.agents/rules/` files unless already loaded.
 
 ### Other work
 
-- Substantial prose: `writing.md`.
+- Prose, commit messages, and GitHub text: `writing.md`.
 - `$HOME` dotfiles: `dotfiles.md`.
-- GitHub issues or projects: `github.md`.
+- GitHub issues, pull requests, or projects: `github.md`.
 - Bugs, regressions, failing tests: `/find-root-cause`.
 - Agent instructions or skills: `/sync-agents`.
 - Library or API questions: `context7` MCP, one concept per query.
