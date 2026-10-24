@@ -1,5 +1,5 @@
 ---
-description: Review the working-tree diff for correctness and missing tests
+description: "Review the working-tree diff for correctness and missing tests"
 agent: code-reviewer
 ---
 

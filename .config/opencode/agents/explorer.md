@@ -1,5 +1,5 @@
 ---
-description: Read-only codebase explorer for fan-out searches and tracing execution paths before changes. Returns concise evidence with file and symbol references, not file dumps. Specify search breadth when delegating.
+description: "Read-only codebase explorer for fan-out searches and tracing execution paths before changes. Returns concise evidence with file and symbol references, not file dumps. Specify search breadth when delegating."
 mode: subagent
 permissions:
   - action: edit

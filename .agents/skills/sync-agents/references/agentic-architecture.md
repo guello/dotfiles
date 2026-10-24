@@ -8,7 +8,7 @@ The rubric for reviewing how a repository's agentic files are designed and organ
 - [File taxonomy](#file-taxonomy): what each file is for
 - [Standard project wiring](#standard-project-wiring): the layout to scaffold and repair against
 - [Architecture checks](#architecture-checks): the judgment calls
-- [Instruction style](#instruction-style): the shape of every line
+- [Instruction style](#instruction-style) and [frontmatter](#frontmatter): line shape and YAML conventions
 - [Signal-density checks](#signal-density-checks): what to cut
 - [Skill provenance](#skill-provenance): third-party sources and pinning
 - [Constraint compliance](#constraint-compliance): budgets and local rules
@@ -100,6 +100,17 @@ The shape that raises adherence. Apply it to every hand-written agentic file: en
 - Move examples to a reference loaded on demand and cite it by relative path from the entry file.
 - Cut history, comparisons, and justification, or move them to a reference; they are not instructions.
 - Scope a rule to the paths where it fires instead of keeping it always on.
+
+## Frontmatter
+
+- When authoring agentic YAML, follow the consuming tool's schema; do not add frontmatter to plain instruction documents just for consistency.
+- Leave unambiguous names and enum values unquoted.
+- Double-quote single-line prose, including `description` and `compatibility`.
+- Double-quote glob patterns, path strings, and argument hints.
+- Keep booleans and numbers unquoted when their intended type is boolean or numeric; quote lookalike strings.
+- For long descriptions, allow `>-`; preserve existing folded descriptions and parsed values during formatting-only changes.
+- When a shared rule carries both `paths` and `applyTo`, keep their pattern scopes identical.
+- Never normalize generated or third-party managed files by hand; use their source or manager.
 
 ## Signal-density checks
 

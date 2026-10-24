@@ -52,7 +52,7 @@ These defaults apply to new marketing pages where the brief and project system a
 
 ## UI copy
 
-- Follow `writing.md`: active voice, plain verbs, sentence case, no filler, real content instead of lorem.
+- UI copy is outside STE. Follow the UI copy line in `writing.md`: active voice, plain verbs, sentence case, no filler, and real content instead of lorem.
 - Name controls by what users manage; keep an action's name through its flow (button "Publish", toast "Published").
 - Errors state what happened and the next step; empty states invite an action.
 

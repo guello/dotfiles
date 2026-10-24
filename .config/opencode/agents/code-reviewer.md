@@ -1,5 +1,5 @@
 ---
-description: Reviews completed diffs for correctness, security, spec compliance, repository conventions, missing tests, and over-engineering. Use proactively after multi-file or behavior-changing work. Read-only; every finding cites file:line.
+description: "Reviews completed diffs for correctness, security, spec compliance, repository conventions, missing tests, and over-engineering. Use proactively after multi-file or behavior-changing work. Read-only; every finding cites file:line."
 mode: subagent
 permissions:
   - action: edit

@@ -9,6 +9,7 @@ paths:
   - ".copilot/**"
   - ".github/**"
   - ".homebrew/**"
+  - ".local/**"
   - ".npm/**"
   - ".pi/**"
   - ".vscode/**"

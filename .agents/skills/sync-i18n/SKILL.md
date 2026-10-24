@@ -4,7 +4,7 @@ description: >-
   Audits and repairs a codebase's i18n catalogs, key usage, translations,
   loading, and configuration. Use for /sync-i18n or localization reviews;
   accepts a scope path and --check.
-compatibility: Any coding agent with filesystem search, shell access, and official documentation lookup.
+compatibility: "Any coding agent with filesystem search, shell access, and official documentation lookup."
 disable-model-invocation: true
 ---
 

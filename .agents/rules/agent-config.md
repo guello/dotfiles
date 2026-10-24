@@ -59,7 +59,7 @@ Applies only in the `$HOME` repository. Loader detail: `~/.agents/references/dot
 
 ## Instruction style and budgets
 
-- Follow `.agents/skills/sync-agents/references/agentic-architecture.md`: one directive per line, trigger first.
+- Follow `.agents/skills/sync-agents/references/agentic-architecture.md` for YAML frontmatter and instruction style: one directive per line, trigger first.
 - Write to the targets in `.agents/skills/sync-agents/references/context-budgets.md`; the cap is the failure line.
 - `guard-context-budgets.sh` measures every agentic write; fix a reported breach before continuing.
 

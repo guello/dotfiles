@@ -1,6 +1,6 @@
 ---
 name: sync-docs
-description: Audit and repair human-facing repository docs against the code. Use for /sync-docs or to review README, CONTRIBUTING, CHANGELOG, or guides; excludes agentic files, supports --check.
+description: "Audit and repair human-facing repository docs against the code. Use for /sync-docs or to review README, CONTRIBUTING, CHANGELOG, or guides; excludes agentic files, supports --check."
 ---
 
 # sync-docs

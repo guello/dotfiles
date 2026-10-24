@@ -1,6 +1,6 @@
 ---
 name: prototype
-description: Build multiple different versions of the described UI using a visual picker to select and inspect them live. Only runs when explicitly invoked.
+description: "Build multiple different versions of the described UI using a visual picker to select and inspect them live. Only runs when explicitly invoked."
 disable-model-invocation: true
 ---
 
