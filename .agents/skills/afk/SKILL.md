@@ -66,13 +66,13 @@ End each unit of work with this sequence, skipping only lines that do not apply:
 "ship", alone or with extra notes, is the explicit ask the standing commit boundary requires. It authorizes exactly three steps:
 
 1. Commit the session's changes following the repository's commit convention.
-2. Push and open the request with the host's CLI: `git push -u origin HEAD && gh pr create --fill` on GitHub, `glab mr create --fill --yes` on GitLab.
-3. Reply with the link and a one-line summary.
+2. Push with `git push -u origin HEAD`, then open the request per `github.md`, "Pull requests": body file, assignee, labels, and `Closes #<number>`. On GitLab, run `glab mr create --fill --yes`.
+3. Run the review and `/autofix-pr` when `github.md` asks for them, then reply with the link and a one-line summary.
 
 ### Ship boundaries
 
 - Ship covers only this session's work in the checkout the current turn acts in; name that checkout when more than one is live.
-- Never merge and never force-push; anything beyond commit, push, and open request needs its own ask.
+- Never merge and never force-push; anything beyond these three steps needs its own ask.
 - Skip confirmation on a clean "ship"; confirming would cost the round trip the word exists to save.
 - When "ship" arrives inside garbled or fragmentary dictation, echo the scope back and wait, because "don't ship yet" can lose its first two words.
 
