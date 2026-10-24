@@ -1,6 +1,6 @@
 ---
 name: Explore
-description: Read-only codebase explorer for fan-out searches and tracing execution paths before changes. Returns concise evidence with file and symbol references, not file dumps. Specify search breadth when delegating.
+description: Read-only codebase explorer for fan-out searches and tracing execution paths before changes. Returns concise evidence with file and symbol references. Specify search breadth when delegating.
 tools: Read, Grep, Glob
 model: haiku
 ---
