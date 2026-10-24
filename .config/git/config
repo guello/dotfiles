@@ -4,7 +4,7 @@
 [init]
   defaultBranch = main
 [includeIf "gitdir:~/.git"]
-  path = home.config
+  path = home.gitconfig
 
 [branch]
 	sort = -committerdate
