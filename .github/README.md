@@ -46,7 +46,7 @@ The home `Downloads`, `Movies`, `Music`, and `Pictures` folders are replaced wit
 Run the install script to bootstrap the configuration:
 
 ```sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/gabrielecanepa/dotfiles/HEAD/.install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/guello/dotfiles/HEAD/.install.sh)"
 ```
 
 The script does the following:
@@ -135,9 +135,9 @@ The `.install.sh` script (see [Installation](#installation)) installs the config
 To clone the repository locally:
 
 ```sh
-gh repo clone gabrielecanepa/dotfiles
+gh repo clone guello/dotfiles
 # or
-git clone git@github.com:gabrielecanepa/dotfiles.git
+git clone git@github.com:guello/dotfiles.git
 ```
 
 Install the packages listed in `Brewfile`:
@@ -155,7 +155,7 @@ After adding your SSH key to GitHub, initialize `~` as a git repo that tracks th
 
 ```sh
 git -C ~ init -b main
-git -C ~ remote add origin git@github.com:gabrielecanepa/dotfiles.git
+git -C ~ remote add origin git@github.com:guello/dotfiles.git
 git -C ~ fetch --depth 1 origin main && git -C ~ reset --hard FETCH_HEAD
 ```
 
