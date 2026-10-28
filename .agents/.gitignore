@@ -1,0 +1,15 @@
+/plans/
+/skills/*
+!/skills/afk/
+!/skills/agent-digest/
+!/skills/bump/
+!/skills/find-root-cause/
+!/skills/fleet/
+!/skills/grill-me/
+!/skills/handoff/
+!/skills/prototype/
+!/skills/questions-for/
+!/skills/sync-agents/
+!/skills/sync-docs/
+!/skills/sync-i18n/
+
