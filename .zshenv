@@ -14,4 +14,5 @@ fi
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
 
+export NPM_CONFIG_GLOBALCONFIG=${XDG_CONFIG_HOME:-~/.config}/npm/npmrc
 export PNPM_HOME=~/.pnpm

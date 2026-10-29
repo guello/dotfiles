@@ -100,7 +100,7 @@
     },
     {
       "action": "read",
-      "resource": "~/.zshrc.local",
+      "resource": "~/.npmrc",
       "effect": "deny"
     },
     {

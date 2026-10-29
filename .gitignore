@@ -37,6 +37,7 @@
 !/.config/glab-cli/aliases.yml
 !/.config/launchd/
 !/.config/lazygit/
+!/.config/npm/
 !/.config/nvim/
 !/.config/opencode/
 /.config/opencode/*
@@ -89,7 +90,6 @@
 !/.commitlintrc.json
 !/.editorconfig
 !/.gitignore
-!/.npmrc
 !/.oxfmtrc.json
 !/.profile
 !/.zprofile

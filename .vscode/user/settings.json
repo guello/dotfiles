@@ -121,6 +121,7 @@
     "fsmonitor-watchman": "shellscript",
     "ignore": "ignore",
     "NOTES": "markdown",
+    "npmrc": "properties",
     "p4-changelist": "shellscript",
     "p4-post-changelist": "shellscript",
     "p4-pre-submit": "shellscript",

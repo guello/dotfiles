@@ -1,9 +1,10 @@
 ---
 description: "Use for shell and package internals in the $HOME dotfiles: startup order, zsh plugins and themes, Git hooks and config, Homebrew, npm globals, VS Code extensions, and version managers."
-applyTo: ".config/macos/**,.config/git/**,.nodenv/nodenv.d/**,.homebrew/**,.npm/**,.vscode/extensions.json,.zsh/**,.bash_profile,.bashrc,.gitconfig,.npmrc,.profile,.shellcheckrc,.zprofile,.zshenv,.zshrc"
+applyTo: ".config/macos/**,.config/git/**,.config/npm/**,.nodenv/nodenv.d/**,.homebrew/**,.npm/**,.vscode/extensions.json,.zsh/**,.bash_profile,.bashrc,.gitconfig,.npmrc,.profile,.shellcheckrc,.zprofile,.zshenv,.zshrc"
 paths:
   - ".config/macos/**"
   - ".config/git/**"
+  - ".config/npm/**"
   - ".nodenv/nodenv.d/**"
   - ".homebrew/**"
   - ".npm/**"
@@ -62,6 +63,8 @@ These rules apply only when `$HOME` is the active repository.
 
 - `.homebrew/Brewfile` owns applications and shell tooling, including shellcheck and shfmt.
 - Never install Node-based tools with Homebrew, because its formulas introduce a second Node runtime; `agent-browser` is the one exception, per `browser.md`.
+- `.config/npm/npmrc` owns shared npm settings, which load through `NPM_CONFIG_GLOBALCONFIG` set in `.zshenv`.
+- `~/.npmrc` is untracked and holds the `npm login` token and local configuration. Never track it or copy its content.
 - `.npm/package.json` owns global Node tools; the `npm-global` plugin refreshes it synchronously and offline after mutating global commands.
 - The nodenv install hook restores the global tools for each Node version; Corepack owns pnpm.
 - `.vscode/extensions.json` is the single wanted set of VS Code extensions; add only published marketplace IDs.
