@@ -12,5 +12,6 @@ else
   export HOMEBREW_PREFIX=/usr/local
 fi
 export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
 
 export PNPM_HOME=~/.pnpm

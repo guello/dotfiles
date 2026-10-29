@@ -52,14 +52,8 @@ brew() {
       fi
       ;;
     fresh)
-      local -a upgrade_args=()
-      if (( ${@[(Ie)--no-casks]} )); then
-        upgrade_args=(--formula)
-      fi
-
       command brew update &&
-        command brew upgrade "${upgrade_args[@]}" &&
-        { (( ${@[(Ie)--no-mas]} )) || sudo mas upgrade; } &&
+        command brew upgrade "$@" &&
         command brew cleanup --prune=all &&
         brew dump &&
         command brew doctor
@@ -142,11 +136,7 @@ _brewfile_completions() {
 (( $+functions[_brew_global] )) || _brew_global() { return 0 }
 (( $+functions[_brew_check] )) || _brew_check() { return 0 }
 (( $+functions[_brew_reset] )) || _brew_reset() { return 0 }
-(( $+functions[_brew_fresh] )) || _brew_fresh() {
-  _arguments \
-    '--no-casks[Skip cask upgrades]' \
-    '--no-mas[Skip Mac App Store upgrades]'
-}
+(( $+functions[_brew_fresh] )) || _brew_fresh() { _brew_upgrade "$@" }
 
 if (( $+functions[compdef] )); then
   (( $+functions[_brew] )) && compdef _brewfile_completions brew
