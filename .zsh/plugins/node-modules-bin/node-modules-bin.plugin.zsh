@@ -1,10 +1,10 @@
 _node_modules_bin_update() {
   emulate -L zsh
 
-  if [[ -n ${_NODE_BIN_CURRENT:-} ]]; then
-    local index=${path[(Ie)$_NODE_BIN_CURRENT]}
+  if [[ -n ${_node_modules_bin_current:-} ]]; then
+    local index=${path[(Ie)$_node_modules_bin_current]}
     (( index )) && path[$index]=()
-    unset _NODE_BIN_CURRENT
+    unset _node_modules_bin_current
   fi
 
   local dir=$PWD bin
@@ -13,7 +13,7 @@ _node_modules_bin_update() {
       bin=$dir/node_modules/.bin
       if (( ! ${path[(Ie)$bin]} )); then
         path+=($bin)
-        typeset -g _NODE_BIN_CURRENT=$bin
+        typeset -g _node_modules_bin_current=$bin
       fi
       return 0
     fi

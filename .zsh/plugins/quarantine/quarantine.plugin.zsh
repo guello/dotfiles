@@ -1,5 +1,5 @@
-if ((! ${+_QUARANTINE_STATE_DIR})); then
-  typeset -gr _QUARANTINE_STATE_DIR=${XDG_STATE_HOME:-~/.local/state}/quarantine
+if ((! ${+_quarantine_state_dir})); then
+  typeset -gr _quarantine_state_dir=${XDG_STATE_HOME:-~/.local/state}/quarantine
 fi
 
 _quarantine_path() {
@@ -11,7 +11,7 @@ _quarantine_record() {
   emulate -L zsh
   local target=$1 digest
   digest=$(command md5 -qs $target) || return 1
-  REPLY=$_QUARANTINE_STATE_DIR/$digest
+  REPLY=$_quarantine_state_dir/$digest
 }
 
 _quarantine_value() {
@@ -55,8 +55,8 @@ _quarantine_backup() {
     return 0
   fi
 
-  command mkdir -p $_QUARANTINE_STATE_DIR || return 1
-  command chmod 700 $_QUARANTINE_STATE_DIR || return 1
+  command mkdir -p $_quarantine_state_dir || return 1
+  command chmod 700 $_quarantine_state_dir || return 1
   tmp=$record.tmp.$$.$RANDOM
   command mkdir $tmp || return 1
   command chmod 700 $tmp || {

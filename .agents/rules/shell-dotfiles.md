@@ -49,6 +49,9 @@ These rules apply only when `$HOME` is the active repository.
 - Resolve supporting scripts through `${0:A:h}`; extract logic into one only when it pays off in performance or code quality.
 - Plugin and completion files carry no header or comments beyond the required `#compdef` line, except a rare concise note on a non-obvious line.
 - Supporting scripts open with a short comment header; the `README.md` owns description, usage, and settings in the exact oh-my-zsh format.
+- A plugin setting with one value uses an uppercase name with the plugin or tool prefix, such as `NPM_GLOBAL_DIR`.
+- A plugin setting with a list is a lowercase array, such as `completions` or `plugins`.
+- Plugin internals are lowercase `_<plugin>_*` globals. Export a variable only when a child process reads it.
 - A theme is a single `.zsh/themes/<name>.zsh-theme` file with no README, a description-only header, and `ZSH_THEME_<NAME>_*` settings at the top.
 - A theme is standalone: it never sources another file, so it keeps its own copy of shared code such as the hook cleanup.
 
