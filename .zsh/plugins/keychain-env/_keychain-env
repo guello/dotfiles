@@ -1,0 +1,33 @@
+#compdef keychain-env
+
+_keychain-env() {
+  local curcontext=$curcontext state line
+  local -a subcommands
+  subcommands=(
+    'list:Print each name in env and its value'
+    'get:Print the value of a Keychain item'
+    'set:Store a value in the Keychain and export it'
+    'delete:Delete a Keychain item and unset its variable'
+    'reload:Export every name in env again'
+    'help:Print the help message'
+  )
+
+  _arguments -C \
+    '1: :->command' \
+    '*:: :->args'
+
+  case $state in
+    command)
+      _describe -t commands 'keychain-env command' subcommands
+      ;;
+    args)
+      case ${line[1]} in
+        get|set|delete)
+          (( CURRENT == 2 )) && _describe -t names 'variable name' env
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_keychain-env "$@"

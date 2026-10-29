@@ -6,8 +6,7 @@
   "files.associations": {
     "aliases.zsh": "shellscript",
     ".config/gem/gemrc": "yaml",
-    ".config/git/config": "properties",
-    ".zshrc.local": "shellscript"
+    ".config/git/config": "properties"
   },
   "files.exclude": {
     ".CFUserTextEncoding": true,
@@ -44,7 +43,6 @@
   "shellcheck.ignorePatterns": {
     ".zsh/aliases.zsh": true,
     ".zsh/plugins/*/_*": true,
-    ".zsh/themes/*": true,
-    ".zshrc.local": true
+    ".zsh/themes/*": true
   }
 }

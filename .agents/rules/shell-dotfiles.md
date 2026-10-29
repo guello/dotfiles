@@ -29,11 +29,12 @@ These rules apply only when `$HOME` is the active repository.
 
 - `.zshenv` exports shell-independent environment variables without changing PATH.
 - `.zprofile` orders login PATH and INFOPATH after macOS `path_helper`.
-- `.zshrc` adds Homebrew `fpath` and sources `.zshrc.local` before Oh My Zsh loads its libraries, plugins, completions, custom files, and theme.
+- `.zshrc` adds Homebrew `fpath` and sets plugin settings before Oh My Zsh loads its libraries, plugins, completions, custom files, and theme.
 - The `launchd` plugin runs its reconciliation worker through `command zsh ... &|`, isolated from the calling shell.
 - `LAUNCHD_DIR` selects source plists, defaulting to `${XDG_CONFIG_HOME:-$HOME/.config}/launchd`.
 - The worker reconciles plugin-owned links and jobs; `launchd.md` owns the loading and retirement rules.
-- `.zprofile` is public and agent-editable; keep machine-specific preferences and secrets in the ignored `.zshrc.local`.
+- `.zprofile` is public and agent-editable. Never write a secret into a shell file.
+- Secrets live in the macOS Keychain. The `keychain-env` plugin exports each name in the `env` array.
 - First-machine setup needs explicit approval; ongoing shell startup never uses `sudo`.
 
 ## Plugin output

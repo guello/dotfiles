@@ -29,6 +29,7 @@ plugins=(
   filesystem
   git-shortcuts
   google
+  keychain-env
   launchd
   lts
   node-modules-bin
@@ -53,6 +54,8 @@ completions=(
   tailscale
 )
 
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+env=(
+  CONTEXT7_API_KEY
+)
 
 source $ZSH/oh-my-zsh.sh
