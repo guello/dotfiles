@@ -3,11 +3,6 @@
   "chat.useClaudeMdFile": false,
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
-  "files.associations": {
-    "aliases.zsh": "shellscript",
-    ".config/gem/gemrc": "yaml",
-    ".config/git/config": "properties"
-  },
   "files.exclude": {
     ".CFUserTextEncoding": true,
     ".vscode-*": true,
@@ -18,9 +13,6 @@
   "files.watcherExclude": {
     "Developer/**": true
   },
-  "git.ignoredRepositories": [
-    ".oh-my-zsh"
-  ],
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
       "text": "Generate a single-line conventional commit message in the format `<type>(<scope>): <subject>`. Use an imperative mood, lower-case subject with no trailing period, and omit the scope when none fits. Allowed types and scopes are listed in ~/.commitlintrc.json; never use different ones. Never add a body, footer, `Co-authored-by`, or other trailers."

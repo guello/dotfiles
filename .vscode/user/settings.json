@@ -111,11 +111,14 @@
   "explorer.confirmUndo": "light",
   "extensions.allowOpenInModalEditor": true,
   "files.associations": {
-    ".config/git/config": "properties",
-    ".env*": "properties",
+    ".env": "properties",
+    ".env.*": "properties",
     "*.json.lock": "jsonl",
     "*.todo": "markdown",
-    "aliases.zsh": "shellscript",
+    "**/com.mitchellh.ghostty/config": "ghostty",
+    "**/com.mitchellh.ghostty/themes/*": "ghostty",
+    "**/ghostty/config": "ghostty",
+    "**/ghostty/themes/*": "ghostty",
     "applypatch-msg": "shellscript",
     "commit-msg": "shellscript",
     "fsmonitor-watchman": "shellscript",
@@ -224,10 +227,7 @@
   "github.copilot.chat.switchAgent.enabled": true,
   "github.copilot.chat.updated53CodexPrompt.enabled": false,
   "github.copilot.enable": {
-    "*": true,
-    "markdown": false,
-    "plaintext": false,
-    "scminput": false
+    "*": false
   },
   "github.copilot.nextEditSuggestions.eagerness": "low",
   "github.copilot.nextEditSuggestions.enabled": false,
@@ -236,6 +236,7 @@
   "html.format.indentInnerHtml": true,
   "html.format.templating": true,
   "html.format.unformatted": "html,style",
+  "i18n-ally.autoDetection": false,
   "i18n-ally.translate.openai.apiModel": "gpt-4-32k-0613",
   "inlineChat.defaultModel": "Auto (copilot)",
   "js/ts.experimental.useTsgo": true,
@@ -275,7 +276,6 @@
     "-ci"
   ],
   "shfmt.formatIgnored": false,
-  "staple.ghosttySyntax.enabled": false,
   "staple.optimizeImages.app": "ImageOptim",
   "staple.sortObjectsByKey.allowNonJson": true,
   "terminal.external.osxExec": "Ghostty.app",
