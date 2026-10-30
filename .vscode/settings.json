@@ -33,6 +33,7 @@
     "**/node_modules": true
   },
   "shellcheck.ignorePatterns": {
+    ".config/defaults/config.sh": true,
     ".zsh/aliases.zsh": true,
     ".zsh/plugins/*/_*": true,
     ".zsh/themes/*": true

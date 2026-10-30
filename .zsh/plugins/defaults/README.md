@@ -1,6 +1,6 @@
 # defaults plugin
 
-Wraps the [`defaults`](https://ss64.com/mac/defaults.html) CLI to list, save, sync, and refresh macOS preferences in a single configuration file.
+Wraps the [`defaults`](https://ss64.com/mac/defaults.html) CLI to dump, apply, and list macOS preferences in a single configuration file.
 
 To use it, add `defaults` to the plugins array in your zshrc file:
 
@@ -14,7 +14,7 @@ plugins=(... defaults)
 | ------------------------- | ------------------------------------------------------------- |
 | `defaults dump`           | Write the configuration file with the current system values   |
 | `defaults dump --dry-run` | Preview what `dump` would apply                               |
-| `defaults load`           | Apply the configuration and restart the affected applications |
+| `defaults apply`          | Apply the configuration and restart the affected applications |
 | `defaults list`           | Print the saved configuration                                 |
 
 Any other subcommand is passed to `defaults` unchanged.
@@ -23,4 +23,4 @@ When the configuration is empty or missing, `dump` creates it using the values s
 
 ## Settings
 
-- `MACOS_DEFAULTS`: path to the preferences file. Defaults to `${XDG_CONFIG_HOME:-$HOME/.config}/macos/defaults.sh`.
+- `DEFAULTS_CONFIG`: path to the preferences file. Defaults to `${XDG_CONFIG_HOME:-$HOME/.config}/defaults/config.sh`.

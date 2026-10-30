@@ -125,7 +125,7 @@ _defaults_dump() {
   return 0
 }
 
-_defaults_load() {
+_defaults_apply() {
   emulate -L zsh
   [[ $(command uname) == Darwin ]] || return 0
   local file=$1
@@ -147,7 +147,7 @@ defaults() {
 
   local cmd=${1-}
   case $cmd in
-    dump | load | list) shift ;;
+    dump | apply | list) shift ;;
     *)
       command defaults "$@"
       return $?
@@ -169,7 +169,7 @@ defaults() {
     return 1
   fi
 
-  local file=${MACOS_DEFAULTS:-${XDG_CONFIG_HOME:-~/.config}/macos/defaults.sh}
+  local file=${DEFAULTS_CONFIG:-${XDG_CONFIG_HOME:-~/.config}/defaults/config.sh}
   if [[ $cmd != dump && ! -r $file ]]; then
     print -ru2 -- "defaults: config missing at ${file/#$HOME/~}"
     return 1
@@ -177,7 +177,7 @@ defaults() {
 
   case $cmd in
     dump) _defaults_dump "$dry" "$file" ;;
-    load) _defaults_load $file ;;
+    apply) _defaults_apply $file ;;
     list) _defaults_list $file ;;
   esac
 }

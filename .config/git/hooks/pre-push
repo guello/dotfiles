@@ -2,8 +2,8 @@
 
 set -euf
 
-SCRIPT_PATHSPEC="*.sh *.bash .profile .bashrc .bash_profile .config/git/hooks/* :(exclude).config/macos/defaults.sh"
-BASH_CONFIG=".config/macos/defaults.sh"
+SCRIPT_PATHSPEC="*.sh *.bash .profile .bashrc .bash_profile .config/git/hooks/* :(exclude).config/defaults/config.sh"
+BASH_CONFIG=".config/defaults/config.sh"
 ZSH_STARTUP_PATHSPEC=".zshenv .zprofile .zshrc"
 ZSH_PATHSPEC=".zshenv .zprofile .zshrc *.zsh *.zsh-theme .zsh/plugins/*/_*"
 NPM_BINS="commitlint oxfmt"

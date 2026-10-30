@@ -60,9 +60,9 @@ defaults write com.apple.mail NSFontSize -int 12
 defaults write com.apple.mail NSFixedPitchFont -string Menlo-Regular
 defaults write com.apple.mail NSFixedPitchFontSize -int 11
 defaults write com.apple.dock orientation -string left
-defaults write com.apple.dock tilesize -float 63
+defaults write com.apple.dock tilesize -float 59
 defaults write com.apple.dock magnification -bool true
-defaults write com.apple.dock largesize -float 76
+defaults write com.apple.dock largesize -float 66
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0.2
 defaults write com.apple.dock mineffect -string genie
@@ -115,8 +115,8 @@ defaults write -g AppleKeyboardUIMode -int 0
 defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
 defaults write -g NSAutomaticCapitalizationEnabled -bool true
 defaults write -g NSUserKeyEquivalents -dict-add "System Settings..." '@~^,'
-defaults write com.apple.HIToolbox AppleFnUsageType -int 3
-defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 1
+defaults write com.apple.HIToolbox AppleFnUsageType -int 2
+defaults write com.apple.HIToolbox AppleDictationAutoEnable -int 0
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool false
 defaults write com.apple.AppleMultitouchTrackpad Dragging -bool false
 defaults write com.apple.AppleMultitouchTrackpad DragLock -bool false
@@ -186,7 +186,7 @@ defaults -currentHost write com.apple.controlcenter TimeMachine -int 8
 defaults -currentHost write com.apple.controlcenter VPN -int 8
 defaults -currentHost write com.apple.controlcenter VoiceControl -int 8
 defaults -currentHost write com.apple.controlcenter ShowSuggestions -bool true
-defaults write com.apple.Siri TypeToSiriEnabled -bool true
+defaults write com.apple.Siri TypeToSiriEnabled -bool false
 defaults write com.apple.Siri VoiceTriggerUserEnabled -bool true
 defaults write com.apple.Siri ConfirmSiriInvokedViaEitherCmdTwice -bool false
 defaults write com.apple.Siri StatusMenuVisible -bool false
