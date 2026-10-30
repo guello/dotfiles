@@ -15,15 +15,23 @@
       [
         "claude",
         "codex",
+        "copilot",
+        "opencode",
         "pi",
         "cask",
         "mas",
-        "nvim",
         "vim",
+        "nvim",
         "vscode",
+        "zed",
+        "gh",
+        "glab",
+        "ghostty",
+        "defaults",
+        "launchd",
         "npm",
-        "bash",
-        "zsh"
+        "plugin",
+        "theme"
       ]
     ],
     "subject-empty": [
@@ -52,10 +60,14 @@
         "brew",
         "chore",
         "editor",
+        "git",
+        "gui",
+        "macos",
         "node",
         "python",
         "ruby",
-        "shell"
+        "shell",
+        "zsh"
       ]
     ]
   }

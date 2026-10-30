@@ -15,7 +15,7 @@
   },
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
-      "text": "Generate a single-line conventional commit message in the format `<type>(<scope>): <subject>`. Use an imperative mood, lower-case subject with no trailing period, and omit the scope when none fits. Allowed types and scopes are listed in ~/.commitlintrc.json; never use different ones. Never add a body, footer, `Co-authored-by`, or other trailers."
+      "text": "Generate a single-line conventional commit message in the format `<type>(<scope>): <subject>`. Use an imperative mood, lower-case subject with no trailing period, and omit the scope when none fits. Allowed types and scopes are listed in ~/.commitlintrc.json; never use different ones. Choose the type from the changed path, and add the scope of the tool when one fits. Use `agents` for agent configuration, `zsh(plugin|theme)` for Zsh files, and `shell` for other shell files. Use `macos(defaults|launchd)` for system preferences and launch agents, `git(gh|glab)` for Git, and `gui(ghostty)` for desktop apps. Use `editor`, `brew`, `node`, `ruby`, or `python` for their tools, and `chore` for repository-wide files. A commit that changes only a Zsh integration uses `zsh(plugin)`. Never add a body, footer, `Co-authored-by`, or other trailers."
     }
   ],
   "markdown.extension.toc.levels": "3..6",

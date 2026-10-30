@@ -58,7 +58,7 @@ These rules apply only when `$HOME` is the active repository.
 ## Git
 
 - Git hooks live in `.config/git/hooks`: `commit-msg` runs commitlint; `pre-push` reruns it plus shellcheck, shfmt, oxfmt, and portability checks.
-- `core.hooksPath` is set only here through the `includeIf "gitdir:~/.git"` block in `.config/git/config`, which loads `.config/git/home.config`.
+- `core.hooksPath` is set only here through the `includeIf "gitdir:~/.git"` block in `.config/git/config`, which loads `.config/git/home.gitconfig`.
 - Never introduce Husky, an unscoped `core.hooksPath`, or `init.templateDir`.
 - Shared Git settings live in the tracked `.config/git/config`; the ignored `~/.gitconfig` wins later and owns identity, signing key, and editor.
 - Never track an email, key, or machine path.
