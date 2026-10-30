@@ -1,0 +1,152 @@
+<title>{{name}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column, grouped task lists, sticky progress strip */
+:root {
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --fg: #1f2328;
+  --muted: #59636e;
+  --line: #d1d9e0;
+  --accent: #0969da;
+  --accent-soft: #ddf4ff;
+  --warn: #9a6700;
+  --warn-soft: #fff8c5;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117; --surface: #151b23; --fg: #f0f6fc; --muted: #9198a1; --line: #3d444d;
+    --accent: #4493f8; --accent-soft: #121d2f; --warn: #d29922; --warn-soft: #272115; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117; --surface: #151b23; --fg: #f0f6fc; --muted: #9198a1; --line: #3d444d;
+  --accent: #4493f8; --accent-soft: #121d2f; --warn: #d29922; --warn-soft: #272115; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 720px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 64px; display: grid; gap: 28px; }
+header { display: grid; gap: 6px; }
+h1 { font-size: 26px; font-weight: 600; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 code { font-family: var(--font-mono); font-weight: 500; font-size: 0.9em; }
+.sub { color: var(--muted); margin: 0; }
+.progress { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 10px; display: grid; gap: 6px; border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.progress-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 13px; color: var(--muted); }
+.progress-row strong { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
+.sync { font-family: var(--font-mono); font-size: 12px; }
+section { display: grid; gap: 10px; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0; font-weight: 600; display: flex; justify-content: space-between; }
+h2 .count { font-variant-numeric: tabular-nums; letter-spacing: 0; }
+ul { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+li + li { border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 12px; padding: 12px 14px; align-items: start; }
+input[type="checkbox"] { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer; }
+input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.t { display: block; font-weight: 500; cursor: pointer; }
+.d { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+.d a { color: var(--accent); }
+.d code, .t code { font-family: var(--font-mono); font-size: 0.88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.flag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--warn); background: var(--warn-soft); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+li.done .t { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>{{title}}</h1>
+    {{subtitle}}
+  </header>
+
+  <div class="progress" aria-live="polite">
+    <div class="progress-row"><span><strong id="done-count">0</strong> of <strong id="total-count">0</strong> done</span><span class="sync" id="sync">connecting</span></div>
+    <div class="bar"><span id="bar"></span></div>
+  </div>
+
+{{groups}}
+</div>
+
+<script>
+(() => {
+  const items = [...document.querySelectorAll("li[data-id]")];
+  const boxes = new Map(items.map(li => [li.dataset.id, li.querySelector("input")]));
+  const state = {};
+  const syncEl = document.getElementById("sync");
+  const LS = {{key}};
+
+  function render() {
+    let done = 0;
+    for (const li of items) {
+      const on = !!state[li.dataset.id];
+      li.querySelector("input").checked = on;
+      li.classList.toggle("done", on);
+      if (on) done++;
+    }
+    document.getElementById("done-count").textContent = done;
+    document.getElementById("total-count").textContent = items.length;
+    document.getElementById("bar").style.width = (items.length ? (done / items.length) * 100 : 0) + "%";
+    for (const sec of document.querySelectorAll("section[data-group]")) {
+      const lis = sec.querySelectorAll("li[data-id]");
+      const d = [...lis].filter(li => state[li.dataset.id]).length;
+      sec.querySelector(".count").textContent = d + "/" + lis.length;
+    }
+  }
+
+  function loadLocal() {
+    try { Object.assign(state, JSON.parse(localStorage.getItem(LS) || "{}")); } catch {}
+  }
+  function saveLocal() {
+    try { localStorage.setItem(LS, JSON.stringify(state)); } catch {}
+  }
+
+  loadLocal();
+  render();
+
+  let db = null;
+  const pending = new Map();
+
+  async function write(id, done) {
+    if (!db) { saveLocal(); return; }
+    if (pending.get(id)) { pending.set(id, { next: done }); return; }
+    pending.set(id, {});
+    syncEl.textContent = "saving";
+    try {
+      await db.collection("checks").doc(id).set({ done, updatedAt: new Date().toISOString() });
+      syncEl.textContent = "saved";
+    } catch (e) {
+      syncEl.textContent = e && e.code === "not_granted" ? "read only" : "not saved";
+    }
+    const p = pending.get(id);
+    pending.delete(id);
+    if (p && "next" in p && p.next !== done) write(id, p.next);
+  }
+
+  for (const [id, box] of boxes) {
+    box.addEventListener("change", () => {
+      state[id] = box.checked;
+      render();
+      write(id, box.checked);
+    });
+  }
+
+  const start = async () => {
+    try { db = window.claude ? await window.claude.use("db") : null; } catch { db = null; }
+    if (!db) { syncEl.textContent = "this browser only"; return; }
+    syncEl.textContent = "synced";
+    db.collection("checks").onSnapshot(snap => {
+      for (const k of Object.keys(state)) delete state[k];
+      for (const doc of snap.docs) {
+        const v = doc.data();
+        if (v && boxes.has(doc.id)) state[doc.id] = !!v.done;
+      }
+      render();
+    }, () => { syncEl.textContent = "offline"; });
+  };
+  start();
+})();
+</script>

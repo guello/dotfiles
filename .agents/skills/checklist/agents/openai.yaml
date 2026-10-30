@@ -1,0 +1,5 @@
+interface:
+  display_name: "Checklist"
+  short_description: "Publish a synced checklist page for manual follow-up steps"
+policy:
+  allow_implicit_invocation: true
