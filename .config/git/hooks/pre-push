@@ -57,13 +57,15 @@ if git ls-files -z | xargs -0 grep -nIoE -d skip '/Users/[A-Za-z0-9._-]+' | grep
   fail "tracked files must be portable, replace absolute paths with \$HOME, ~, or repo-relative ones"
 fi
 
-branch="$(git branch --show-current)"
-remote="$(git config "branch.$branch.remote" 2>/dev/null || echo origin)"
-upstream="$remote/$branch"
-
-if git rev-parse --verify --quiet "$upstream" >/dev/null; then
-  commitlint --from "$upstream" --to HEAD
-fi
+while read -r _ local_oid _ _; do
+  case "$local_oid" in
+    *[!0]*) ;;
+    *) continue ;;
+  esac
+  for commit in $(git rev-list "$local_oid" --not --remotes); do
+    git log -1 --format=%B "$commit" | commitlint
+  done
+done
 
 scripts | xargs -0 shellcheck
 shellcheck -s bash "$BASH_CONFIG"
