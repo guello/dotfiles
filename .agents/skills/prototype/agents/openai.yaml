@@ -1,0 +1,5 @@
+interface:
+  display_name: "Prototype"
+  short_description: "Build UI variants and compare them live in a visual picker"
+policy:
+  allow_implicit_invocation: false

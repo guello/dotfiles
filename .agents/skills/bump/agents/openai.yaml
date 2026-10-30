@@ -1,0 +1,5 @@
+interface:
+  display_name: "Bump"
+  short_description: "Upgrade a Node.js project's LTS pin, package manager, and dependencies"
+policy:
+  allow_implicit_invocation: false

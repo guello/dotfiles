@@ -1,0 +1,5 @@
+interface:
+  display_name: "Sync i18n"
+  short_description: "Audit and repair i18n catalogs, key usage, and translations"
+policy:
+  allow_implicit_invocation: false
