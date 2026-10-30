@@ -37,6 +37,10 @@ def inline(value):
     return "".join(out)
 
 
+def slug(value):
+    return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+
+
 def fail(message):
     sys.exit(f"render.py: {message}")
 
@@ -64,10 +68,10 @@ def render_group(group, seen):
         fail("each group needs a name and at least one item")
     rows = "\n".join(render_item(item, seen) for item in group["items"])
     return (
-        "  <section data-group>\n"
-        f'    <h2>{text(group["name"])} <span class="count"></span></h2>\n'
+        f'  <details class="group" data-group="{slug(group["name"])}" open>\n'
+        f'    <summary><h2><span class="name">{text(group["name"])}</span> <span class="count"></span></h2></summary>\n'
         f"    <ul>\n{rows}\n    </ul>\n"
-        "  </section>"
+        "  </details>"
     )
 
 
@@ -83,7 +87,7 @@ def main():
             fail(f"missing field: {field}")
     seen = set()
     groups = "\n\n".join(render_group(group, seen) for group in data["groups"])
-    key = data.get("key") or re.sub(r"[^a-z0-9]+", "-", data["name"].lower()).strip("-")
+    key = data.get("key") or slug(data["name"])
     subtitle = f'<p class="sub">{inline(data["subtitle"])}</p>' if data.get("subtitle") else ""
     page = TEMPLATE.read_text()
     for token, value in (

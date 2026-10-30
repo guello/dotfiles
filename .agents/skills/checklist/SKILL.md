@@ -64,6 +64,8 @@ Use the artifact tools of the session, and follow their own rules for capabiliti
 
 The template already meets the artifact page contract: theme tokens, dark mode, Google Fonts only, and a 16px gutter.
 
+Group headers open and close, and finished groups start closed. Each browser keeps these choices across tabs, not the database.
+
 Keep its design, and change it only when the user asks.
 
 ## Update a published checklist
