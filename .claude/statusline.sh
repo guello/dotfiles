@@ -8,8 +8,6 @@
 #   usage.style    solid|dotted|dots|gradient|pacman (default: solid); bar fill of the usage and
 #                  context segments
 #   usage.trail    true leaves small dots behind the pacman head instead of spaces (pacman only)
-#   usage.links    true|false (default: true); link the five-hour and weekly segments to the
-#                  claude.ai usage settings page
 #   effort.style   colored|raw|symbol; colored word, plain word, or the CLI model picker glyph
 #   context.style  inline|progress (default: inline); dim tokens on the model line, or a bar line
 #   context.warn   none|color|icon|both (default: none); as the window fills up, color tints
@@ -17,9 +15,8 @@
 #   context.icon   icon appended when warn is icon or both (default: ⚠)
 #   git.style      auto|repo|path|folder (default: auto); owner/name from the remote, the repo
 #                  name only, the directory with ~ for $HOME, or the directory name
-#   git.links      true|false (default: true); link logo, repo, branch and status to the remote:
-#                  the repo page, the branch page (main links the repo), and the compare page
-#                  against main for the status counts
+#   git.links      true|false (default: true); link the repo to its remote page and a branch
+#                  other than the default one to its compare page against the default branch
 # Segments: logo repo branch status model effort fast-mode context five-hour seven-day
 #           five-hour-burn seven-day-burn. A burn segment prints the window's used
 #           percentage over its elapsed percentage, hidden while the window is barely in.
@@ -105,14 +102,13 @@ CACHE_TTL=5
 # Read from CLAUDE_STATUSLINE_CONFIG. A missing file, malformed JSON, a wrongly typed value or
 # an unknown name leave the variable empty and falls back to its default.
 CONFIG_FILE="${CLAUDE_STATUSLINE_CONFIG:-$HOME/.claude/statusline.json}"
-theme="" layout="" usage_style="" usage_trail="" usage_links="" effort_style="" context_style="" context_warn="" context_icon="" git_style="" git_links=""
+theme="" layout="" usage_style="" usage_trail="" effort_style="" context_style="" context_warn="" context_icon="" git_style="" git_links=""
 if [[ -r "$CONFIG_FILE" ]]; then
   {
     IFS= read -r theme
     IFS= read -r layout
     IFS= read -r usage_style
     IFS= read -r usage_trail
-    IFS= read -r usage_links
     IFS= read -r effort_style
     IFS= read -r context_style
     IFS= read -r context_warn
@@ -130,7 +126,6 @@ if [[ -r "$CONFIG_FILE" ]]; then
     lines(.layout),
     str(obj(.usage) | .style),
     flag(obj(.usage) | .trail),
-    flag(obj(.usage) | .links),
     str(obj(.effort) | .style),
     str(obj(.context) | .style),
     str(obj(.context) | .warn),
@@ -142,7 +137,6 @@ fi
 theme="${theme:-default}"
 usage_style="${usage_style:-solid}"
 usage_trail="${usage_trail:-false}"
-usage_links="${usage_links:-true}"
 effort_style="${effort_style:-colored}"
 context_style="${context_style:-inline}"
 context_icon="${context_icon:-$GLYPH_WARN_ICON}"
@@ -478,22 +472,25 @@ if [[ -f "$CACHE_FILE" ]]; then
 fi
 
 if [[ "$cache_valid" = true ]]; then
-  IFS='|' read -r branch staged modified deleted <"$CACHE_FILE"
+  IFS='|' read -r branch staged modified deleted default_branch <"$CACHE_FILE"
 else
   branch=$(cd "$cwd" 2>/dev/null && git branch --show-current 2>/dev/null)
+  default_branch=$(cd "$cwd" 2>/dev/null && git rev-parse --quiet --verify --abbrev-ref origin/HEAD 2>/dev/null)
+  default_branch=${default_branch#origin/}
   staged=$(cd "$cwd" 2>/dev/null && git diff --cached --numstat 2>/dev/null | wc -l | tr -d ' ')
   modified=$(cd "$cwd" 2>/dev/null && git diff --numstat 2>/dev/null | wc -l | tr -d ' ')
   deleted=$(cd "$cwd" 2>/dev/null && git diff --diff-filter=D --name-only 2>/dev/null | wc -l | tr -d ' ')
   staged=${staged:-0}
   modified=${modified:-0}
   deleted=${deleted:-0}
-  printf '%s|%s|%s|%s' "$branch" "$staged" "$modified" "$deleted" >"$CACHE_FILE"
+  printf '%s|%s|%s|%s|%s' "$branch" "$staged" "$modified" "$deleted" "$default_branch" >"$CACHE_FILE"
 fi
 
 branch=${branch:-}
 staged=${staged:-0}
 modified=${modified:-0}
 deleted=${deleted:-0}
+default_branch=${default_branch:-main}
 
 # Remote host kind, shared by the logo and the remote links.
 case "$host" in
@@ -503,35 +500,20 @@ case "$host" in
   *) host_kind="" ;;
 esac
 
-# Remote links: the repo page, the branch page (main links the repo page), and the compare
-# page of the branch against main, shaped per host. Empty when git.links is off or the remote
-# is unknown.
-repo_url="" branch_url="" compare_url=""
+# Remote links: the repo page, and the compare page of the branch against the default branch
+# (origin/HEAD when it resolves, else main), shaped per host. The default branch gets no link.
+# Empty when git.links is off or the remote is unknown.
+repo_url="" branch_url=""
 if [[ "$git_links" = true ]] && [[ -n "$host" ]] && [[ -n "$owner" ]] && [[ -n "$name" ]]; then
   repo_url="https://$host/$owner/$name"
-  if [[ -n "$branch" ]] && [[ "$branch" != main ]]; then
+  if [[ -n "$branch" ]] && [[ "$branch" != "$default_branch" ]]; then
     case "$host_kind" in
-      github)
-        branch_url="$repo_url/tree/$branch"
-        compare_url="$repo_url/compare/main...$branch"
-        ;;
-      gitlab)
-        branch_url="$repo_url/-/tree/$branch"
-        compare_url="$repo_url/-/compare/main...$branch"
-        ;;
-      bitbucket)
-        branch_url="$repo_url/branch/$branch"
-        compare_url="$repo_url/branches/compare/$branch..main"
-        ;;
+      github) branch_url="$repo_url/compare/$default_branch...$branch" ;;
+      gitlab) branch_url="$repo_url/-/compare/$default_branch...$branch" ;;
+      bitbucket) branch_url="$repo_url/branches/compare/$branch..$default_branch" ;;
     esac
-  elif [[ "$branch" = main ]]; then
-    branch_url="$repo_url"
   fi
 fi
-
-# Usage link: the claude.ai usage settings page, empty when usage.links is off.
-usage_url=""
-[[ "$usage_links" = true ]] && usage_url="https://claude.ai/#settings/usage"
 
 # OSC 8 hyperlink: ESC]8;;<URL>BEL<TEXT>ESC]8;;BEL, plain text when the URL is empty.
 hyperlink() {
@@ -547,8 +529,7 @@ hyperlink() {
 model=${model% (*)}
 
 # Segments: each prints its rendered content (including its own left separator) or nothing.
-# Logo segment: the remote host glyph in its brand color, linked to the repo page, hidden when
-# the host is unknown.
+# Logo segment: the remote host glyph in its brand color, hidden when the host is unknown.
 segment_logo() {
   local glyph="" color=""
   case "$host_kind" in
@@ -559,7 +540,7 @@ segment_logo() {
   esac
   printf ' '
   [[ -n "$color" ]] && printf '\033[%sm' "$color"
-  hyperlink "$repo_url" "$(printf '%b' "$glyph")"
+  printf '%b' "$glyph"
   [[ -n "$color" ]] && printf '\033[%sm' "$RESET"
   return 0
 }
@@ -599,8 +580,7 @@ segment_status() {
   [[ "$modified" -gt 0 ]] 2>/dev/null && status="${status}\033[${COLOR_MODIFIED}m\033[${DIM}m~${modified}\033[${RESET}m"
   [[ "$deleted" -gt 0 ]] 2>/dev/null && status="${status}\033[${COLOR_DELETED}m\033[${DIM}m-${deleted}\033[${RESET}m"
   [[ -z "$status" ]] && return
-  printf '\033[%sm%b\033[%sm' "$DIM" "$GLYPH_MIDDLE_DOT" "$RESET"
-  hyperlink "$compare_url" "$(printf '%b' "$status")"
+  printf '\033[%sm%b\033[%sm%b' "$DIM" "$GLYPH_MIDDLE_DOT" "$RESET" "$status"
 }
 
 segment_model() {
@@ -671,15 +651,15 @@ segment_context() {
   printf '%s' "$icon"
 }
 
-# Usage segments: the rate limit rows, linked to the claude.ai usage settings page.
+# Usage segments: the rate limit rows.
 segment_five_hour() {
   [[ -n "$five_hour_pct" ]] && [[ -n "$five_hour_resets" ]] &&
-    hyperlink "$usage_url" "$(render_usage_line "5-hour" "$five_hour_pct" "$(format_remaining "$five_hour_resets")")"
+    render_usage_line "5-hour" "$five_hour_pct" "$(format_remaining "$five_hour_resets")"
 }
 
 segment_seven_day() {
   [[ -n "$seven_day_pct" ]] && [[ -n "$seven_day_resets" ]] &&
-    hyperlink "$usage_url" "$(render_usage_line "weekly" "$seven_day_pct" "$(format_remaining "$seven_day_resets")")"
+    render_usage_line "weekly" "$seven_day_pct" "$(format_remaining "$seven_day_resets")"
 }
 
 # Burn segments: the pace of each rate limit window, hidden in its first minutes.

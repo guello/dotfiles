@@ -54,7 +54,7 @@
           "oneOf": [
             {
               "const": "logo",
-              "description": "Remote host logo (GitHub, GitLab, Bitbucket) in its brand color, linked to the repo page when git.links is on."
+              "description": "Remote host logo (GitHub, GitLab, Bitbucket) in its brand color."
             },
             {
               "const": "repo",
@@ -62,11 +62,11 @@
             },
             {
               "const": "branch",
-              "description": "Current git branch, linked to its remote page when git.links is on."
+              "description": "Current git branch, linked to its compare page against the default branch when git.links is on and the branch is not the default one."
             },
             {
               "const": "status",
-              "description": "Counts of staged, modified and deleted files, linked to the compare page against main when git.links is on."
+              "description": "Counts of staged, modified and deleted files."
             },
             {
               "const": "model",
@@ -86,11 +86,11 @@
             },
             {
               "const": "five-hour",
-              "description": "Five-hour rate limit usage and reset time, linked to the claude.ai usage page when usage.links is on."
+              "description": "Five-hour rate limit usage and reset time."
             },
             {
               "const": "seven-day",
-              "description": "Weekly rate limit usage and reset time, linked to the claude.ai usage page when usage.links is on."
+              "description": "Weekly rate limit usage and reset time."
             },
             {
               "const": "five-hour-burn",
@@ -140,11 +140,6 @@
           "type": "boolean",
           "description": "Leave small dots behind the pacman head instead of spaces. Pacman style only.",
           "default": false
-        },
-        "links": {
-          "type": "boolean",
-          "description": "Link the five-hour and weekly segments to the claude.ai usage settings page.",
-          "default": true
         }
       }
     },
@@ -204,7 +199,7 @@
         },
         "links": {
           "type": "boolean",
-          "description": "Link the logo, repo, branch and status segments to the remote: the repo page, the branch page (main links the repo page), and the compare page of the branch against main.",
+          "description": "Link the repo segment to its remote page, and a branch other than the default one (origin/HEAD, else main) to its compare page against the default branch.",
           "default": true
         }
       }
