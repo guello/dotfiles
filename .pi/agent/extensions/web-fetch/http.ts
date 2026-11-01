@@ -2,7 +2,7 @@ import dns from 'node:dns/promises'
 import http, { type IncomingMessage } from 'node:http'
 import https from 'node:https'
 import { BlockList, isIP } from 'node:net'
-import { type Readable } from 'node:stream'
+import type { Readable } from 'node:stream'
 
 const blockedIPv4 = new BlockList()
 for (const [address, prefix] of [
@@ -35,13 +35,13 @@ for (const [address, prefix] of [
 ] as const)
   blockedIPv6.addSubnet(address, prefix, 'ipv6')
 
-export const isPublicAddress = (address: string) => {
+export function isPublicAddress(address: string) {
   const family = isIP(address)
   if (family === 4) return !blockedIPv4.check(address, 'ipv4')
   return family === 6 && publicIPv6.check(address, 'ipv6') && !blockedIPv6.check(address, 'ipv6')
 }
 
-export const parsePublicUrl = (input: string) => {
+export function parsePublicUrl(input: string) {
   const url = new URL(input)
   if (url.protocol !== 'http:' && url.protocol !== 'https:')
     throw new Error('Only public HTTP(S) URLs are supported')
@@ -75,7 +75,7 @@ const lookupPublic: NonNullable<http.RequestOptions['lookup']> = (hostname, opti
   })()
 }
 
-export const readBody = async (stream: Readable, limit: number, signal?: AbortSignal) => {
+export async function readBody(stream: Readable, limit: number, signal?: AbortSignal) {
   signal?.throwIfAborted()
   const abort = () => stream.destroy(new Error('Fetch cancelled'))
   signal?.addEventListener('abort', abort, { once: true })
@@ -96,7 +96,7 @@ export const readBody = async (stream: Readable, limit: number, signal?: AbortSi
   }
 }
 
-export const fetchPublic = async (input: string, signal: AbortSignal) => {
+export async function fetchPublic(input: string, signal: AbortSignal) {
   let url = parsePublicUrl(input)
   for (let redirects = 0; redirects <= 3; redirects++) {
     signal.throwIfAborted()

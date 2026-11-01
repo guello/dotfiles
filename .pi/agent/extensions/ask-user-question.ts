@@ -1,4 +1,4 @@
-import { type ExtensionAPI } from '@earendil-works/pi-coding-agent'
+import type { ExtensionAPI } from '@earendil-works/pi-coding-agent'
 import { stripVTControlCharacters } from 'node:util'
 import { Type } from 'typebox'
 
@@ -15,16 +15,17 @@ interface Waiter {
   abort: () => void
 }
 
-const clean = (value: string) =>
-  [...stripVTControlCharacters(value)]
+function clean(value: string) {
+  return [...stripVTControlCharacters(value)]
     .filter(char => {
       const code = char.codePointAt(0) ?? 0
       return code === 0x09 || code === 0x0a || (code > 0x1f && code !== 0x7f)
     })
     .join('')
     .trim()
+}
 
-export default (pi: ExtensionAPI) => {
+export default function (pi: ExtensionAPI) {
   let shutdown = new AbortController()
   let active = false
   const waiting: Waiter[] = []

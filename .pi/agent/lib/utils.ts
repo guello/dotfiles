@@ -1,4 +1,4 @@
-import { type ExtensionUIContext } from '@earendil-works/pi-coding-agent'
+import type { ExtensionUIContext } from '@earendil-works/pi-coding-agent'
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -56,8 +56,8 @@ const jiti = createJiti(import.meta.url, {
   ]),
 })
 
-export const loadExtension = async <TModule extends object = object>(path: string) => {
-  const module = (await jiti.import(resolve(import.meta.dirname, path))) as TModule &
+export async function loadExtension<TModule extends object = object>(path: string) {
+  const module = (await jiti.import(resolve(agentDir, 'extensions', path))) as TModule &
     ExtensionModule
   const tools = new Map<string, TestTool>()
   const handlers = new Map<string, (...args: unknown[]) => unknown>()

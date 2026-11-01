@@ -7,9 +7,11 @@ import https from 'node:https'
 import { dirname } from 'node:path'
 import { Readable } from 'node:stream'
 import { mock, test, type TestContext } from 'node:test'
-import { loadExtension } from '../utils.mts'
+import { loadExtension } from '../../lib/utils.ts'
 
-const load = () => loadExtension<typeof import('./index.ts')>('web-fetch/index.ts')
+function load() {
+  return loadExtension<typeof import('./index.ts')>('web-fetch/index.ts')
+}
 
 test('rejects private, special-use, mapped and non-HTTP URLs without a fallback', async () => {
   const { tool } = await load()
@@ -118,11 +120,7 @@ interface RequestOptions {
   lookup: (hostname: string, options: object, callback: (error: Error | null) => void) => void
 }
 
-const network = (
-  t: TestContext,
-  steps: Step[],
-  addresses = [{ address: '8.8.8.8', family: 4 }]
-) => {
+function network(t: TestContext, steps: Step[], addresses = [{ address: '8.8.8.8', family: 4 }]) {
   const calls: { url: string; options: RequestOptions }[] = []
   t.mock.method(dns, 'lookup', () => addresses)
   const get = (url: URL, options: RequestOptions, onResponse: (response: Readable) => void) => {

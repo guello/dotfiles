@@ -12,7 +12,7 @@ export { fetchPublic, isPublicAddress, parsePublicUrl, readBody } from './http.t
 
 const turndown = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' })
 
-const extractPDF = async (buffer: Buffer, url: string, signal?: AbortSignal) => {
+async function extractPDF(buffer: Buffer, url: string, signal?: AbortSignal) {
   const { getDocumentProxy } = await import('unpdf')
   const pdf = await getDocumentProxy(new Uint8Array(buffer))
   try {
@@ -43,7 +43,7 @@ const extractPDF = async (buffer: Buffer, url: string, signal?: AbortSignal) => 
   }
 }
 
-const extractRSCContent = (html: string) => {
+function extractRSCContent(html: string) {
   if (!html.includes('self.__next_f.push')) return null
 
   const chunkMap = new Map<string, string>()
@@ -247,12 +247,12 @@ const extractRSCContent = (html: string) => {
   return content.length > 100 ? { title, content } : null
 }
 
-export const extractContent = (
+export function extractContent(
   body: Buffer,
   contentType: string,
   url: string,
   signal?: AbortSignal
-) => {
+) {
   signal?.throwIfAborted()
   if (contentType === 'application/pdf') return extractPDF(body, url, signal)
   if (
@@ -279,7 +279,7 @@ export const extractContent = (
   throw new Error('No readable content; use the browser workflow for JavaScript-rendered pages')
 }
 
-export default (pi: ExtensionAPI) => {
+export default function (pi: ExtensionAPI) {
   pi.registerTool({
     name: 'web_fetch',
     label: 'Web Fetch',

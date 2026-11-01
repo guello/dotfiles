@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "ignorePatterns": [
-    "node_modules/**"
+    "**/node_modules/**"
   ],
   "plugins": [
     "eslint",
@@ -17,14 +17,8 @@
   },
   "rules": {
     "curly": "off",
-    "func-style": [
-      "error",
-      "expression"
-    ],
-    "arrow-body-style": [
-      "error",
-      "as-needed"
-    ],
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
+    "arrow-body-style": ["error", "as-needed"],
     "eqeqeq": "error",
     "no-console": [
       "warn",
@@ -103,12 +97,13 @@
       "error",
       {
         "disallowTypeAnnotations": false,
-        "fixStyle": "inline-type-imports",
+        "fixStyle": "separate-type-imports",
         "prefer": "type-imports"
       }
     ],
     "typescript/no-empty-interface": "warn",
     "typescript/no-explicit-any": "warn",
+    "typescript/no-import-type-side-effects": "error",
     "typescript/no-inferrable-types": "error",
     "typescript/no-misused-promises": "error",
     "typescript/no-require-imports": "error",
