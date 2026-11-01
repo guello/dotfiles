@@ -1,5 +1,4 @@
 :root {
-  /* File icons */
   --file-icons-light: #cccccc;
   --file-icons-gray: #7f7f7f;
   --file-icons-dark: #52525b;
@@ -96,6 +95,16 @@
   content: "\f047" !important;
   font-size: 114% !important;
   font-family: octicons !important;
+}
+
+/* Changesets */
+.show-file-icons .\.changeset-name-dir-icon.config\.json-name-file-icon::before {
+  content: url("data:image/svg+xml,%3Csvg width='16' height='22' viewBox='0 0 16 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.42748 11C8.42748 9.50993 7.83555 8.08089 6.78191 7.02725C5.72827 5.97361 4.29923 5.38168 2.80916 5.38168H0C0 6.87175 0.591929 8.30079 1.64557 9.35443C2.69921 10.4081 4.12825 11 5.61832 11H8.42748Z' fill='%2352525B'/%3E%3Cpath d='M8.42749 11C8.42749 12.4901 7.83556 13.9191 6.78192 14.9728C5.72828 16.0264 4.29924 16.6183 2.80917 16.6183H1.6855C1.6855 15.1282 2.27743 13.6992 3.33107 12.6456C4.38471 11.5919 5.81375 11 7.30382 11H8.42749Z' fill='%2352525B'/%3E%3Cpath d='M7.52855 11C7.52855 9.50993 8.12048 8.08089 9.17412 7.02725C10.2278 5.97361 11.6568 5.38168 13.1469 5.38168H15.956C15.956 6.87175 15.3641 8.30079 14.3105 9.35443C13.2568 10.4081 11.8278 11 10.3377 11H7.52855Z' fill='%236A9FB5'/%3E%3Cpath d='M7.52855 11C7.52855 12.4901 8.12048 13.9191 9.17412 14.9728C10.2278 16.0264 11.6568 16.6183 13.1469 16.6183H14.2705C14.2705 15.1282 13.6786 13.6992 12.625 12.6456C11.5713 11.5919 10.1423 11 8.65221 11H7.52855Z' fill='%236A9FB5'/%3E%3Cpath d='M7.97802 8.7942C8.27511 9.49161 8.428 10.2419 8.42748 11C8.428 11.7581 8.27511 12.5084 7.97802 13.2058C7.68092 12.5084 7.52803 11.7581 7.52855 11C7.52855 10.2171 7.68733 9.47084 7.97802 8.7942Z' fill='%2346788D'/%3E%3C/svg%3E%0A") !important;
+}
+@media (prefers-color-scheme: dark) {
+  .show-file-icons .\.changeset-name-dir-icon.config\.json-name-file-icon::before {
+    content: url("data:image/svg+xml,%3Csvg width='16' height='22' viewBox='0 0 16 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.42748 11C8.42748 9.50993 7.83555 8.08089 6.78191 7.02725C5.72827 5.97361 4.29923 5.38168 2.80916 5.38168H0C0 6.87175 0.591928 8.30079 1.64557 9.35443C2.69921 10.4081 4.12825 11 5.61832 11H8.42748Z' fill='white'/%3E%3Cpath d='M8.42747 11C8.42747 12.4901 7.83554 13.9191 6.7819 14.9728C5.72826 16.0264 4.29922 16.6183 2.80915 16.6183H1.68549C1.68549 15.1282 2.27741 13.6992 3.33105 12.6456C4.38469 11.5919 5.81374 11 7.30381 11H8.42747Z' fill='white'/%3E%3Cpath d='M7.52855 11C7.52855 9.50993 8.12048 8.08089 9.17412 7.02725C10.2278 5.97361 11.6568 5.38168 13.1469 5.38168H15.956C15.956 6.87175 15.3641 8.30079 14.3105 9.35443C13.2568 10.4081 11.8278 11 10.3377 11H7.52855Z' fill='%236A9FB5'/%3E%3Cpath d='M7.52855 11C7.52855 12.4901 8.12048 13.9191 9.17412 14.9728C10.2278 16.0264 11.6568 16.6183 13.1469 16.6183H14.2705C14.2705 15.1282 13.6786 13.6992 12.625 12.6456C11.5713 11.5919 10.1423 11 8.65221 11H7.52855Z' fill='%236A9FB5'/%3E%3Cpath d='M7.97802 8.7942C8.27511 9.49161 8.428 10.2419 8.42748 11C8.428 11.7581 8.27511 12.5084 7.97802 13.2058C7.68092 12.5084 7.52803 11.7581 7.52855 11C7.52855 10.2171 7.68733 9.47084 7.97802 8.7942Z' fill='%239DC0CE'/%3E%3C/svg%3E%0A") !important;
+  }
 }
 
 /* Chrome */
@@ -393,9 +402,11 @@
 
 /* Oxc */
 .show-file-icons .\.oxlintrc\.json-name-file-icon::before,
+.show-file-icons .\.oxlintrc\.jsonc-name-file-icon::before,
 .show-file-icons .oxlint\.config\.ts-name-file-icon::before,
 .show-file-icons .\.oxfmtrc\.json-name-file-icon::before,
-.show-file-icons .\.oxfmtrc\.jsonc-name-file-icon::before {
+.show-file-icons .\.oxfmtrc\.jsonc-name-file-icon::before,
+.show-file-icons .oxfmt\.config\.ts-name-file-icon::before {
   font-size: 100% !important;
   transform: translateX(1px) !important;
   font-family: fa !important;
@@ -574,15 +585,6 @@
   font-family: fi !important;
   content: "\ea63" !important;
   font-size: 121% !important;
-}
-
-/* Tmp */
-.show-file-icons .tmp-name-folder-icon::before,
-.show-file-icons .\.tmp-name-folder-icon::before {
-  font-family: fa !important;
-  content: "\f253" !important;
-  font-size: 101% !important;
-  margin-left: 1.5px !important;
 }
 
 /* Todo */
