@@ -1,11 +1,29 @@
-/*
-!/extensions/
-!/skills/
-!/.gitignore
-!/AGENTS.md
-!/keybindings.json
-!/mcp.json
-!/models.json
-!/settings.json
+# /*
+# !/extensions/
+# !/lib/
+# !/skills/
+# !/.gitattributes
+# !/.gitconfig
+# !/.gitignore
+# !/.oxfmtrc.json
+# !/.oxlintrc.json
+# !/AGENTS.md
+# !/APPEND_SYSTEM.md
+# !/keybindings.json
+# !/mcp.json
+# !/package.json
+# !/package-lock.json
+# !/models.json
+# !/settings.json
+/bin/
+/install/
+/npm/
+/sessions/
+/tmp/
+/auth.json
+/claude-bridge.json
+/mcp-auth.json
+/models-store.json
+/trust.json
 node_modules/
 .DS_Store

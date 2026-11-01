@@ -1,0 +1,3 @@
+[filter "settings"]
+  clean = jq 'del(.deviceId)'
+  required = true

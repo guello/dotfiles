@@ -13,6 +13,11 @@
     "module": "preserve",
     "moduleResolution": "bundler",
     "noEmit": true,
+    "paths": {
+      "π/*": [
+        "./*"
+      ]
+    },
     "skipLibCheck": true,
     "strict": true,
     "target": "es2023",

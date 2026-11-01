@@ -7,7 +7,7 @@ import https from 'node:https'
 import { dirname } from 'node:path'
 import { Readable } from 'node:stream'
 import { mock, test, type TestContext } from 'node:test'
-import { loadExtension } from '../utils.mts'
+import { loadExtension } from 'π/lib/utils'
 
 const load = () => loadExtension<typeof import('./index.ts')>('web-fetch/index.ts')
 

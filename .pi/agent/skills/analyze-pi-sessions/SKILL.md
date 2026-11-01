@@ -1,6 +1,6 @@
 ---
 name: analyze-pi-sessions
-description: Reads Pi session history for cost estimates, prompt patterns, transcript search, and session review. Use on demand for an explicit Pi history request.
+description: "Reads Pi session history for cost estimates, prompt patterns, transcript search, and session review. Use on demand for an explicit Pi history request."
 disable-model-invocation: true
 ---
 
