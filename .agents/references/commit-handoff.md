@@ -46,6 +46,8 @@ Use bullets for independent enumerable changes: hyphen, single space, short impe
 
 Never end the subject with a period.
 
+In the subject, omit every article that the meaning doesn't need: `docs: restructure agent docs for monorepo`, not `docs: restructure the agent docs for the monorepo`.
+
 For an amend or squash, keep the change list and adapt only the proposal lines.
 
 Name the target's short hash and subject, include the resulting message only when it changes, and end with the matching question.

@@ -20,6 +20,8 @@ Global guidance. User requests override repository rules, which override this fi
 - Name user-level procedures by command, not path.
 - Never write em or en dashes into committed files.
 - Keep scratch files in the session scratchpad or system temp.
+- Place plans in `.agents/plans/<name>.md` or `.agents/plans/<name>/` if multi-file.
+- For repository Git hooks, use plain scripts in `.githooks/` with `core.hooksPath` set by `prepare`. Use lefthook when the pre-commit takes more than 5s or a hook is better run only on changed paths.
 - For code, file changes, reviews, commands, or delegation, read `~/.agents/references/verification.md`.
 - For commit-worthy work, read `~/.agents/references/commit-handoff.md` and render its block.
 - Avoid new commits: fold each fix into the commit it changes, so a PR holds only its essential commits, unless the repository merges by squash (`verification.md`, "Commit decision").

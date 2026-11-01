@@ -31,9 +31,10 @@ The `simplified-technical-english` skill holds the full rules, the approved word
 - Use the simple present, simple past, or future tense. Use the active voice, and the imperative for instructions.
 - Use only `can`, `must`, and `will` as helping verbs. Do not use `-ing` forms, except approved words and technical names.
 - Keep procedural sentences at 20 words or fewer and descriptive sentences at 25 or fewer. Keep paragraphs at 6 sentences or fewer.
-- Write one instruction in each sentence. Keep the articles. Do not write contractions or semicolons.
+- Write one instruction in each sentence. Keep the articles, except in commit messages and PR titles. Do not write contractions or semicolons.
 - Use a vertical list for steps or complex text, with a colon at the end of the lead line.
 - A Conventional Commits header keeps its `type(scope):` format. STE applies to its description and to the body.
+- In commit messages and PR titles, omit every article that the meaning does not need: `build: set up pnpm workspace`, not `build: set up the pnpm workspace`. This overrides the STE article rule.
 - Never claim that a word is approved without a check against the word list.
 
 ## Enforcement

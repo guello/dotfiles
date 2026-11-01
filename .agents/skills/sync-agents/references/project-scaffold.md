@@ -21,7 +21,7 @@ A convention the repository already declares wins over every default here.
 
 Ask up to three closed questions before creating anything, batched when the tool supports it:
 
-1. **Tools** (multi-select): Claude Code, Codex, Copilot; pre-select the tools detectable in the repository or its history, else Claude Code and Codex.
+1. **Tools** (multi-select): pre-select the tools detectable in the repository or its history, else Claude Code and Codex.
 2. **Skills** (yes or no; default no): manage project skills with the skills CLI.
 3. **Assets** (multi-select; default none): rules, hooks, commands; selecting one means drafting concrete repository-derived starters.
 
@@ -42,25 +42,18 @@ Ask up to three closed questions before creating anything, batched when the tool
 ### Claude Code
 
 - `CLAUDE.md` containing exactly `@AGENTS.md`.
-- `.claude/.gitignore` listing the runtime entries `settings.local.json` and `worktrees/`.
-- Those entries keep sessions from dirtying the repository and leave the root `.gitignore` untouched.
-- `.claude/settings.json` only with real content: a permission allowlist for the detected build and test commands, or hook wiring from the assets question.
+- The root `.gitignore` entries `**/.claude/settings.local.json` and `**/.claude/worktrees/`.
+- `.claude/settings.json` only with real content, like a permission allowlist for the detected commands or a useful hook.
 
 ### Codex
 
 - Nothing: Codex reads `AGENTS.md` natively.
 - Add a `.codex/` route only after verifying the tool actually loads it at project scope.
 
-### Copilot
-
-- Nothing for the entrypoint: Copilot reads `AGENTS.md` natively.
-- With accepted rules: `.github/instructions -> ../.agents/rules`.
-- The legacy `.github/copilot-instructions.md -> AGENTS.md` symlink only on explicit request for pre-`AGENTS.md` Copilot surfaces.
-
 ### Skills: yes
 
-- `.agents/skills/` with `.agents/skills/.gitignore` containing `/*/`, so installed skills stay untracked.
-- Track a hand-authored skill by adding its own `!/<name>/` line.
+- `.agents/skills/` plus the root `.gitignore` entry `/.agents/skills/*/`, so installed skills stay untracked.
+- Track a hand-authored skill with its own `!/.agents/skills/<name>/` line after that entry.
 - `.claude/skills -> ../.agents/skills` when Claude Code is selected.
 - Propose skills from repository evidence, through the `find-skills` skill when available, else `npx skills search`.
 - Install each accepted skill with `npx skills add <owner>/<repo> --skill <name> --yes`.
@@ -70,9 +63,9 @@ Ask up to three closed questions before creating anything, batched when the tool
 ### Assets: rules
 
 - Draft one to three scoped rules from repository evidence: framework conventions, formatter constraints, directory contracts.
-- Give each rule the frontmatter its selected tools need: `paths:` for Claude Code, `applyTo:` for Copilot.
+- Give each rule `paths:` for Claude Code.
 - On acceptance: `.agents/rules/` with the accepted files, plus `.claude/rules -> ../.agents/rules`.
-- When Copilot is selected, also create `.github/instructions -> ../.agents/rules`.
+- In a workspace, put the rules of an app in `<app>/.agents/rules/` with app-relative globs, plus `<app>/.claude/rules -> ../.agents/rules`.
 - When a selected tool has no glob loader (Codex), add a routing line to `AGENTS.md` naming when to read each rule.
 
 ### Assets: hooks
@@ -93,7 +86,7 @@ Never migrate a working layout silently:
 
 - A fat `CLAUDE.md` with no `AGENTS.md`: propose moving the content to `AGENTS.md` and thinning `CLAUDE.md` to the import.
 - Leave both files untouched until the proposal is accepted, which overrides the Always item; a non-interactive run only reports it.
-- Independent pieces, such as `.claude/.gitignore`, may still be created.
+- Independent pieces, such as the root `.gitignore` entries, may still be added.
 - A whole-directory `.claude -> .agents` symlink (an older convention): leave it working; flag the difference only when it causes a concrete finding.
 - Existing partial wiring: fill only the gaps the selections imply.
 

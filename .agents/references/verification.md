@@ -27,7 +27,8 @@ Conditional workflow routed from `../AGENTS.md`. Read before coding, file change
 ## Local environment and toolchain
 
 - The host is macOS on Apple Silicon with Homebrew at `/opt/homebrew`; the editor and terminal are VS Code and Ghostty.
-- Project code lives under `~/Developer`, client projects under `~/Developer/@<client>`; `$HOME` is the dotfiles repository.
+- `$HOME` is the dotfiles repository.
+- Project code is in `~/Developer/@<owner>/<repo>`, scratch in `@<owner>/.tmp`, and archived or obsolete repositories in `@<owner>/.archive`.
 - `profile`, `plugin`, `brew`, `mas`, `lts`, `deps`, and `dotfiles` are zsh plugin functions under `~/.zsh`, not binaries.
 - Runtimes come only from the `nodenv`, `pyenv`, and `rbenv` shims; never add another version manager.
 - The default Node package manager is pnpm through Corepack; the project's lockfile always wins.

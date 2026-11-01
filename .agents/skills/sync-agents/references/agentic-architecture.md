@@ -54,10 +54,13 @@ A convention the repository declares wins over this default. The procedure that 
 - `AGENTS.md` at the root, per the taxonomy above.
 - `CLAUDE.md` at the root containing exactly `@AGENTS.md`, never a symlink, with Claude-only additions allowed below the import.
 - `.agents/` as the tool-neutral canonical tree for rules, skills, hooks, and specs, with hand-authored content tracked by default.
-- `.agents/skills/.gitignore` containing `/*/` as the only allowlist, plus an ignored `artifacts/` directory when one is first created.
+- The root `.gitignore` entry `/.agents/skills/*/` keeps installed skills untracked.
 - `.claude/` as a real directory for Claude-specific files, with per-asset symlinks created only when the target exists.
 - Those symlinks are `rules -> ../.agents/rules`, `skills -> ../.agents/skills`, and `hooks -> ../.agents/hooks`.
-- `.claude/.gitignore` listing the runtime entries `settings.local.json` and `worktrees/`, leaving the root `.gitignore` untouched.
+- The root `.gitignore` lists the Claude runtime entries `**/.claude/settings.local.json` and `**/.claude/worktrees/`. Don't create `.claude/.gitignore`.
+- In a workspace, an app keeps its rules in `<app>/.agents/rules/` with app-relative globs and the symlink `<app>/.claude/rules -> ../.agents/rules`.
+- A root `.claude/rules` link does not load path-scoped rules for a session that starts inside an app.
+- Plans go in `.agents/plans/<name>.md` or `.agents/plans/<name>/` when a plan needs more than one file.
 - No other entrypoint: add a route such as `.github/instructions`, or a tool directory, only after verifying that tool loads it at project scope.
 
 ### Repair rules
@@ -103,13 +106,13 @@ The shape that raises adherence. Apply it to every hand-written agentic file: en
 
 ## Frontmatter
 
-- When authoring agentic YAML, follow the consuming tool's schema; do not add frontmatter to plain instruction documents just for consistency.
+- When authoring agentic YAML, follow the consuming tool's schema. Do not add frontmatter to plain instruction documents just for consistency.
 - Leave unambiguous names and enum values unquoted.
 - Double-quote single-line prose, including `description` and `compatibility`.
 - Double-quote glob patterns, path strings, and argument hints.
 - Keep booleans and numbers unquoted when their intended type is boolean or numeric; quote lookalike strings.
 - For long descriptions, allow `>-`; preserve existing folded descriptions and parsed values during formatting-only changes.
-- When a shared rule carries both `paths` and `applyTo`, keep their pattern scopes identical.
+- When a rule carries both `paths` and related fields, like `applyTo` for Copilot, keep their pattern scope identical.
 - Never normalize generated or third-party managed files by hand; use their source or manager.
 
 ## Signal-density checks
