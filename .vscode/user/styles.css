@@ -1,5 +1,4 @@
 :root {
-  /* File icons */
   --file-icons-light: #cccccc;
   --file-icons-gray: #7f7f7f;
   --file-icons-dark: #52525b;
@@ -574,15 +573,6 @@
   font-family: fi !important;
   content: "\ea63" !important;
   font-size: 121% !important;
-}
-
-/* Tmp */
-.show-file-icons .tmp-name-folder-icon::before,
-.show-file-icons .\.tmp-name-folder-icon::before {
-  font-family: fa !important;
-  content: "\f253" !important;
-  font-size: 101% !important;
-  margin-left: 1.5px !important;
 }
 
 /* Todo */

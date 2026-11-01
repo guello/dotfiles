@@ -3,8 +3,8 @@
     "ms-vscode.atom-keybindings",
     "file-icons.file-icons",
     "github.vscode-github-actions",
-    "gitHub.vscode-pull-request-github",
-    "gitHub.github-vscode-theme",
+    "github.vscode-pull-request-github",
+    "github.github-vscode-theme",
     "oxc.oxc-vscode",
     "timonwong.shellcheck",
     "mkhl.shfmt"

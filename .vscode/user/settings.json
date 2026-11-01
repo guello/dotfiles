@@ -227,7 +227,10 @@
   "github.copilot.chat.switchAgent.enabled": true,
   "github.copilot.chat.updated53CodexPrompt.enabled": false,
   "github.copilot.enable": {
-    "*": false
+    "*": true,
+    "markdown": true,
+    "plaintext": false,
+    "scminput": false
   },
   "github.copilot.nextEditSuggestions.eagerness": "low",
   "github.copilot.nextEditSuggestions.enabled": false,

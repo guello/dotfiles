@@ -86,6 +86,11 @@
     "command": "-workbench.action.toggleSidebarVisibility"
   },
   {
+    "key": "cmd+b",
+    "command": "markdown.extension.editing.toggleBold",
+    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+  },
+  {
     "key": "cmd+backspace",
     "command": "workbench.action.removeRootFolder"
   },
@@ -256,8 +261,17 @@
   },
   {
     "key": "ctrl+shift+left",
+    "command": "workbench.action.moveEditorLeftInGroup"
+  },
+  {
+    "key": "ctrl+shift+left",
     "command": "-editor.action.smartSelect.shrink",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+left",
+    "command": "-markdown.editor.cursorWordLeftSelect",
+    "when": "false"
   },
   {
     "key": "ctrl+shift+m",
@@ -273,8 +287,17 @@
   },
   {
     "key": "ctrl+shift+right",
+    "command": "workbench.action.moveEditorRightInGroup"
+  },
+  {
+    "key": "ctrl+shift+right",
     "command": "-editor.action.smartSelect.expand",
     "when": "editorTextFocus"
+  },
+  {
+    "key": "ctrl+shift+right",
+    "command": "-markdown.editor.cursorWordRightSelect",
+    "when": "false"
   },
   {
     "key": "ctrl+shift+s",
