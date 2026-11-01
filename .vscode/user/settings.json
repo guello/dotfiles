@@ -215,7 +215,7 @@
   "github.copilot.chat.codesearch.enabled": true,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
-      "text": "Generate a single-line conventional commit message in the format `<type>: <description>`. Rules: use imperative mood, sentence case, no period at the end. Never include a scope. Never include a body or footer unless the change is a breaking change, which adds a `BREAKING CHANGE:` footer. Never include `Co-authored-by` or any other trailer. Keep the description concise (under 50 characters when possible). Allowed types: feat, fix, refactor, chore, docs, style, test, perf, ci, build, revert. Examples: `feat: Add date range filter to search`, `fix: Prevent duplicate API calls on mount`, `refactor: Simplify auth token refresh logic`, `chore: Update dependencies`."
+      "text": "Return only one commit message on one line, without Markdown or quotation marks. Use `<type>(<scope>): <subject>`, or `<type>: <subject>` when no scope applies. Describe the staged changes, not unrelated changes. Obey the applicable repository commitlint rules, also those from inherited configurations. These rules take precedence over the defaults below. Use a scope only when it accurately identifies the affected component. Write the subject in Simplified Technical English (ASD-STE100). Start the subject with an imperative verb. Use short, direct words and keep necessary articles. Use lowercase prose, but keep the exact case of technical names and identifiers. Do not end the subject with a period. Use `!` before the colon for a breaking change. Do not add a body, footer, attribution, or trailer, such as `Co-authored-by`."
     }
   ],
   "github.copilot.chat.githubMcpServer.enabled": true,
