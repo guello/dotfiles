@@ -1,20 +1,3 @@
----
-description: "Use for UI construction and redesign: project systems, visual direction, layout, accessibility, copy, and browser checks."
-applyTo: "**/*.astro, **/*.css, **/*.html, **/*.jsx, **/*.less, **/*.sass, **/*.scss, **/*.stories.*, **/*.svelte, **/*.tsx, **/*.vue"
-paths:
-  - "**/*.astro"
-  - "**/*.css"
-  - "**/*.html"
-  - "**/*.jsx"
-  - "**/*.less"
-  - "**/*.sass"
-  - "**/*.scss"
-  - "**/*.stories.*"
-  - "**/*.svelte"
-  - "**/*.tsx"
-  - "**/*.vue"
----
-
 # Frontend design
 
 Applies to UI construction and restyling, not backend, config, copy-only, or exact-style tasks.

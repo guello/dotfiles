@@ -185,6 +185,8 @@ def infer_role(path: Path, metadata: dict[str, str], text: str = "") -> str | No
         always = metadata.get("alwaysApply", "").lower() == "true"
         if scope and scope.strip("'\" ") != "**" and not always:
             return "scoped-rule"
+        if ".agents" in parts and not scope and not always:
+            return "scoped-rule"
         return "always-rule"
     if "references" in parts:
         return "reference"

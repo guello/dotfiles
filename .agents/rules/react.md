@@ -1,14 +1,6 @@
----
-description: "Use for React components (.jsx/.tsx): props, composition, JSX, state, effects, layer boundaries, and version-matched Next.js APIs."
-applyTo: "**/*.jsx, **/*.tsx"
-paths:
-  - "**/*.jsx"
-  - "**/*.tsx"
----
-
 # React
 
-TS idioms: `typescript.md`. Examples: `~/.agents/references/react-examples.md`.
+Applies to React components in `.jsx` and `.tsx` files. TypeScript idioms: `typescript.md`. Examples: `~/.agents/references/react-examples.md`.
 
 ## Skills and performance
 

@@ -1,20 +1,6 @@
----
-description: "Use when writing or editing Node.js server-side code: APIs, services, CLIs, scripts, workers. Runtime discipline for the event loop, streams, errors, shutdown, config, testing, and packaging."
-applyTo: "**/*.cjs, **/*.mjs, **/*.server.{ts,js}, **/api/**/*.{ts,js,mts,cts}, **/jobs/**/*.{ts,js,mts,cts}, **/scripts/**/*.{ts,js,mts,cts}, **/server/**/*.{ts,js,mts,cts}, **/workers/**/*.{ts,js,mts,cts}"
-paths:
-  - "**/*.cjs"
-  - "**/*.mjs"
-  - "**/*.server.{ts,js}"
-  - "**/api/**/*.{ts,js,mts,cts}"
-  - "**/jobs/**/*.{ts,js,mts,cts}"
-  - "**/scripts/**/*.{ts,js,mts,cts}"
-  - "**/server/**/*.{ts,js,mts,cts}"
-  - "**/workers/**/*.{ts,js,mts,cts}"
----
-
 # Node.js
 
-Runtime rules for Node server code. Read by intent outside the scoped paths. TS idioms: `typescript.md`.
+Runtime rules for Node server code. TypeScript idioms: `typescript.md`.
 
 For detail, use an installed Node skill or version-matched Node.js docs.
 

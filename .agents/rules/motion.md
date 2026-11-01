@@ -1,12 +1,3 @@
----
-description: "Use for UI animation: Motion for React, CSS transitions, React View Transitions, springs, gestures, layout and scroll effects. Owns values, APIs, performance, and review."
-applyTo: "**/*.jsx, **/*.tsx, **/*.css"
-paths:
-  - "**/*.jsx"
-  - "**/*.tsx"
-  - "**/*.css"
----
-
 # Motion and animation
 
 The production floor in `design.md` applies. Values and formulas: `~/.agents/references/motion-examples.md`.

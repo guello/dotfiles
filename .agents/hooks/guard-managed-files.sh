@@ -1,11 +1,10 @@
 #!/bin/sh
 #
-# PreToolUse guardrail (Edit|Write|MultiEdit): block writes to generated or
+# PreToolUse guardrail (Edit|Write|MultiEdit) that block writes to generated or
 # auto-managed files under $HOME that would be silently overwritten, and redirect
-# edits made through the agent-config symlinks to their .agents/ source. Global
-# hook, so every pattern is anchored to an absolute $HOME path: it never matches
-# files in projects under ~/Developer. Exit 2 blocks; any other path or missing
-# jq fails open (exit 0). macOS; no-op without a file path.
+# edits made through symlinks to their source.
+# Exit 2 blocks. Any other path or missing jq fails open (exit 0).
+# macOS-only and no-op without a file path.
 
 set -u
 
@@ -29,15 +28,14 @@ deny() {
 }
 
 case "$abs" in
-  "$HOME"/.git/hooks/*) deny "$HOME/.git/hooks/* is unused; this repo's hooks run from .config/git/hooks/ via the core.hooksPath that .config/git/config includes for the home repo only. Edit the matching hook in $HOME/.config/git/hooks/ instead." ;;
-esac
-
-case "$abs" in
-  "$HOME"/.claude/CLAUDE.md | "$HOME"/.codex/AGENTS.md | "$HOME"/.copilot/copilot-instructions.md)
-    deny "$abs is a symlink to ~/.agents/. Edit the source under ~/.agents/ instead."
+  "$HOME"/.git/hooks/*)
+    deny "$HOME/.git/hooks/* is unused. This repo's hooks run from .config/git/hooks/, edit them there instead."
     ;;
-  "$HOME"/.claude/rules/* | "$HOME"/.claude/skills/* | "$HOME"/.copilot/instructions/*)
+  "$HOME"/.claude/skills/* | "$HOME"/.codex/AGENTS.md | "$HOME"/.pi/agent/AGENTS.md)
     deny "$abs resolves through a symlink to ~/.agents/. Edit the source under ~/.agents/ instead."
+    ;;
+  "$HOME"/.claude/rules | "$HOME"/.claude/rules/*)
+    deny "This setup keeps no ~/.claude/rules folder. Place global Claude-only lines in ~/.claude/CLAUDE.md after its @~/.agents/AGENTS.md import. Shared rules are in ~/.agents/rules/ and must be routed from ~/.agents/AGENTS.md."
     ;;
 esac
 

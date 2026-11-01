@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
 # Claude Code statusline, configured by CLAUDE_STATUSLINE_CONFIG (default: ~/.claude/statusline.json).
-# Every key is optional and an invalid value falls back to its default; /statusline-config validates
-# and sets them, and statusline.schema.json describes the same shape for editors:
+# Every key is optional and an invalid value falls back to its default. statusline.schema.json
+# describes and validates the settings.
 #   theme          default|mono; mono strips all colors but keeps dim
 #   layout         array of lines, each an array of segment names, e.g. [["repo","branch"],["model"]]
 #   usage.style    solid|dotted|dots|gradient|pacman (default: solid); bar fill of the usage and

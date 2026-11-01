@@ -6,9 +6,12 @@
 # role (entrypoint, rule, skill body, reference, spec, agent definition,
 # memory index) and applies the target and cap from context-budgets.md plus
 # the line rules. A cap breach exits 2 so the agent reads the report and
-# fixes the file before moving on; a target breach prints a warning and
+# fixes the file before moving on. A target breach prints a warning and
 # exits 0. Non-agentic paths, manager-owned skill folders, a missing
 # python3 or script, and any probe failure fail open (exit 0).
+# Only persistent files are measured: plans, temporary folders, files that
+# Git ignores, and files outside a work tree are skipped. Claude memory is
+# gitignored but loads at startup, so it stays measured.
 
 set -u
 
@@ -34,9 +37,20 @@ esac
 
 case "$abs" in
   */.system/* | */.claude/jobs/* | */.claude/worktrees/* | */.claude/projects/*/tool-results/*) exit 0 ;;
+  */.agents/plans/* | */.claude/plans/* | /tmp/* | /private/tmp/* | /var/folders/* | /private/var/folders/*) exit 0 ;;
   */AGENTS.md | */CLAUDE.md | */copilot-instructions.md | */MEMORY.md | */SKILL.md) ;;
   */.agents/*.md | */.claude/*.md | */.codex/*.md | */.copilot/*.md | */.github/instructions/*.md | */.cursor/*.md | */.codex/agents/*.toml) ;;
   *) exit 0 ;;
+esac
+
+case "$abs" in
+  */.claude/projects/*/memory/*) ;;
+  *)
+    command -v git >/dev/null 2>&1 || exit 0
+    dir="${abs%/*}"
+    [ "$(git -C "$dir" rev-parse --is-inside-work-tree 2>/dev/null)" = true ] || exit 0
+    git -C "$dir" check-ignore -q -- "$abs" 2>/dev/null && exit 0
+    ;;
 esac
 
 report="$(python3 "$script" "$abs" --hook 2>/dev/null)"

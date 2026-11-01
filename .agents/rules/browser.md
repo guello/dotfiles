@@ -1,16 +1,3 @@
----
-description: "Use whenever a task drives or verifies a real web UI. Reuse the running app, drive it with agent-browser headless, keep authenticated state, close every session."
-applyTo: "**/*.astro, **/*.css, **/*.html, **/*.jsx, **/*.svelte, **/*.tsx, **/*.vue"
-paths:
-  - "**/*.astro"
-  - "**/*.css"
-  - "**/*.html"
-  - "**/*.jsx"
-  - "**/*.svelte"
-  - "**/*.tsx"
-  - "**/*.vue"
----
-
 # Real-browser work
 
 Procedures, rationale, and recovery steps: `~/.agents/references/browser-procedures.md`.
