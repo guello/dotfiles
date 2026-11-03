@@ -1,17 +1,3 @@
----
-description: "Use when producing text that people read: docs, READMEs, rules, specs, commit messages, PR, issue, and release text, review comments, essays, marketing or UI copy, emails. Enforces Simplified Technical English for technical text and the humanizer skill for other prose."
-applyTo: "**/*.markdown,**/*.md,**/*.mdc,**/*.mdx,**/*.rst,**/*.txt,**/README*,**/docs/**"
-paths:
-  - "**/*.markdown"
-  - "**/*.md"
-  - "**/*.mdc"
-  - "**/*.mdx"
-  - "**/*.rst"
-  - "**/*.txt"
-  - "**/README*"
-  - "**/docs/**"
----
-
 # Writing and prose
 
 Applies to text that people read in files, chat, commits, PRs, issues, releases, reviews, and UI copy.

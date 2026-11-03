@@ -41,7 +41,9 @@ Ask up to three closed questions before creating anything, batched when the tool
 
 ### Claude Code
 
-- `CLAUDE.md` containing exactly `@AGENTS.md`.
+- No `CLAUDE.md`: Claude Code 2.1.277 and later reads `AGENTS.md` natively.
+- When a parent folder holds a project `CLAUDE.md`, create a root `CLAUDE.md` with `@AGENTS.md`. The parent file stops the native load.
+- For Claude-only content, follow the `CLAUDE.md` cases in "Standard project wiring" in `agentic-architecture.md`.
 - The root `.gitignore` entries `**/.claude/settings.local.json` and `**/.claude/worktrees/`.
 - `.claude/settings.json` only with real content, like a permission allowlist for the detected commands or a useful hook.
 
@@ -63,16 +65,15 @@ Ask up to three closed questions before creating anything, batched when the tool
 ### Assets: rules
 
 - Draft one to three scoped rules from repository evidence: framework conventions, formatter constraints, directory contracts.
-- Give each rule `paths:` for Claude Code.
-- On acceptance: `.agents/rules/` with the accepted files, plus `.claude/rules -> ../.agents/rules`.
-- In a workspace, put the rules of an app in `<app>/.agents/rules/` with app-relative globs, plus `<app>/.claude/rules -> ../.agents/rules`.
-- When a selected tool has no glob loader (Codex), add a routing line to `AGENTS.md` naming when to read each rule.
+- Route each rule from one row of the `| Work | Read |` table in `AGENTS.md`, trigger first, for example `| Python files | .agents/rules/python.md |`.
+- On acceptance: `.agents/rules/` with the accepted files as plain Markdown, plus their table rows, and no `.claude/rules` link.
+- In a workspace, put the rules of an app in `<app>/.agents/rules/`, routed from `<app>/AGENTS.md` with app-relative paths.
 
 ### Assets: hooks
 
 - Draft hooks from repository evidence, such as format-on-edit using the repository's configured formatter.
-- On acceptance: `.agents/hooks/` with the executable scripts, plus `.claude/hooks -> ../.agents/hooks`.
-- Add the matching `hooks` wiring inside `.claude/settings.json`.
+- On acceptance: `.agents/hooks/` with the executable scripts, and no `.claude/hooks` link.
+- Register each script in `.claude/settings.json` by its path, `"$CLAUDE_PROJECT_DIR"/.agents/hooks/<script>`.
 
 ### Assets: commands
 
@@ -84,8 +85,11 @@ Ask up to three closed questions before creating anything, batched when the tool
 
 Never migrate a working layout silently:
 
-- A fat `CLAUDE.md` with no `AGENTS.md`: propose moving the content to `AGENTS.md` and thinning `CLAUDE.md` to the import.
-- Leave both files untouched until the proposal is accepted, which overrides the Always item; a non-interactive run only reports it.
+- A fat `CLAUDE.md` with no `AGENTS.md`: propose to move shared content to `AGENTS.md`, then delete `CLAUDE.md` or keep the import and Claude-only content.
+- A `CLAUDE.md` that holds only `@AGENTS.md`: propose its removal when no parent folder holds a project `CLAUDE.md`.
+- A `.claude/rules -> ../.agents/rules` link: propose an `AGENTS.md` table row for each unrouted rule, then the removal of the link.
+- A `.claude/hooks -> ../.agents/hooks` link: propose to register each hook by its `.agents/hooks` path, then the removal of the link.
+- Leave the files of a proposal untouched until it is accepted, which overrides the Always item. A non-interactive run only reports it.
 - Independent pieces, such as the root `.gitignore` entries, may still be added.
 - A whole-directory `.claude -> .agents` symlink (an older convention): leave it working; flag the difference only when it causes a concrete finding.
 - Existing partial wiring: fill only the gaps the selections imply.

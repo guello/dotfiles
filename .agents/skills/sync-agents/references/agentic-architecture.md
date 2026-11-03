@@ -30,7 +30,12 @@ Map every agentic file to a role. A file with no clear role is a finding.
 
 - Root `AGENTS.md` holds context an agent cannot infer from the repository: architecture, conventions, workflow, non-obvious commands, hard constraints.
 - Nested `AGENTS.md` holds only a subproject's deltas; when it largely repeats the root, flag the redundancy.
-- `CLAUDE.md` and other tool entrypoints stay thin pointers to `AGENTS.md`; when one forks it, flag the fat entrypoint.
+- When `CLAUDE.md` or another tool entrypoint forks `AGENTS.md` and does not import it, flag the fat entrypoint.
+- Claude Code 2.1.277 and later reads `AGENTS.md` and `.claude/AGENTS.md` only where no project `CLAUDE.md` exists in the folder or above it.
+- When a `CLAUDE.md` at or above an `AGENTS.md` lacks `@AGENTS.md`, flag a broken route: Claude never reads that `AGENTS.md`, nested files included.
+- When a `CLAUDE.md` holds only `@AGENTS.md` and no parent folder holds one, flag a redundant route.
+- When a root `CLAUDE.md` imports `AGENTS.md` and a nested `AGENTS.md` exists outside vendored skills, flag a broken route.
+- To fix it, move the additions to `.claude/rules/`. Delete the `CLAUDE.md` unless a parent folder holds a project `CLAUDE.md`.
 - When a rule file (`.agents/rules/*`, `.github/instructions/*`) is path-gated, check the scope and the frontmatter validity for every tool that reads it.
 - When one physical rule file is consumed twice by a single tool, flag the duplicate route.
 
@@ -52,22 +57,22 @@ The default layout to scaffold when a repository has no agentic wiring, and the 
 A convention the repository declares wins over this default. The procedure that creates it lives in [project-scaffold.md](project-scaffold.md).
 
 - `AGENTS.md` at the root, per the taxonomy above.
-- `CLAUDE.md` at the root containing exactly `@AGENTS.md`, never a symlink, with Claude-only additions allowed below the import.
+- No `CLAUDE.md` by default. For Claude-only content, add a root `CLAUDE.md` with `@AGENTS.md` first, then the additions, never a symlink.
+- With a nested `AGENTS.md` outside vendored skills, put Claude-only content in `.claude/rules/<rule-name>.md`: a root `CLAUDE.md` stops nested loads.
 - `.agents/` as the tool-neutral canonical tree for rules, skills, hooks, and specs, with hand-authored content tracked by default.
-- The root `.gitignore` entry `/.agents/skills/*/` keeps installed skills untracked.
-- `.claude/` as a real directory for Claude-specific files, with per-asset symlinks created only when the target exists.
-- Those symlinks are `rules -> ../.agents/rules`, `skills -> ../.agents/skills`, and `hooks -> ../.agents/hooks`.
-- The root `.gitignore` lists the Claude runtime entries `**/.claude/settings.local.json` and `**/.claude/worktrees/`. Don't create `.claude/.gitignore`.
-- In a workspace, an app keeps its rules in `<app>/.agents/rules/` with app-relative globs and the symlink `<app>/.claude/rules -> ../.agents/rules`.
-- A root `.claude/rules` link does not load path-scoped rules for a session that starts inside an app.
-- Plans go in `.agents/plans/<name>.md` or `.agents/plans/<name>/` when a plan needs more than one file.
+- `.claude/` as a real directory for Claude-specific files, plus `skills -> ../.agents/skills` once that target exists, and no `hooks` link.
+- The root `.gitignore` lists `/.agents/skills/*/` and the Claude runtime entries `**/.claude/settings.local.json` and `**/.claude/worktrees/`. Don't create `.claude/.gitignore`.
+- Rules live in `.agents/rules/`, each routed by one row of the `| Work | Read |` table in `AGENTS.md`, with no `.claude/rules` link.
+- Write each rule as plain Markdown, with its scope in the first line. Add frontmatter only for a tool that the repository uses and that reads `.agents/rules/`, such as the Antigravity `trigger`.
+- In a workspace, an app keeps its rules in `<app>/.agents/rules/`, routed from `<app>/AGENTS.md` with app-relative paths.
+- Plans go in `.agents/plans/<topic>.md` or `.agents/plans/<topic>/` when a plan needs more than one file.
 - No other entrypoint: add a route such as `.github/instructions`, or a tool directory, only after verifying that tool loads it at project scope.
 
 ### Repair rules
 
 1. Create only what is missing and never overwrite; scaffolding and repair are the same operation.
 2. Track the symlinks themselves so clones keep the wiring.
-3. For a conflicting but working layout, such as a fat `CLAUDE.md` or a whole-directory `.claude -> .agents` symlink, flag it rather than migrate silently.
+3. Flag a layout that works but differs, such as a fat `CLAUDE.md`, a `.claude/rules` link, or a `.claude -> .agents` link. Do not migrate it silently.
 
 ## Architecture checks
 

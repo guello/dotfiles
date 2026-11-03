@@ -1,13 +1,3 @@
----
-description: "Use when writing or editing TypeScript files: guard clauses, arrow functions, interface over type, inline type and alias imports, exhaustive unions, typed catch."
-applyTo: "**/*.ts, **/*.tsx, **/*.mts, **/*.cts"
-paths:
-  - "**/*.ts"
-  - "**/*.tsx"
-  - "**/*.mts"
-  - "**/*.cts"
----
-
 # TypeScript
 
 Language-level rules for all TypeScript files.

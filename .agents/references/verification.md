@@ -49,8 +49,6 @@ Conditional workflow routed from `../AGENTS.md`. Read before coding, file change
 - Give each delegate a root, a scope, the evidence to return, and a stop condition.
 - The primary owns writes, architecture, synthesis, and verification.
 - Parallel writers need explicit permission, isolated worktrees, and disjoint files.
-- Workflow and orchestration stages never run Fable-class models, even with approval; a warranted Fable-class review runs afterwards as a standalone subagent.
-- Spawning a standalone Fable-class subagent requires asking first; context-inheriting forks cannot change model and are exempt.
 
 ## Reviewer protocol
 

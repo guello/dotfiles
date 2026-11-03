@@ -4,12 +4,18 @@ Detail behind `../rules/agent-config.md`: instruction discovery, per-tool hooks,
 
 ## VS Code and Copilot loading
 
-- Verify instruction discovery in the installed VS Code and Copilot versions; do not infer editor behavior from the CLI.
+- Verify instruction discovery in the installed VS Code and Copilot versions. Do not infer editor behavior from the CLI.
 - Check effective `chat.instructionsFilesLocations` settings before adding a route.
 - Resolve symlink targets when checking duplicate routes; verify whether the installed client deduplicates them.
-- VS Code loads file-scoped instructions only from `*.instructions.md` names, so `.copilot/instructions` holds suffixed links to `.agents/rules/<rule>.md`.
 - `.vscode/settings.json` disables `chat.useAgentsMdFile` and `chat.useClaudeMdFile`; it sets no instruction-file locations.
-- `.vscode/user/settings.json` disables `.claude/rules` and `~/.claude/rules` in `chat.instructionsFilesLocations`.
+- `.vscode/user/settings.json` disables project `.claude/rules` folders in `chat.instructionsFilesLocations` and sets `chat.useClaudeMdFile` to false, so VS Code reads no `CLAUDE.md` but gets the shared file from `.copilot/copilot-instructions.md`.
+- VS Code 1.144 reads `.agents/skills`, `.claude/skills`, `.claude/agents`, and the hooks in `.claude/settings.json` (`chat.useClaudeHooks`).
+
+## Tool-only instructions
+
+- Claude: lines after the import in `.claude/CLAUDE.md`. The import loads `.agents/AGENTS.md` once, also after `.agents` is read.
+- Codex: `developer_instructions` in `.codex/settings.toml`. Never use `AGENTS.override.md` because it replaces the main file.
+- Pi: `.pi/agent/APPEND_SYSTEM.md`. Never use `SYSTEM.md` because it replaces the default prompt.
 
 ## Copilot hooks
 
@@ -33,4 +39,3 @@ Detail behind `../rules/agent-config.md`: instruction discovery, per-tool hooks,
 - `.claude/statusline.sh` and `.claude/subagent-statusline.sh` are the two allowlisted executable entrypoints wired in `.claude/settings.json`.
 - Both read `.claude/statusline.json`; `subagent-statusline.sh` reads only its `subagent` key.
 - `$CLAUDE_STATUSLINE_CONFIG` is the only environment variable that points at an alternate config file.
-- `/statusline-config` consumes `.claude/statusline.schema.json` instead of duplicating valid values, so the schema and each script header change together.

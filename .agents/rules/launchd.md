@@ -1,12 +1,6 @@
----
-description: "Use for user LaunchAgents in .config/launchd and their plugin: portable sh wrappers, ownership, enabled state, safe retirement, and performance."
-applyTo: ".config/launchd/**,.zsh/plugins/launchd/**"
-paths:
-  - ".config/launchd/**"
-  - ".zsh/plugins/launchd/**"
----
-
 # Launch agents
+
+Applies to user LaunchAgents in `.config/launchd`.
 
 ## Tracking and loading
 

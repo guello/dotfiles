@@ -1,10 +1,3 @@
----
-description: "Use for GitHub issue, pull request, label, and project work: reading, planning, or referencing issues, plans as issues or draft PRs, opening and reviewing PRs, project workflows, closing issues through PRs, and editing files under .github."
-applyTo: "**/.github/**"
-paths:
-  - "**/.github/**"
----
-
 # GitHub issues, pull requests, and projects
 
 An issue is the unit of work. Labels route work and start automation.

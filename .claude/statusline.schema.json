@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Claude Code statusline",
-  "description": "Settings for .claude/statusline.sh and .claude/subagent-statusline.sh, validated and set by /statusline-config. Every key is optional and falls back to its default.",
+  "description": "Settings for .claude/statusline.sh and .claude/subagent-statusline.sh. Every key is optional and falls back to its default.",
   "type": "object",
   "additionalProperties": false,
   "properties": {

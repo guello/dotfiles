@@ -21,8 +21,6 @@
   "markdown.extension.toc.levels": "3..6",
   "oxc.enable.oxfmt": true,
   "search.exclude": {
-    "**/.claude/CLAUDE.md": true,
-    "**/.claude/rules": true,
     "**/.claude/skills": true,
     "**/.codex/AGENTS.md": true,
     "**/.codex/hooks.json": true,

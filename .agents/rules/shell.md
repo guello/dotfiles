@@ -1,20 +1,6 @@
----
-description: "Use when writing or editing shell scripts and startup files (.sh, .bash, .zsh, .zsh-theme, .zshrc, .bashrc, .profile): shebangs, headers, quoting, paths, sourcing, and fail-fast versus fail-open behavior."
-applyTo: "**/.bash_profile,**/.bashrc,**/.profile,**/.zprofile,**/.zshenv,**/.zshrc,**/*.bash,**/*.sh,**/*.zsh-theme,**/*.zsh"
-paths:
-  - "**/.bash_profile"
-  - "**/.bashrc"
-  - "**/.profile"
-  - "**/.zprofile"
-  - "**/.zshenv"
-  - "**/.zshrc"
-  - "**/*.bash"
-  - "**/*.sh"
-  - "**/*.zsh-theme"
-  - "**/*.zsh"
----
-
 # Shell
+
+Applies to shell scripts and startup files: `.sh`, `.bash`, `.zsh`, `.zsh-theme`, `.zshrc`, `.bashrc`, and `.profile`.
 
 ## Shebang
 

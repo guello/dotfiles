@@ -1,26 +1,3 @@
----
-description: "Use for shell and package internals in the $HOME dotfiles: startup order, zsh plugins and themes, Git hooks and config, Homebrew, npm globals, VS Code extensions, and version managers."
-applyTo: ".config/defaults/**,.config/git/**,.config/npm/**,.nodenv/nodenv.d/**,.homebrew/**,.npm/**,.vscode/extensions.json,.zsh/**,.bash_profile,.bashrc,.gitconfig,.npmrc,.profile,.shellcheckrc,.zprofile,.zshenv,.zshrc"
-paths:
-  - ".config/defaults/**"
-  - ".config/git/**"
-  - ".config/npm/**"
-  - ".nodenv/nodenv.d/**"
-  - ".homebrew/**"
-  - ".npm/**"
-  - ".vscode/extensions.json"
-  - ".zsh/**"
-  - ".bash_profile"
-  - ".bashrc"
-  - ".gitconfig"
-  - ".npmrc"
-  - ".profile"
-  - ".shellcheckrc"
-  - ".zprofile"
-  - ".zshenv"
-  - ".zshrc"
----
-
 # Shell dotfiles
 
 These rules apply only when `$HOME` is the active repository.

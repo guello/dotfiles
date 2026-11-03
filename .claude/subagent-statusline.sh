@@ -2,8 +2,7 @@
 #
 # Claude Code subagent statusline, configured by the "subagent" key of CLAUDE_STATUSLINE_CONFIG
 # (default: ~/.claude/statusline.json). Every key is optional and an invalid value falls back to
-# its default. /statusline-config validates and sets them, and statusline.schema.json describes
-# the same shape for editors:
+# its default. statusline.schema.json describes and validates the settings.
 #   subagent.layout               groups of segment names joined by the separator,
 #                                 e.g. [["title"],["model","effort","context"]]
 #   subagent.separator            symbol between layout groups (default: ·); "" or " " joins
