@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schemastore.org/claude-code-keybindings.json",
+  "$docs": "https://code.claude.com/docs/en/keybindings",
+  "bindings": [
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+shift+m": "chat:modelPicker",
+        "ctrl+shift+e": "command:effort",
+        "ctrl+shift+f": "chat:fastMode"
+      }
+    }
+  ]
+}

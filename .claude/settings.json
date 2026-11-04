@@ -46,12 +46,8 @@
     "defaultMode": "auto"
   },
   "model": "opus",
-  "fallbackModel": [
-    "sonnet"
-  ],
-  "enabledMcpjsonServers": [
-    "cloudflare"
-  ],
+  "fallbackModel": ["sonnet"],
+  "enabledMcpjsonServers": ["cloudflare"],
   "disableClaudeAiConnectors": true,
   "skillOverrides": {
     "dataviz": "name-only",
@@ -145,9 +141,7 @@
     ]
   },
   "worktree": {
-    "symlinkDirectories": [
-      "node_modules"
-    ],
+    "symlinkDirectories": ["node_modules"],
     "baseRef": "fresh",
     "bgIsolation": "none"
   },
@@ -212,7 +206,7 @@
       "effortLevel": "high"
     },
     "claude-opus-5-5": {
-      "effortLevel": "medium"
+      "effortLevel": "high"
     },
     "claude-fable-5-1": {
       "effortLevel": "high"
