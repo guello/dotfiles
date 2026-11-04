@@ -66,6 +66,34 @@
     "workflow-authoring": "name-only"
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/bin/sh -c 'rex __internal session-start --agent claude --feature-session-naming=false 2>/dev/null || true'",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.agents/hooks/autoname-session.sh",
+            "timeout": 20
+          },
+          {
+            "type": "command",
+            "command": "$HOME/.agents/hooks/route-request.sh",
+            "timeout": 25,
+            "statusMessage": "Routing request"
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
@@ -111,23 +139,6 @@
             "type": "command",
             "command": "$HOME/.agents/hooks/guard-context-budgets.sh",
             "timeout": 10
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.agents/hooks/autoname-session.sh",
-            "timeout": 20
-          },
-          {
-            "type": "command",
-            "command": "$HOME/.agents/hooks/route-request.sh",
-            "timeout": 25,
-            "statusMessage": "Routing request"
           }
         ]
       }
@@ -201,7 +212,7 @@
       "effortLevel": "high"
     },
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "medium"
     },
     "claude-fable-5-1": {
       "effortLevel": "high"

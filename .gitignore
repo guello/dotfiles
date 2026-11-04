@@ -47,6 +47,8 @@
 !/.config/opencode/cli.json
 !/.config/opencode/opencode.json
 !/.config/opencode/tui.json
+!/.config/rex/
+/.config/rex/ssh_config
 !/.config/rubocop/
 !/.config/vim/
 !/.config/zed/

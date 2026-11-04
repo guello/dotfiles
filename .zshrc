@@ -51,6 +51,7 @@ completions=(
   op
   orb
   pnpm
+  rex
   tailscale
 )
 
