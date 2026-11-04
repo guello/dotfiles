@@ -1,15 +1,9 @@
 {
-  "include": [
-    "**/*.ts",
-    "**/*.mts"
-  ],
+  "include": ["**/*.ts", "**/*.mts"],
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "erasableSyntaxOnly": true,
-    "lib": [
-      "es2023",
-      "dom"
-    ],
+    "lib": ["es2023", "dom"],
     "module": "preserve",
     "moduleResolution": "bundler",
     "noEmit": true,
@@ -19,9 +13,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2023",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "verbatimModuleSyntax": true
   }
 }

@@ -5,10 +5,7 @@
       "id": 1,
       "prompt": "afk mode is on. In the wordcount project (a scratch copy of evals/files/wordcount), fix the bug where running the script on an empty file crashes, then report back following the afk contract.",
       "expected_output": "The bug is fixed, the test passes, and the closing update follows the afk output contract for a project with no UI.",
-      "files": [
-        "evals/files/wordcount/wordcount.py",
-        "evals/files/wordcount/test_wordcount.py"
-      ],
+      "files": ["evals/files/wordcount/wordcount.py", "evals/files/wordcount/test_wordcount.py"],
       "expectations": [
         "The update leads with the outcome in one or two sentences",
         "The update states in a single line that the project renders no UI so there is no preview URL, with no retry loop around tailscale",
@@ -22,9 +19,7 @@
       "id": 2,
       "prompt": "afk mode is on and this prompt arrived by voice dictation: \"ok so the read me still says the install command is npm install dash g but we moved to pnpm cash the docs are wrong fix the get hub badge too its pointing at the old workflow\". The project is a scratch copy of evals/files/readme-project.",
       "expected_output": "The README install command is corrected to pnpm, the stale badge is fixed, and the reply notes how the garbled dictation was interpreted.",
-      "files": [
-        "evals/files/readme-project/README.md"
-      ],
+      "files": ["evals/files/readme-project/README.md"],
       "expectations": [
         "The reply maps the dictation artifacts to real intent, for example reading \"get hub\" as GitHub, without asking for clarification",
         "The reply notes the interpretation in passing so a wrong guess is caught at a glance",

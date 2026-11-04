@@ -1,24 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/HEAD/npm/oxfmt/configuration_schema.json",
-  "ignorePatterns": [
-    ".agents/**/*.html",
-    "**/*-lock.json"
-  ],
+  "ignorePatterns": [".agents/**/*.html", "**/*-lock.json"],
   "overrides": [
     {
-      "files": [
-        "*.cjs",
-        "*.cts",
-        "*.js",
-        "*.jsx",
-        "*.mjs",
-        "*.mts",
-        "*.ts",
-        "*.tsx"
-      ],
-      "excludeFiles": [
-        ".zsh/**"
-      ],
+      "files": ["*.cjs", "*.cts", "*.js", "*.jsx", "*.mjs", "*.mts", "*.ts", "*.tsx"],
+      "excludeFiles": [".zsh/**"],
       "options": {
         "arrowParens": "avoid",
         "semi": false,
@@ -27,19 +13,13 @@
       }
     },
     {
-      "files": [
-        "*.json",
-        "*.jsonc"
-      ],
+      "files": ["*.jsonc"],
       "options": {
-        "printWidth": 1,
         "trailingComma": "none"
       }
     },
     {
-      "files": [
-        "**/.agents/**/*.md"
-      ],
+      "files": ["**/.agents/**/*.md"],
       "options": {
         "embeddedLanguageFormatting": "off"
       }

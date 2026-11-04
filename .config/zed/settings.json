@@ -53,22 +53,11 @@
     "include_ignored": "indexed"
   },
   "file_types": {
-    "Dockerfile": [
-      "Dockerfile.*"
-    ],
-    "env": [
-      ".env*"
-    ],
-    "Git Config": [
-      "**/.config/git/config"
-    ],
-    "Git Ignore": [
-      "ignore"
-    ],
-    "Markdown": [
-      "NOTES",
-      "TODO"
-    ],
+    "Dockerfile": ["Dockerfile.*"],
+    "env": [".env*"],
+    "Git Config": ["**/.config/git/config"],
+    "Git Ignore": ["ignore"],
+    "Markdown": ["NOTES", "TODO"],
     "Shell Script": [
       "aliases.zsh",
       "applypatch-msg",
@@ -143,12 +132,7 @@
     "Shell Script": {
       "formatter": {
         "external": {
-          "arguments": [
-            "--filename",
-            "{buffer_path}",
-            "--apply-ignore",
-            "-"
-          ],
+          "arguments": ["--filename", "{buffer_path}", "--apply-ignore", "-"],
           "command": "shfmt"
         }
       }

@@ -273,11 +273,7 @@
   "search.useIgnoreFiles": true,
   "security.promptForLocalFileProtocolHandling": false,
   "security.workspace.trust.untrustedFiles": "open",
-  "shfmt.executableArgs": [
-    "-i",
-    "2",
-    "-ci"
-  ],
+  "shfmt.executableArgs": ["-i", "2", "-ci"],
   "shfmt.formatIgnored": false,
   "staple.optimizeImages.app": "ImageOptim",
   "staple.sortObjectsByKey.allowNonJson": true,
@@ -292,10 +288,7 @@
   "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
   "terminal.integrated.fontSize": 12.5,
   "terminal.integrated.gpuAcceleration": "auto",
-  "terminal.integrated.ignoreProcessNames": [
-    "bash",
-    "zsh"
-  ],
+  "terminal.integrated.ignoreProcessNames": ["bash", "zsh"],
   "terminal.integrated.initialHint": false,
   "terminal.integrated.mouseWheelScrollSensitivity": 3,
   "terminal.integrated.shellIntegration.decorationsEnabled": "overviewRuler",
@@ -304,9 +297,7 @@
   "terminal.integrated.tabs.location": "left",
   "update.mode": "none",
   "update.showReleaseNotes": false,
-  "vscode_custom_css.imports": [
-    "file://${userHome}/.vscode/user/styles.css"
-  ],
+  "vscode_custom_css.imports": ["file://${userHome}/.vscode/user/styles.css"],
   "vscode_custom_css.statusbar": false,
   "window.autoDetectColorScheme": true,
   "window.density.layout": "compact",

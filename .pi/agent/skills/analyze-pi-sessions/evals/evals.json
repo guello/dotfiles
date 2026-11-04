@@ -39,10 +39,7 @@
       "prompt": "My application has a token counter bug. Debug the current project.",
       "expected_output": "Do not load or execute analyze-pi-sessions. Inspect application code with normal tools instead.",
       "files": [],
-      "assertions": [
-        "Does not inspect Pi history.",
-        "Does not auto-load the manual-only skill."
-      ]
+      "assertions": ["Does not inspect Pi history.", "Does not auto-load the manual-only skill."]
     }
   ]
 }

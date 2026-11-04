@@ -28,24 +28,10 @@
       "type": "array",
       "description": "Segments to render, one group per statusline line. Unknown names are dropped, and a layout left with no segment falls back to the default. Setting context.style to progress moves context onto its own line in the default layout.",
       "default": [
-        [
-          "logo",
-          "repo",
-          "branch",
-          "status"
-        ],
-        [
-          "model",
-          "effort",
-          "fast-mode",
-          "context"
-        ],
-        [
-          "five-hour"
-        ],
-        [
-          "seven-day"
-        ]
+        ["logo", "repo", "branch", "status"],
+        ["model", "effort", "fast-mode", "context"],
+        ["five-hour"],
+        ["seven-day"]
       ],
       "items": {
         "type": "array",
@@ -263,16 +249,7 @@
         "layout": {
           "type": "array",
           "description": "Segments to render, one group per separator-joined block. Unknown names are dropped, and a layout left with no segment falls back to the default.",
-          "default": [
-            [
-              "title"
-            ],
-            [
-              "model",
-              "effort",
-              "context"
-            ]
-          ],
+          "default": [["title"], ["model", "effort", "context"]],
           "items": {
             "type": "array",
             "items": {

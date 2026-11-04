@@ -1,17 +1,7 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "ignorePatterns": [
-    "**/node_modules/**"
-  ],
-  "plugins": [
-    "eslint",
-    "import",
-    "node",
-    "oxc",
-    "promise",
-    "typescript",
-    "unicorn"
-  ],
+  "ignorePatterns": ["**/node_modules/**"],
+  "plugins": ["eslint", "import", "node", "oxc", "promise", "typescript", "unicorn"],
   "categories": {
     "correctness": "error"
   },
@@ -23,11 +13,7 @@
     "no-console": [
       "warn",
       {
-        "allow": [
-          "info",
-          "warn",
-          "error"
-        ]
+        "allow": ["info", "warn", "error"]
       }
     ],
     "no-else-return": "error",
@@ -89,10 +75,7 @@
         "ts-nocheck": true
       }
     ],
-    "typescript/consistent-type-definitions": [
-      "error",
-      "interface"
-    ],
+    "typescript/consistent-type-definitions": ["error", "interface"],
     "typescript/consistent-type-imports": [
       "error",
       {
