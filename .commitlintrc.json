@@ -1,4 +1,7 @@
 {
+  "extends": [
+    "./.config/commitlint/config.ts"
+  ],
   "rules": {
     "body-leading-blank": [
       2,
@@ -8,31 +11,6 @@
       2,
       "always",
       "lower-case"
-    ],
-    "scope-enum": [
-      2,
-      "always",
-      [
-        "claude",
-        "codex",
-        "copilot",
-        "opencode",
-        "pi",
-        "cask",
-        "mas",
-        "vim",
-        "nvim",
-        "vscode",
-        "zed",
-        "gh",
-        "glab",
-        "ghostty",
-        "defaults",
-        "launchd",
-        "npm",
-        "plugin",
-        "theme"
-      ]
     ],
     "subject-empty": [
       2,
@@ -51,24 +29,6 @@
     "type-empty": [
       2,
       "never"
-    ],
-    "type-enum": [
-      2,
-      "always",
-      [
-        "agents",
-        "brew",
-        "chore",
-        "editor",
-        "git",
-        "gui",
-        "macos",
-        "node",
-        "python",
-        "ruby",
-        "shell",
-        "zsh"
-      ]
     ]
   }
 }

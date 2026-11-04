@@ -15,14 +15,13 @@ body:
         - agents
         - brew
         - chore
-        - editor
-        - git
         - gui
         - macos
         - node
         - python
         - ruby
         - shell
+        - tui
         - zsh
     validations:
       required: true
