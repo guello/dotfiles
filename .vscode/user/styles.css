@@ -213,7 +213,8 @@
 .show-file-icons .\.git-name-folder-icon::before,
 .show-file-icons .\.git-name-file-icon::before,
 .show-file-icons .\.githooks-name-folder-icon::before,
-.show-file-icons .git-name-dir-icon.config-name-file-icon::before {
+.show-file-icons .git-name-dir-icon.config-name-file-icon::before,
+.show-file-icons .git-name-dir-icon[aria-label*="/git/config-"]::before {
   font-family: devicons !important;
   content: "\e602" !important;
 }
@@ -224,7 +225,8 @@
   color: var(--vscode-gitDecoration-ignoredResourceForeground) !important;
 }
 .show-file-icons .\.git-name-file-icon::before,
-.show-file-icons .git-name-dir-icon.config-name-file-icon::before {
+.show-file-icons .git-name-dir-icon.config-name-file-icon::before,
+.show-file-icons .git-name-dir-icon[aria-label*="/git/config-"]::before {
   color: var(--file-icons-red-dark) !important;
 }
 

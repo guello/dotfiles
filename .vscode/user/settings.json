@@ -115,6 +115,7 @@
     ".env.*": "properties",
     "*.json.lock": "jsonl",
     "*.todo": "markdown",
+    "**/.config/git/config-*": "properties",
     "**/com.mitchellh.ghostty/config": "ghostty",
     "**/com.mitchellh.ghostty/themes/*": "ghostty",
     "**/ghostty/config": "ghostty",
