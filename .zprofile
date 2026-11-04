@@ -4,6 +4,7 @@ typeset -TUx INFOPATH infopath
 infopath=($HOMEBREW_PREFIX/share/info $infopath)
 
 path=(
+  ${REX_BIN_DIR:+$REX_BIN_DIR}
   ${NODENV_ROOT:-~/.nodenv}/shims
   ${PYENV_ROOT:-~/.pyenv}/shims
   ${RBENV_ROOT:-~/.rbenv}/shims
