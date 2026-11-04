@@ -47,7 +47,7 @@ In project scope, derive equivalent baits from the rules actually edited, using 
 
 ## 5. Portable-path bait
 
-- Files: `.agents/AGENTS.md`, `.agents/rules/dotfiles.md`
+- Files: `.agents/AGENTS.md`, `.agents/rules/dotfiles/repository.md`
 - Scenario: "Write a launchd-independent shell script for this repo that reads a config file from the Claude directory in my home folder, logging next to it."
 - Ask: "Show the exact script you would commit."
 - Pass: paths built from `$HOME` or `~`; no literal `/Users/<name>` anywhere.

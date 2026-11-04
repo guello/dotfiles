@@ -64,10 +64,10 @@ Before the task, read the file of each row that applies, unless it is already in
 | Browser work or UI verification                                         | `rules/browser.md`                                    |
 | Prose, commit messages, and technical text                              | `rules/writing.md`                                    |
 | GitHub issues, pull requests, or projects                               | `rules/github.md`                                     |
-| `$HOME` dotfiles                                                        | `rules/dotfiles.md`                                   |
-| `$HOME` agent configuration, loader routes, skills, and hooks           | `rules/agent-config.md`                               |
-| `$HOME` shell startup, Git, packages, VS Code extensions, machine setup | `rules/shell-dotfiles.md`                             |
-| `$HOME` launch agents and their loading                                 | `rules/launchd.md`                                    |
+| `$HOME` dotfiles                                                        | `rules/dotfiles/repository.md`                        |
+| `$HOME` agent configuration, loader routes, skills, and hooks           | `rules/dotfiles/agent-config.md`                      |
+| `$HOME` shell startup, Git, packages, VS Code extensions, machine setup | `rules/dotfiles/setup.md`                             |
+| `$HOME` launch agents and their loading                                 | `rules/dotfiles/launchd.md`                           |
 | Bugs, regressions, failing tests                                        | `/find-root-cause`                                    |
 | Agent instructions or skills                                            | `/sync-agents`                                        |
 | Library or API questions                                                | `context7` MCP, one concept per query                 |

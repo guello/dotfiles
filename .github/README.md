@@ -71,7 +71,6 @@ The script does the following:
 - [Agents](#agents)
   - [Claude](#claude)
   - [Codex](#codex)
-  - [Copilot](#copilot)
 - [GUIs](#guis)
   - [Visual Studio Code](#visual-studio-code)
   - [Keybindings in Electron apps](#keybindings-in-electron-apps)
@@ -218,21 +217,13 @@ sudo mkdir -p /etc/codex
 sudo ln -sfn "$HOME/.codex/settings.toml" /etc/codex/config.toml
 ```
 
-#### Copilot
-
-[`.copilot/settings.json`](/.copilot/settings.json) holds the portable defaults and the shared write hooks. Instructions are linked back to `.agents` and skills are discovered automatically. Visual Studio Code bundles the same Copilot engine and reads the same directory.
-
-Authenticate via VS Code or with:
-
-```sh
-copilot login
-```
-
 ### GUIs
 
 #### Visual Studio Code
 
 VS Code's user settings, keybindings, snippets, and custom CSS are tracked under `~/.vscode/user`. `~/Library/Application Support/Code/User` is a relative symlink to that directory, so the editor reads the repository files directly and Settings Sync changes show up as a diff.
+
+The chat reads the shared agent instructions through the `.copilot/copilot-instructions.md` symlink to `.agents/AGENTS.md`.
 
 Extensions are tracked in [`.vscode/extensions.json`](/.vscode/extensions.json). `dotfiles init` installs any listed extension that is missing from the machine.
 

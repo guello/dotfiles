@@ -26,7 +26,7 @@ command -v python3 >/dev/null 2>&1 || exit 0
 command -v jq >/dev/null 2>&1 || exit 0
 
 input="$(cat)"
-fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null)"
+fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
 [ -n "$fp" ] || exit 0
 
 case "$fp" in
@@ -38,8 +38,8 @@ esac
 case "$abs" in
   */.system/* | */.claude/jobs/* | */.claude/worktrees/* | */.claude/projects/*/tool-results/*) exit 0 ;;
   */.agents/plans/* | */.claude/plans/* | /tmp/* | /private/tmp/* | /var/folders/* | /private/var/folders/*) exit 0 ;;
-  */AGENTS.md | */CLAUDE.md | */copilot-instructions.md | */MEMORY.md | */SKILL.md) ;;
-  */.agents/*.md | */.claude/*.md | */.codex/*.md | */.copilot/*.md | */.github/instructions/*.md | */.cursor/*.md | */.codex/agents/*.toml) ;;
+  */AGENTS.md | */CLAUDE.md | */MEMORY.md | */SKILL.md) ;;
+  */.agents/*.md | */.claude/*.md | */.codex/*.md | */.codex/agents/*.toml | */.opencode/*.md | */.config/opencode/*.md | */.pi/*.md) ;;
   *) exit 0 ;;
 esac
 

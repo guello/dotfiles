@@ -163,8 +163,6 @@ outputTokens=$(jq -r 'select(.type == "event_msg" and .payload.type == "token_co
 
 ### Any other agent
 
-Copilot lands here: its `~/.copilot/session-store.db` is SQLite with an undocumented schema, so never read it and never add a sqlite3 dependency.
-
 ```sh
 cwd=$(pwd | sed "s|^$HOME|~|")
 gitBranch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)

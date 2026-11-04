@@ -1,28 +1,21 @@
 #!/bin/sh
 #
-# PreToolUse guardrail (Edit|Write|MultiEdit|Bash): enforce the AGENTS.md
-# committed-writing and portability hard boundaries at write time. Blocks a
-# tool call that ADDS an em or en dash, or a machine-specific /Users/<name>
-# path, to a file inside a git work tree that is not gitignored (the
-# "committed file" scope; scratch and generated paths are ignored, so they
-# pass). In any work tree other than the $HOME dotfiles repository it also
-# blocks adding a home-anchored reference to the user's agent tree or
-# projects (~/.agents, ~/.claude, ~/.codex, ~/.copilot, ~/Developer, with ~
-# spelled as ~, $HOME, or ${HOME}): a repository file must not depend on one
-# machine's dotfiles or user-level skills. Pre-existing occurrences are
-# allowed: only a net increase over the replaced text (Edit/MultiEdit) or the
-# current file content (Write) blocks. /Users/Shared is a standard macOS path
-# and never blocks.
+# PreToolUse(Edit|Write|MultiEdit|Bash): enforce the AGENTS.md committed
+# writing and portability boundaries at write time.
 #
-# Simplified Technical English (writing.md): committed *.md, *.mdx, and *.txt
-# prose, and the text of git commit, git tag, and gh pr|issue|release
-# create|edit|comment|review commands, block on net-new semicolons,
-# contractions, and sentences over 25 words. Command text also blocks on em
-# or en dashes, session links, Claude-Session trailers, and AI co-author or
-# "Generated with" lines. Code, URLs, quotations, headings, and tables are
-# skipped. The installed simplified-technical-english checker adds advisory
-# findings as additionalContext and never blocks.
-# Exit 2 blocks; missing jq/git/python3 or any probe failure fails open (exit 0).
+# Simplified Technical English (ASD-STE100) is applied to:
+# - committed *.md, *.mdx, and *.txt prose
+# - the text of Git commits and tags
+# - gh pr|issue|release|create|edit|comment|review commands
+# - net-new semicolons, contractions, and sentences over 25 words
+# Command text also blocks on:
+# - em or en dashes
+# - session links
+# - Claude-Session trailers
+# - AI co-author or "Generated with" lines.
+# Code, URLs, quotations, headings, and tables are skipped.
+#
+# Exit 2 blocks. Missing jq/git/python3 or any probe failure fails open (exit 0).
 
 set -u
 
@@ -194,17 +187,17 @@ def emit(issues, advice, label):
 
 
 def file_mode(ti):
-    fp = ti.get("file_path") or ti.get("path") or ""
+    fp = ti.get("file_path") or ""
     if not fp.endswith(PROSE_EXT):
         sys.exit(0)
     p = Path(fp)
     old = p.read_text(encoding="utf-8") if p.is_file() else ""
-    if "content" in ti or "file_text" in ti:
-        new = ti.get("content") or ti.get("file_text") or ""
+    if "content" in ti:
+        new = ti.get("content") or ""
     else:
         edits = ti.get("edits") or [{
-            "old_string": ti.get("old_string", ti.get("old_str")),
-            "new_string": ti.get("new_string", ti.get("new_str")),
+            "old_string": ti.get("old_string"),
+            "new_string": ti.get("new_string"),
             "replace_all": ti.get("replace_all"),
         }]
         new = old
@@ -346,7 +339,7 @@ case "$cmd" in
   *) exit 0 ;;
 esac
 
-fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null)"
+fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
 [ -n "$fp" ] || exit 0
 
 case "$fp" in
@@ -360,13 +353,13 @@ git -C "$dir" rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
 git -C "$dir" check-ignore -q "$abs" 2>/dev/null && exit 0
 top="$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null || true)"
 
-content="$(printf '%s' "$input" | jq -r '.tool_input.content // .tool_input.file_text // empty' 2>/dev/null)"
+content="$(printf '%s' "$input" | jq -r '.tool_input.content // empty' 2>/dev/null)"
 if [ -n "$content" ]; then
   new="$content"
   old="$(cat "$abs" 2>/dev/null || true)"
 else
-  new="$(printf '%s' "$input" | jq -r '(.tool_input.new_string // .tool_input.new_str // empty), ((.tool_input.edits // [])[].new_string // empty)' 2>/dev/null)"
-  old="$(printf '%s' "$input" | jq -r '(.tool_input.old_string // .tool_input.old_str // empty), ((.tool_input.edits // [])[].old_string // empty)' 2>/dev/null)"
+  new="$(printf '%s' "$input" | jq -r '(.tool_input.new_string // empty), ((.tool_input.edits // [])[].new_string // empty)' 2>/dev/null)"
+  old="$(printf '%s' "$input" | jq -r '(.tool_input.old_string // empty), ((.tool_input.edits // [])[].old_string // empty)' 2>/dev/null)"
 fi
 [ -n "$new" ] || exit 0
 
@@ -381,7 +374,7 @@ en="$(printf '\342\200\223')"
 count_dashes() { printf '%s' "$1" | grep -o -F -e "$em" -e "$en" 2>/dev/null | wc -l | tr -d ' '; }
 count_users_paths() { printf '%s' "$1" | grep -oE '/Users/[A-Za-z0-9._-]+' 2>/dev/null | grep -cv '^/Users/Shared$'; }
 # shellcheck disable=SC2016
-count_home_refs() { printf '%s' "$1" | grep -oE '(~|\$HOME|\$\{HOME\})/(\.agents|\.claude|\.codex|\.copilot|Developer)(/|[^A-Za-z0-9_.-]|$)' 2>/dev/null | wc -l | tr -d ' '; }
+count_home_refs() { printf '%s' "$1" | grep -oE '(~|\$HOME|\$\{HOME\})/(\.agents|\.claude|\.codex|Developer)(/|[^A-Za-z0-9_.-]|$)' 2>/dev/null | wc -l | tr -d ' '; }
 
 [ "$(count_dashes "$new")" -gt "$(count_dashes "$old")" ] &&
   deny "this edit adds an em or en dash to a committed file (AGENTS.md hard boundary). Rewrite with a period, comma, colon, hyphen, or parentheses."
@@ -390,7 +383,7 @@ count_home_refs() { printf '%s' "$1" | grep -oE '(~|\$HOME|\$\{HOME\})/(\.agents
   deny "this edit adds a machine-specific /Users/<name> path to a committed file (AGENTS.md hard boundary). Use \$HOME, ~, \$HOMEBREW_PREFIX, \$XDG_*, or a repo-relative path."
 
 [ -n "$top" ] && [ "$top" != "$HOME" ] && [ "$(count_home_refs "$new")" -gt "$(count_home_refs "$old")" ] &&
-  deny "this edit adds a reference to the user's agent tree or projects (~/.agents, ~/.claude, ~/.codex, ~/.copilot, ~/Developer) to a file in a project repository (AGENTS.md hard boundary). A repository depends only on what it contains; name a user-level procedure by its skill or command, never by path."
+  deny "this edit adds a reference to the user's agent tree or projects (~/.agents, ~/.claude, ~/.codex, ~/Developer) to a file in a project repository (AGENTS.md hard boundary). A repository depends only on what it contains; name a user-level procedure by its skill or command, never by path."
 
 case "$abs" in
   *.md | *.mdx | *.txt) ste ;;

@@ -1,4 +1,4 @@
-# Shell dotfiles
+# Shell setup
 
 These rules apply only when `$HOME` is the active repository.
 
@@ -43,7 +43,7 @@ These rules apply only when `$HOME` is the active repository.
 ## Package ownership
 
 - `.homebrew/Brewfile` owns applications and shell tooling, including shellcheck and shfmt.
-- Never install Node-based tools with Homebrew, because its formulas introduce a second Node runtime; `agent-browser` is the one exception, per `browser.md`.
+- Never install Node-based tools with Homebrew, because its formulas introduce a second Node runtime; `agent-browser` is the one exception, per `../browser.md`.
 - `.config/npm/npmrc` owns shared npm settings, which load through `NPM_CONFIG_GLOBALCONFIG` set in `.zshenv`.
 - `~/.npmrc` is untracked and holds the `npm login` token and local configuration. Never track it or copy its content.
 - `.npm/package.json` owns global Node tools; the `npm-global` plugin refreshes it synchronously and offline after mutating global commands.

@@ -20,12 +20,13 @@ These rules apply only when `$HOME` is the active repository. Treat every file u
 
 ## Commit convention
 
-- `.commitlintrc.json` and the `commit-msg` hook enforce an allowlisted lower-case type and optional scope, and a subject with no trailing period.
+- `.commitlintrc.json` and the `commit-msg` hook enforce an allowlisted lower-case type, an optional scope that the type allows, and a subject with no trailing period.
 - Leave a blank line before any body and keep the subject lower-case.
-- Allowed types and scopes are in `.commitlintrc.json` under `type-enum` and `scope-enum`: never use the `feat`, `fix`, or `refactor` types or scopes outside the allowlist.
+- `.commitlintrc.json` holds the general rules and extends `.config/commitlint/config.ts`, which holds the scope rules.
+- Allowed types and their scopes are in `.config/commitlint/scopes.json`: never use the `feat`, `fix`, or `refactor` types or a scope that the file does not give to the type.
 - Use `agents` for shared agent configuration and a tool scope only for that tool's native, non-shared configuration.
 - When the commit sections change, update `git-commit-instructions` in `.codex/settings.toml` and the Copilot commit prompt in `.vscode/settings.json`.
-- Keep the type list in `.github/ISSUE_TEMPLATE/agent_task.yml` equal to `type-enum`.
+- Keep the type list in `.github/ISSUE_TEMPLATE/agent_task.yml` equal to the keys of `.config/commitlint/scopes.json`.
 
 ## Commit types
 
@@ -35,7 +36,7 @@ Choose the type from the changed path, and add the scope of the tool when one fi
 - `shell` covers shell files that are not specific to Zsh, such as `.profile`, Bash files, and the shellcheck config.
 - A commit that changes only a Zsh integration, such as the `defaults` plugin, uses `zsh(plugin)`.
 - `macos(defaults|launchd)` covers system preference files and all `.config/launchd` plists.
-- `git(gh|glab)` covers Git config and hooks, Git host CLIs, and Git TUIs.
-- `gui(ghostty)` covers desktop apps that have no type of their own, and `editor` covers editors and `.editorconfig`.
+- `chore(git)` covers Git config and hooks, and Git host CLIs.
+- `gui(vscode|zed)` covers desktop apps, and `tui(vim|nvim)` covers terminal apps, such as lazygit.
 - `node(npm)`, `ruby`, and `python` each cover one runtime with its version manager, packages, and linters.
-- `chore` covers repository-wide files, such as `.gitignore`, commitlint, the formatter, the README, and issue templates.
+- `chore` covers repository-wide files, such as `.gitignore`, `.editorconfig`, commitlint, the formatter, the README, and issue templates.

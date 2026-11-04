@@ -60,9 +60,6 @@
 !/.copilot/
 /.copilot/*
 !/.copilot/copilot-instructions.md
-!/.copilot/lsp-config.js
-!/.copilot/mcp-config.json
-!/.copilot/settings.json
 !/.github/
 !/.homebrew/
 /.homebrew/*
