@@ -6,7 +6,7 @@ The commit safety and proposal format routed from `../AGENTS.md`. Read this file
 
 - Commits are signed via Git's `ssh-keygen` signer; never disable signing or pass `--no-gpg-sign`.
 - Follow the repository's commit convention; never add a session link or a `Claude-Session:` trailer to a commit or pull request.
-- In the `$HOME` repository, use the commit types and scopes in `../rules/dotfiles.md`.
+- In the `$HOME` repository, use the commit types and scopes in `../rules/dotfiles/repository.md`.
 
 ## Proposal format
 

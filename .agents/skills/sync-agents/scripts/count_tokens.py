@@ -27,7 +27,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Callable
 
-DOC_GLOBS = ("AGENTS.md", "CLAUDE.md", "*.md", "*.mdc", "*.markdown", "*.txt", "*.toml")
+DOC_GLOBS = ("AGENTS.md", "CLAUDE.md", "*.md", "*.markdown", "*.txt", "*.toml")
 ROLES: dict[str, tuple[int, int]] = {
     "global": (800, 1200),
     "root-agents": (1200, 2000),
@@ -48,9 +48,16 @@ CATALOG_CHARS = (5000, 6500)
 LIST_ITEM = re.compile(r"^\s*([-*+]|\d+\.)\s")
 NON_PROSE = re.compile(r"^\s*(#|\||```|~~~|---\s*$)")
 SENTENCE_END = re.compile(r"[.!?](?=\s+[A-Z`\"'(]|$)")
-ENTRYPOINTS = {"AGENTS.md", "CLAUDE.md", "copilot-instructions.md"}
-MARKDOWN_SUFFIXES = {".md", ".mdc", ".mdx", ".markdown"}
+ENTRYPOINTS = {"AGENTS.md", "CLAUDE.md", "APPEND_SYSTEM.md"}
+MARKDOWN_SUFFIXES = {".md", ".mdx", ".markdown"}
+TOOL_TREES = (".claude", ".codex", ".opencode", ".pi")
 GENERATED_BLOCK = re.compile(r"<!-- BEGIN:(\S+) -->.*?<!-- END:\1 -->\n?", re.DOTALL)
+
+
+def in_tool_tree(parts: tuple[str, ...]) -> bool:
+    if any(tree in parts for tree in TOOL_TREES):
+        return True
+    return any(a == ".config" and b == "opencode" for a, b in zip(parts, parts[1:]))
 
 
 def read_measured(file: Path) -> str:
@@ -174,27 +181,24 @@ def infer_role(path: Path, metadata: dict[str, str], text: str = "") -> str | No
         return "skill"
     if name in ENTRYPOINTS:
         parent = resolved.parent
-        if parent in {HOME / ".agents", HOME / ".claude", HOME / ".codex", HOME / ".copilot"}:
+        if parent in {HOME / ".agents", HOME / ".claude", HOME / ".codex", HOME / ".config" / "opencode", HOME / ".pi" / "agent"}:
             return "global"
         top = git_toplevel(resolved)
-        if top is None or parent == top or parent == top / ".github":
+        if top is None or parent in {top, top / ".claude", top / ".pi"}:
             return "root-agents"
         return "nested-agents"
-    if "rules" in parts or "instructions" in parts:
-        scope = metadata.get("paths") or metadata.get("applyTo") or metadata.get("globs")
-        always = metadata.get("alwaysApply", "").lower() == "true"
-        if scope and scope.strip("'\" ") != "**" and not always:
+    if "rules" in parts:
+        scope = metadata.get("paths")
+        if scope and scope.strip("'\" ") != "**":
             return "scoped-rule"
-        if ".agents" in parts and not scope and not always:
+        if ".agents" in parts and not scope:
             return "scoped-rule"
         return "always-rule"
     if "references" in parts:
         return "reference"
     if "specs" in parts or "plans" in parts:
         return "spec"
-    if any(segment in parts for segment in ("agents", "commands", "output-styles")) and (
-        ".claude" in parts or ".codex" in parts
-    ):
+    if any(segment in parts for segment in ("agents", "commands", "output-styles", "prompts")) and in_tool_tree(parts):
         return "definition"
     return None
 

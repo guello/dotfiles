@@ -31,23 +31,23 @@ Map every agentic file to a role. A file with no clear role is a finding.
 - Root `AGENTS.md` holds context an agent cannot infer from the repository: architecture, conventions, workflow, non-obvious commands, hard constraints.
 - Nested `AGENTS.md` holds only a subproject's deltas; when it largely repeats the root, flag the redundancy.
 - When `CLAUDE.md` or another tool entrypoint forks `AGENTS.md` and does not import it, flag the fat entrypoint.
-- Claude Code 2.1.277 and later reads `AGENTS.md` and `.claude/AGENTS.md` only where no project `CLAUDE.md` exists in the folder or above it.
+- Judge each route against the loader facts in [tool-loaders.md](tool-loaders.md), never against a filename.
 - When a `CLAUDE.md` at or above an `AGENTS.md` lacks `@AGENTS.md`, flag a broken route: Claude never reads that `AGENTS.md`, nested files included.
 - When a `CLAUDE.md` holds only `@AGENTS.md` and no parent folder holds one, flag a redundant route.
 - When a root `CLAUDE.md` imports `AGENTS.md` and a nested `AGENTS.md` exists outside vendored skills, flag a broken route.
 - To fix it, move the additions to `.claude/rules/`. Delete the `CLAUDE.md` unless a parent folder holds a project `CLAUDE.md`.
-- When a rule file (`.agents/rules/*`, `.github/instructions/*`) is path-gated, check the scope and the frontmatter validity for every tool that reads it.
+- When a rule file is path-gated, check the scope and the frontmatter validity for every tool that reads it.
 - When one physical rule file is consumed twice by a single tool, flag the duplicate route.
 
 ### Trees and configuration
 
-- `.agents/**` is the canonical home for rules, skills, commands, hooks, output styles, and specs; check it is organized by kind and nothing is orphaned.
+- `.agents/**` is the canonical home for rules, skills, hooks, and specs. Check that it is organized by kind and that nothing is orphaned.
 - When `.agents/**` holds a plans or specs backlog, check each entry against the repository's completion convention and flag a plan for a shipped feature.
-- When `.mcp.json` or a tool variant declares MCP servers, verify every command, arg, path, and env var resolves.
+- When `.mcp.json`, `.codex/config.toml`, or `opencode.json` declares MCP servers, verify every command, arg, path, and env var resolves.
 - When `AGENTS.md` and the MCP config disagree, flag documented-but-unconfigured and configured-but-undocumented servers.
 - Each `SKILL.md` carries a crisp triggering description and a lean body with detail in references; check the description triggers on the intended use.
-- `.claude/**` holds settings, commands, subagents, and skills; check it stays consistent with `AGENTS.md` instead of duplicating it.
-- When a `.claude/commands/*.md` file outgrows one file, record a migration finding, because new procedures belong in a skill folder.
+- `.claude/`, `.codex/`, `.opencode/`, and `.pi/` hold native settings, commands, subagents, and hooks. Check that they stay consistent with `AGENTS.md`.
+- When a command file outgrows one file, record a migration finding, because new procedures belong in a skill folder.
 - When a config is a symlink, edit and audit the target; when the target resolves outside the scope, treat it as read-only context and flag the crossing.
 
 ## Standard project wiring
@@ -63,10 +63,10 @@ A convention the repository declares wins over this default. The procedure that 
 - `.claude/` as a real directory for Claude-specific files, plus `skills -> ../.agents/skills` once that target exists, and no `hooks` link.
 - The root `.gitignore` lists `/.agents/skills/*/` and the Claude runtime entries `**/.claude/settings.local.json` and `**/.claude/worktrees/`. Don't create `.claude/.gitignore`.
 - Rules live in `.agents/rules/`, each routed by one row of the `| Work | Read |` table in `AGENTS.md`, with no `.claude/rules` link.
-- Write each rule as plain Markdown, with its scope in the first line. Add frontmatter only for a tool that the repository uses and that reads `.agents/rules/`, such as the Antigravity `trigger`.
+- Write each rule as plain Markdown, with its scope in the first line. Add frontmatter only for a tool that the repository uses and that reads `.agents/rules/`.
 - In a workspace, an app keeps its rules in `<app>/.agents/rules/`, routed from `<app>/AGENTS.md` with app-relative paths.
 - Plans go in `.agents/plans/<topic>.md` or `.agents/plans/<topic>/` when a plan needs more than one file.
-- No other entrypoint: add a route such as `.github/instructions`, or a tool directory, only after verifying that tool loads it at project scope.
+- Tool-only assets go in the tool's own tree. Add any other route only after you verify that the tool loads it at project scope.
 
 ### Repair rules
 
@@ -87,7 +87,7 @@ For each check, ask whether the current arrangement is the best one for an agent
 - Skill catalog: measure metadata exposed before selection; flag verbose descriptions, duplicate triggers, disabled or shadowed skills, and lockfile drift.
 - Coverage: is anything an agent needs missing, such as setup, non-obvious build steps, conventions, or the repository's workflow?
 
-For loader evidence in Claude Code, when a route is disputed, prefer an `InstructionsLoaded` hook log over inference.
+When a route is disputed, prefer the loader evidence in [tool-loaders.md](tool-loaders.md) over inference.
 
 ## Instruction style
 
@@ -117,7 +117,7 @@ The shape that raises adherence. Apply it to every hand-written agentic file: en
 - Double-quote glob patterns, path strings, and argument hints.
 - Keep booleans and numbers unquoted when their intended type is boolean or numeric; quote lookalike strings.
 - For long descriptions, allow `>-`; preserve existing folded descriptions and parsed values during formatting-only changes.
-- When a rule carries both `paths` and related fields, like `applyTo` for Copilot, keep their pattern scope identical.
+- When a rule carries scope fields for more than one tool, keep their pattern scope identical.
 - Never normalize generated or third-party managed files by hand; use their source or manager.
 
 ## Signal-density checks

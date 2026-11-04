@@ -1,10 +1,9 @@
 #!/bin/sh
 #
-# PreToolUse guardrail (Edit|Write|MultiEdit) that block writes to generated or
-# auto-managed files under $HOME that would be silently overwritten, and redirect
-# edits made through symlinks to their source.
+# PreToolUse (Edit|Write|MultiEdit): block writes to generated or auto-managed
+# files under $HOME that would be silently overwritten and redirect edits made
+# through symlinks to their source.
 # Exit 2 blocks. Any other path or missing jq fails open (exit 0).
-# macOS-only and no-op without a file path.
 
 set -u
 
@@ -14,7 +13,7 @@ case ":$PATH:" in
 esac
 
 input="$(cat)"
-fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null)"
+fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
 [ -n "$fp" ] || exit 0
 
 case "$fp" in
@@ -31,7 +30,7 @@ case "$abs" in
   "$HOME"/.git/hooks/*)
     deny "$HOME/.git/hooks/* is unused. This repo's hooks run from .config/git/hooks/, edit them there instead."
     ;;
-  "$HOME"/.claude/skills/* | "$HOME"/.codex/AGENTS.md | "$HOME"/.pi/agent/AGENTS.md)
+  "$HOME"/.claude/skills/* | "$HOME"/.codex/AGENTS.md | "$HOME"/.config/opencode/AGENTS.md | "$HOME"/.copilot/copilot-instructions.md | "$HOME"/.pi/agent/AGENTS.md)
     deny "$abs resolves through a symlink to ~/.agents/. Edit the source under ~/.agents/ instead."
     ;;
   "$HOME"/.claude/rules | "$HOME"/.claude/rules/*)

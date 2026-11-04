@@ -21,7 +21,7 @@ A convention the repository already declares wins over every default here.
 
 Ask up to three closed questions before creating anything, batched when the tool supports it:
 
-1. **Tools** (multi-select): pre-select the tools detectable in the repository or its history, else Claude Code and Codex.
+1. **Tools** (multi-select): pre-select the supported tools detectable in the repository or its history, else Claude Code, Codex, Pi, and OpenCode.
 2. **Skills** (yes or no; default no): manage project skills with the skills CLI.
 3. **Assets** (multi-select; default none): rules, hooks, commands; selecting one means drafting concrete repository-derived starters.
 
@@ -52,6 +52,16 @@ Ask up to three closed questions before creating anything, batched when the tool
 - Nothing: Codex reads `AGENTS.md` natively.
 - Add a `.codex/` route only after verifying the tool actually loads it at project scope.
 
+### Pi
+
+- Nothing: Pi reads `AGENTS.md` natively, and `.agents/skills` after the user trusts the project.
+- Add `.pi/` files, such as `.pi/APPEND_SYSTEM.md` or an extension, only for real Pi-only content. They load after the user trusts the project.
+
+### OpenCode
+
+- Nothing: OpenCode reads `AGENTS.md` and `.agents/skills` natively.
+- For real OpenCode-only content, list one file in `instructions` in `opencode.json`. Never add a `CLAUDE.md` for OpenCode, because it never reads one.
+
 ### Skills: yes
 
 - `.agents/skills/` plus the root `.gitignore` entry `/.agents/skills/*/`, so installed skills stay untracked.
@@ -73,13 +83,15 @@ Ask up to three closed questions before creating anything, batched when the tool
 
 - Draft hooks from repository evidence, such as format-on-edit using the repository's configured formatter.
 - On acceptance: `.agents/hooks/` with the executable scripts, and no `.claude/hooks` link.
-- Register each script in `.claude/settings.json` by its path, `"$CLAUDE_PROJECT_DIR"/.agents/hooks/<script>`.
+- Register each script for each selected tool: in `.claude/settings.json` by `"$CLAUDE_PROJECT_DIR"/.agents/hooks/<script>`.
+- Register it in `.codex/hooks.json` only after you verify that Codex loads that file at project scope.
+- Pi and OpenCode run hooks only through a `.pi/extensions/` extension or a `.opencode/plugins/` plugin. Propose one only when the hook justifies that code.
 
 ### Assets: commands
 
 - Draft slash commands wrapping the repository's non-trivial workflows.
-- On acceptance: `.claude/commands/` with the accepted files.
-- Commands are tool-specific, so they live in `.claude/`, not `.agents/`.
+- On acceptance: the accepted files in the commands folder of each selected tool: `.claude/commands/`, `.opencode/commands/`, or `.pi/prompts/`.
+- Commands are tool-specific, so they never live in `.agents/`. For Codex, propose a skill instead.
 
 ## Conflicts
 

@@ -23,12 +23,8 @@
   "search.exclude": {
     "**/.claude/skills": true,
     "**/.codex/AGENTS.md": true,
-    "**/.codex/hooks.json": true,
-    "**/.codex/skills": true,
-    "**/.copilot/copilot-instructions.md": true,
-    "**/*.code-search": true,
-    "**/bower_components": true,
-    "**/node_modules": true
+    "**/.config/opencode/AGENTS.md": true,
+    "**/.pi/agent/AGENTS.md": true
   },
   "shellcheck.ignorePatterns": {
     ".config/defaults/config.sh": true,

@@ -14,6 +14,11 @@ Never shrink context at the expense of a hard behavior.
 
 Human-facing docs (README, CONTRIBUTING, CHANGELOG, `docs/`) belong to `sync-docs`: read one only to spot misplaced agent rules, never edit it.
 
+## Supported tools
+
+- This skill fully supports Claude Code, Codex, Pi, and OpenCode. Their loader facts are in [tool-loaders.md](references/tool-loaders.md).
+- For any other agentic tool the repository configures, discover its loader from that configuration and the tool's docs, then apply the same checks.
+
 ## Arguments
 
 - With a scope path or area, lead there, then run a light whole-surface pass so global routing and contradictions stay visible.
@@ -46,19 +51,19 @@ Never infer loader behavior from filenames; inspect the configuration that makes
 
 Use `rg --files`, `find`, `readlink`, and Git status or ignore checks. Inventory at least:
 
-- entrypoints: every root and nested `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Copilot instructions, Cursor rules, and commands;
-- trees: `.agents/`, `.claude/`, `.codex/`, `.copilot/`, `.cursor/`, and `.github/`;
-- assets: rules, skills, hooks, output styles, agents, specs, plans, tasks, and artifacts;
-- MCP configuration and settings that control instruction or skill discovery;
-- symlinks, includes, lockfiles, ignored files, and generated mirrors;
-- tool-written memory loaded at startup, such as Claude auto memory (`~/.claude/projects/<project>/memory/MEMORY.md`);
-- for memory, the loaded index, stale entries, and learnings worth promoting into the tracked stack.
+- Entrypoints: every root and nested `AGENTS.md` and `CLAUDE.md`, `.claude/rules/`, `APPEND_SYSTEM.md`, `instructions` in `opencode.json`, and commands.
+- Trees: `.agents/`, `.claude/`, `.codex/`, `.opencode/`, `.pi/`, and the tree of any other configured tool.
+- Assets: rules, skills, hooks, output styles, agents, specs, plans, tasks, and artifacts.
+- MCP configuration and settings that control instruction or skill discovery.
+- Symlinks, includes, lockfiles, ignored files, and generated mirrors.
+- Tool-written memory loaded at startup, such as Claude auto memory (`~/.claude/projects/<project>/memory/MEMORY.md`).
+- For memory, the loaded index, stale entries, and learnings worth promoting into the tracked stack.
 
 Record for each item its role, owner, loader, scope, physical target, tracked or ignored state, and any duplicate.
 
 ### Build a loader graph
 
-Per configured agent or editor, map:
+Per configured tool, map with [tool-loaders.md](references/tool-loaders.md):
 
 1. startup and always-on files;
 2. conditionally loaded files and their path or intent trigger;
@@ -165,6 +170,7 @@ When the result is commit-worthy, follow the repository's handoff and offer a Co
 ## Bundled resources
 
 - [agentic-architecture.md](references/agentic-architecture.md): rubric.
+- [tool-loaders.md](references/tool-loaders.md): loaders.
 - [project-scaffold.md](references/project-scaffold.md): bootstrap.
 - [context-budgets.md](references/context-budgets.md): envelopes.
 - [behavioral-baits.md](references/behavioral-baits.md): regressions.

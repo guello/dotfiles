@@ -1,11 +1,7 @@
 #!/bin/sh
 #
 # PostToolUse (Edit|Write|MultiEdit): run the repository formatters on the
-# edited files, only when the repository has a  matching config (oxfmt ->
-# .oxfmtrc.json, rubocop -> .rubocop.yml, shfmt -> .editorconfig).
-# shfmt covers sh and bash only and `--apply-ignore` follows the .editorconfig
-# ignore sections.
-# Fails open: missing jq, file, git root, config, or binary is a no-op.
+# edited files.
 
 set -u
 
@@ -15,7 +11,7 @@ case ":$PATH:" in
 esac
 
 input="$(cat)"
-fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // .tool_input.path // empty' 2>/dev/null)"
+fp="$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty' 2>/dev/null)"
 [ -f "$fp" ] || exit 0
 
 root="$(git -C "$(dirname "$fp")" rev-parse --show-toplevel 2>/dev/null)"
