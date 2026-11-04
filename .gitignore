@@ -29,8 +29,8 @@
 !/.config/ghostty/
 !/.config/git/
 /.config/git/allowed_signers
+!/.config/commitlint/
 !/.config/defaults/
-!/.config/rubocop/
 !/.config/glab-cli/
 /.config/glab-cli/*
 !/.config/glab-cli/aliases.yml
@@ -47,6 +47,7 @@
 !/.config/opencode/cli.json
 !/.config/opencode/opencode.json
 !/.config/opencode/tui.json
+!/.config/rubocop/
 !/.config/vim/
 !/.config/zed/
 /.config/zed/*

@@ -1,0 +1,39 @@
+{
+  "agents": [
+    "claude",
+    "codex",
+    "opencode",
+    "pi"
+  ],
+  "brew": [
+    "cask",
+    "mas"
+  ],
+  "chore": [
+    "git"
+  ],
+  "gui": [
+    "ghostty",
+    "vscode",
+    "zed"
+  ],
+  "macos": [
+    "defaults",
+    "launchd"
+  ],
+  "node": [
+    "npm"
+  ],
+  "python": [],
+  "ruby": [],
+  "shell": [],
+  "tui": [
+    "vim",
+    "nvim",
+    "lazygit"
+  ],
+  "zsh": [
+    "plugin",
+    "theme"
+  ]
+}
