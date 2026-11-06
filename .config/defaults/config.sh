@@ -84,7 +84,7 @@ defaults write com.apple.finder ShowSidebar -bool true
 defaults write com.apple.finder ShowPreviewPane -bool false
 defaults write com.apple.finder ShowRecentTags -bool false
 defaults write com.apple.finder QuitMenuItem -bool true
-defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
+defaults write com.apple.finder FXPreferredViewStyle -string clmv
 defaults write com.apple.finder FXPreferredSearchViewStyle -string Nlsv
 defaults write com.apple.finder FXDefaultSearchScope -string SCsp
 defaults write com.apple.finder FXArrangeGroupViewBy -string Name
