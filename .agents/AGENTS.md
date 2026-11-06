@@ -19,6 +19,7 @@ Global guidance. User requests override repository rules, which override this fi
 - Never write em or en dashes into committed files.
 - Name plans by topic: `.agents/plans/<topic>.md`, or `.agents/plans/<topic>/` if multi-file. Rename a generated name such as `parsed-noodling-moon.md`.
 - For repository Git hooks, use plain scripts in `.githooks/` with `core.hooksPath` set by `prepare`. Use lefthook only when the pre-commit takes more than 5s or a hook is better run only on changed paths.
+- Set each `$schema` to the schema file in `node_modules` to match the installed version. Use a URL only when no installed package has one.
 - Avoid new commits: fold each fix into the commit it changes, so a PR holds only its essential commits, unless the repository merges by squash (see `verification.md`).
 - Never add co-author credit, `Generated with` markers, session links or trailers.
 
