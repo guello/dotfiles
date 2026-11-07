@@ -7,6 +7,7 @@
     "github.github-vscode-theme",
     "oxc.oxc-vscode",
     "timonwong.shellcheck",
-    "mkhl.shfmt"
+    "mkhl.shfmt",
+    "antfu.x18n"
   ]
 }
