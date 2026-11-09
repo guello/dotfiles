@@ -3,6 +3,8 @@ import { join } from 'node:path'
 import type { ExtensionAPI, ExtensionContext } from '@earendil-works/pi-coding-agent'
 import { spawn } from 'node:child_process'
 
+const KEBAB_CASE = /^[a-z0-9]+(-[a-z0-9]+)*$/
+
 function runHook(hook: string, input: string, cwd: string, signal: AbortSignal) {
   return new Promise<string>((resolve, reject) => {
     if (signal.aborted) {
@@ -63,7 +65,12 @@ export default function (pi: ExtensionAPI, generate = runHook) {
       const originalName = pi.getSessionName()
       const result = await generate(
         join(homedir(), '.agents/hooks/autoname-session.sh'),
-        JSON.stringify({ session_id: `pi-${sessionId}`, prompt: prompt.slice(0, 1000) }),
+        JSON.stringify({
+          session_id: `pi-${sessionId}`,
+          session_title: originalName ?? '',
+          transcript_path: ctx.sessionManager.getSessionFile() ?? '',
+          prompt: prompt.slice(0, 1000),
+        }),
         ctx.cwd,
         signal
       )
@@ -73,7 +80,7 @@ export default function (pi: ExtensionAPI, generate = runHook) {
       const hook = output.hookSpecificOutput
       if (!hook || typeof hook !== 'object' || !('sessionTitle' in hook)) return
       const name = hook.sessionTitle
-      if (typeof name !== 'string' || !/^[a-z0-9]{1,20}(-[a-z0-9]{1,20}){1,3}$/.test(name)) return
+      if (typeof name !== 'string' || name.length > 120 || !KEBAB_CASE.test(name)) return
       if (ctx.sessionManager.getSessionId() !== sessionId || pi.getSessionName() !== originalName)
         return
       pi.setSessionName(name)
@@ -85,7 +92,9 @@ export default function (pi: ExtensionAPI, generate = runHook) {
   }
 
   pi.on('before_agent_start', (event, ctx) => {
-    if (event.messageType !== 'user' || pending || pi.getSessionName()) return
+    if (event.messageType !== 'user' || pending) return
+    const current = pi.getSessionName()
+    if (current && !KEBAB_CASE.test(current)) return
     const prompt = event.prompt.trim()
     if (!prompt || /^[/!#]/.test(prompt)) return
     controller = new AbortController()

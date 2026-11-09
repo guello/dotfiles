@@ -1,29 +1,24 @@
 #!/bin/sh
 #
-# UserPromptSubmit: keep the session title a kebab-case slug, the way /rename
-# does with no argument. Claude Code auto-names sessions on its own, and a title
-# assigned in fleet view is free-form, so this returns
-# hookSpecificOutput.sessionTitle on any prompt whose title is missing or not
-# kebab-case, not only the first. Host-neutral by capability: Codex is skipped
-# because its user-prompt-submit output schema sets additionalProperties false,
-# making a title key a parse error rather than a no-op, and its required turn_id
-# field is the probe. Generation is a nested headless call in safe mode, which
-# disables hooks and cannot recurse, run from a scratch cwd so it leaves no
-# transcript in the real project. A reply longer than four words is trimmed to
-# its first four. Skips Claude Code children of pi (PI_CODING_AGENT), unless
-# called with --pi by pi's session-naming extension. Fails open: a missing
-# dependency, a kebab-case title, a title
-# typed with /rename, a command-style prompt (slash, bash, or memorize), or a
-# reply that is not a 2-4 word kebab slug is a no-op.
+# UserPromptSubmit hook for Claude Code, and for pi through its autoname-session
+# extension: give each session a unique 2-4 word kebab-case slug. When the title
+# is missing or not kebab-case, a nested `claude -p` in safe mode, run from a
+# scratch cwd so it leaves no transcript, writes the slug from the prompt.
 #
-# The host sends the session's custom title only, never the auto-generated one:
-# the payload field is built from the custom-title store, which stays empty for
-# the whole session while an auto-generated name is displayed. A title this hook
-# never manages to set therefore looks identical to no title at all, so the only
-# way to notice a failed attempt is to try again on the next prompt. Generation
-# runs under its own timeout, shorter than the hook timeout in settings.json, so
-# a slow call is retried on the next prompt instead of being killed with its
-# lock still held.
+# Usage: autoname-session.sh [--pi] < payload.json
+#
+# Slugs are unique per machine across Claude Code and pi, and never reused.
+# $XDG_STATE_HOME/autoname-session/index.tsv (title, session, harness, date,
+# transcript) records every slug that a session holds. A slug that another
+# session holds, as after a fork or a /rename, gets the smallest free suffix from
+# 2, for example fix-login-bug-2.
+#
+# Skipped: Codex payloads (turn_id, its schema rejects a title), Claude Code
+# children of pi without --pi, free-form titles typed with /rename (found by
+# their "Session renamed to:" transcript record), and prompts that start with /,
+# !, or #. The host sends only custom titles, so a failed attempt is retried on
+# the next prompt, at most 5 times per title. Every failure exits 0 with no
+# output.
 
 set -u
 
@@ -43,61 +38,116 @@ case ":$PATH:" in
   *) PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" ;;
 esac
 
+lower='abcdefghijklmnopqrstuvwxyz'
+upper='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+digits='0123456789'
+tab='	'
+state="${XDG_STATE_HOME:-$HOME/.local/state}/autoname-session"
+index="$state/index.tsv"
+index_lock="$state/index.lock"
+
+is_kebab() {
+  case "$1" in
+    '' | -* | *- | *--* | *[!"$lower$digits"-]*) return 1 ;;
+  esac
+}
+
 command -v jq >/dev/null 2>&1 || exit 0
-command -v claude >/dev/null 2>&1 || exit 0
-[ -n "${PI_CODING_AGENT:-}" ] && [ "${1:-}" != '--pi' ] && exit 0
+[ -n "${PI_CODING_AGENT:-}" ] && [ "${1:-}" != --pi ] && exit 0
+harness=claude
+[ "${1:-}" = --pi ] && harness=pi
 
-input="$(cat)"
-printf '%s' "$input" | jq -e 'has("turn_id")' >/dev/null 2>&1 && exit 0
+fields="$(jq -r 'def text: . // "" | tostring;
+  @sh "codex=\(has("turn_id")) session=\(.session_id | text) title=\(.session_title | text)",
+  @sh "transcript=\(.transcript_path | text) row_transcript=\(.transcript_path | text | gsub("[\t\n]"; " "))",
+  @sh "prompt=\(.prompt // .user_input | text | .[:1000])"' 2>/dev/null)" || exit 0
+eval "$fields"
+[ "${codex:-}" = false ] || exit 0
+case "$session" in
+  '' | *[!"$lower$upper$digits"-]*) exit 0 ;;
+esac
 
-# Any kebab title is left alone, including slugs longer than this hook generates,
-# so a deliberate name is only overwritten when it is not kebab-case. An empty
-# title means no custom title has been set, whether or not the host is displaying
-# an auto-generated one in its place.
-title="$(printf '%s' "$input" | jq -r '.session_title // empty' 2>/dev/null)"
-printf '%s' "$title" | grep -Eq '^[a-z0-9]+(-[a-z0-9]+)*$' && exit 0
+holds_title() {
+  [ -r "$index" ] && awk -F '\t' -v t="$1" -v s="$session" \
+    'NR > 1 && $1 == t && $2 == s { found = 1; exit } END { exit !found }' "$index"
+}
 
-# A title the user typed with /rename stays: that command records "Session
-# renamed to: <title>" in the transcript, while a name assigned in fleet view or
-# by the app writes only a custom-title record. Matching the last such record
-# keeps a later external rename eligible.
-transcript="$(printf '%s' "$input" | jq -r '.transcript_path // empty' 2>/dev/null)"
+unlock() {
+  trap - EXIT HUP INT TERM
+  rmdir "$index_lock" 2>/dev/null
+}
+
+claim_title() {
+  mkdir -p "$state" 2>/dev/null || return 1
+  tries=0
+  until mkdir "$index_lock" 2>/dev/null; do
+    mtime="$(stat -f %m "$index_lock" 2>/dev/null)"
+    case "$mtime" in
+      '' | *[!"$digits"]*) ;;
+      *) [ "$(($(date +%s) - mtime))" -gt 10 ] && rmdir "$index_lock" 2>/dev/null && continue ;;
+    esac
+    tries=$((tries + 1))
+    [ "$tries" -ge 20 ] && return 1
+    sleep 0.1
+  done
+  trap 'rmdir "$index_lock" 2>/dev/null' EXIT
+  trap 'rmdir "$index_lock" 2>/dev/null; exit 1' HUP INT TERM
+  pick="$1${tab}0"
+  if [ -e "$index" ]; then
+    pick="$(awk -F '\t' -v t="$1" -v s="$session" '
+      NR > 1 { taken[$1] = 1; if ($2 == s) held[$1] = 1 }
+      END {
+        c = t
+        for (n = 2; (c in taken) && !(c in held); n++) c = t "-" n
+        print c "\t" ((c in held) ? 1 : 0)
+      }' "$index")"
+  fi
+  claimed="${pick%%"$tab"*}"
+  if ! is_kebab "$claimed"; then
+    unlock
+    return 1
+  fi
+  if [ "${pick#*"$tab"}" != 1 ] && ! {
+    { [ -e "$index" ] || printf 'title\tsession\tharness\tdate\ttranscript\n' >"$index"; } &&
+      printf '%s\t%s\t%s\t%s\t%s\n' "$claimed" "$session" "$harness" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+        "$row_transcript" >>"$index"
+  } 2>/dev/null; then
+    unlock
+    return 1
+  fi
+  unlock
+  printf '%s' "$claimed"
+}
+
+emit() {
+  printf '{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","sessionTitle":"%s"}}\n' "$1"
+}
+
+if is_kebab "$title"; then
+  holds_title "$title" && exit 0
+  claimed="$(claim_title "$title")" || exit 0
+  [ "$claimed" = "$title" ] || emit "$claimed"
+  exit 0
+fi
+
 if [ -n "$transcript" ] && [ -r "$transcript" ]; then
   stdout_prefix='<local-command-stdout>Session renamed to: '
   renamed="$(grep -o "${stdout_prefix}[^<\"]*" "$transcript" 2>/dev/null | tail -n 1)"
   renamed="${renamed#"$stdout_prefix"}"
   if [ -n "$renamed" ]; then
     [ "$renamed" = "$title" ] && exit 0
-    # A name collision suffixes the message with the requested name in parentheses.
     [ "${renamed% (*}" = "$title" ] && exit 0
   fi
 fi
 
-# The installed CLI sends .prompt while current docs name the field .user_input;
-# reading both survives the rename without silently disabling the hook.
-prompt="$(printf '%s' "$input" | jq -r '.prompt // .user_input // empty' 2>/dev/null | head -c 1000)"
 case "$prompt" in
   '' | [/!#]*) exit 0 ;;
 esac
+command -v claude >/dev/null 2>&1 || exit 0
 
-session="$(printf '%s' "$input" | jq -r '.session_id // empty' 2>/dev/null)"
-case "$session" in
-  '' | *[!a-zA-Z0-9-]*) exit 0 ;;
-esac
-
-# Attempts are keyed by title so a later rename in fleet view starts a fresh
-# budget, and bounded so a host that keeps discarding the returned title, or a
-# generator that keeps failing, costs a handful of calls rather than one per
-# prompt for the rest of the session. They are counted rather than claimed once:
-# a claim taken before the outcome was known left a session that failed once
-# stuck with its auto-generated name for good.
-marker="${TMPDIR:-/tmp}/agent-session-name"
+marker="${TMPDIR:-/tmp}/autoname-session"
 claim="$marker/$session/$(printf '%s' "$title" | cksum | tr -cd '0-9')"
 mkdir -p "$claim" 2>/dev/null || exit 0
-
-# mkdir is the atomic in-flight guard: a racing prompt under the same title loses
-# and exits. The lock is released on every exit path, including the hook timeout,
-# so a killed attempt costs one attempt rather than the whole budget.
 lock="$claim/.lock"
 mkdir "$lock" 2>/dev/null || exit 0
 trap 'rmdir "$lock" 2>/dev/null' EXIT HUP INT TERM
@@ -122,11 +172,24 @@ name="$(
   printf '%s\n\n<request>\n%s\n</request>\n' "$SESSION_NAME_PROMPT" "$prompt" |
     (cd "$scratch" && CLAUDE_CODE_SAFE_MODE=1 CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 \
       "$@" -p --model "$SESSION_NAME_MODEL" --output-format text 2>/dev/null) |
-    awk 'NF {print; exit}' | tr '[:upper:]' '[:lower:]' |
-    sed 's/^[^a-z0-9]*//; s/[^a-z0-9]*$//' | cut -d- -f1-4
+    awk 'NF {
+      s = tolower($0)
+      sub(/^[^a-z0-9]+/, "", s)
+      sub(/[^a-z0-9]+$/, "", s)
+      n = split(s, w, "-")
+      if (n > 4) n = 4
+      if (n < 2) exit
+      for (i = 1; i <= n; i++) if (length(w[i]) > 20 || w[i] !~ /^[a-z0-9]+$/) exit
+      out = w[1]
+      for (i = 2; i <= n; i++) out = out "-" w[i]
+      print out
+      exit
+    }'
 )"
+[ -n "$name" ] || exit 0
 
-printf '%s' "$name" | grep -Eq '^[a-z0-9]{1,20}(-[a-z0-9]{1,20}){1,3}$' || exit 0
-
-jq -n --arg t "$name" \
-  '{hookSpecificOutput: {hookEventName: "UserPromptSubmit", sessionTitle: $t}}'
+if ! name="$(claim_title "$name")"; then
+  rm -f "$claim/attempt-$((attempts + 1))"
+  exit 0
+fi
+emit "$name"

@@ -53,22 +53,23 @@ Global guidance. User requests override repository rules, which override this fi
 
 Before the task, read the file of each row that applies, unless it is already in context. Paths are relative to `~/.agents/`.
 
-| Work                                                                    | Read                                                  |
-| ----------------------------------------------------------------------- | ----------------------------------------------------- |
-| Code, file changes, reviews, commands, delegation                       | `references/verification.md`                          |
-| Work to commit                                                          | `references/commit-handoff.md`, then render its block |
-| Shell                                                                   | `rules/shell.md`                                      |
-| TypeScript                                                              | `rules/typescript.md`                                 |
-| Node.js server                                                          | `rules/node.md`                                       |
-| React or Next.js                                                        | `rules/react.md`                                      |
-| UI or animation                                                         | `rules/design.md`, `rules/motion.md` for animation    |
-| Browser work or UI verification                                         | `rules/browser.md`                                    |
-| Prose, commit messages, and technical text                              | `rules/writing.md`                                    |
-| GitHub issues, pull requests, or projects                               | `rules/github.md`                                     |
-| `$HOME` dotfiles                                                        | `rules/dotfiles/repository.md`                        |
-| `$HOME` agent configuration, loader routes, skills, and hooks           | `rules/dotfiles/agent-config.md`                      |
-| `$HOME` shell startup, Git, packages, VS Code extensions, machine setup | `rules/dotfiles/setup.md`                             |
-| `$HOME` launch agents and their loading                                 | `rules/dotfiles/launchd.md`                           |
-| Bugs, regressions, failing tests                                        | `/find-root-cause`                                    |
-| Agent instructions or skills                                            | `/sync-agents`                                        |
-| Library or API questions                                                | `context7` MCP, one concept per query                 |
+| Work                                                          | Read                                                  |
+| ------------------------------------------------------------- | ----------------------------------------------------- |
+| Code, file changes, reviews, commands, delegation             | `references/verification.md`                          |
+| Work to commit                                                | `references/commit-handoff.md`, then render its block |
+| Past sessions named by id or slug                             | `references/session-references.md`                    |
+| Shell                                                         | `rules/shell.md`                                      |
+| TypeScript                                                    | `rules/typescript.md`                                 |
+| Node.js server                                                | `rules/node.md`                                       |
+| React or Next.js                                              | `rules/react.md`                                      |
+| UI or animation                                               | `rules/design.md`, `rules/motion.md` for animation    |
+| Browser work or UI verification                               | `rules/browser.md`                                    |
+| Prose, commit messages, and technical text                    | `rules/writing.md`                                    |
+| GitHub issues, pull requests, or projects                     | `rules/github.md`                                     |
+| `$HOME` dotfiles                                              | `rules/dotfiles/repository.md`                        |
+| `$HOME` agent configuration, loader routes, skills, and hooks | `rules/dotfiles/agent-config.md`                      |
+| `$HOME` shell startup, Git, packages, machine setup           | `rules/dotfiles/setup.md`                             |
+| `$HOME` launch agents                                         | `rules/dotfiles/launchd.md`                           |
+| Bugs, regressions, failing tests                              | `/find-root-cause`                                    |
+| Write agent instructions or skills                            | `/sync-agents`                                        |
+| Library or API questions                                      | `context7` MCP, one concept per query                 |
