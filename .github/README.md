@@ -78,14 +78,17 @@ The script does the following:
 
 ### SSH
 
-If not already present, generate a new SSH key and copy it to the clipboard:
+Each device has its own SSH key. Generate one with a passphrase, store the passphrase in the Keychain, and copy the public key:
 
 ```sh
 ssh-keygen -t ed25519 -C "<comment>"
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 tr -d '\n' < ~/.ssh/id_ed25519.pub | pbcopy
 ```
 
-Add the key to [GitHub](https://github.com/settings/ssh/new), [GitLab](https://gitlab.com/-/profile/keys) and any other services you use.
+Add the key as both an authentication and signing key to [GitHub](https://github.com/settings/ssh/new), [GitLab](https://gitlab.com/-/profile/keys), and any other Git service in use. Then, add the key to `~/.config/git/allowed_signers` and set it as `user.signingkey` in `~/.gitconfig`.
+
+The [`ssh-add`](/.config/launchd/ssh-add.plist) launch agent loads the key from the Keychain at login, so commits can be signed before the first SSH connection.
 
 ### Homebrew
 

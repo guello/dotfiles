@@ -34,6 +34,7 @@ Choose the type from the changed path, and add the scope of the tool when one fi
 
 - `zsh(plugin|theme)` covers Zsh startup, aliases, plugins, and prompt themes.
 - `shell` covers shell files that are not specific to Zsh, such as `.profile`, Bash files, and the shellcheck config.
+- `shell(ssh)` covers `.ssh/config` and the `ssh-add` launch agent that loads the SSH key.
 - A commit that changes only a Zsh integration, such as the `defaults` plugin, uses `zsh(plugin)`.
 - `macos(defaults|launchd)` covers system preference files and all `.config/launchd` plists.
 - `chore(git)` covers Git config and hooks, and Git host CLIs.

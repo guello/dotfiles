@@ -38,6 +38,8 @@ These rules apply only when `$HOME` is the active repository.
 - `core.hooksPath` is set only here through the `includeIf "gitdir:~/.git"` block in `.config/git/config`, which loads `.config/git/config-dotfiles`.
 - Never introduce Husky, an unscoped `core.hooksPath`, or `init.templateDir`.
 - Shared Git settings live in the tracked `.config/git/config`; the ignored `~/.gitconfig` wins later and owns identity, signing key, and editor.
+- Each device signs commits with its own SSH key. The `ssh-add` launch agent loads the key from the Keychain at login.
+- `.ssh/config` specifies `AddKeysToAgent`, `UseKeychain`, and includes Rex's SSH config.
 - Never track an email, key, or machine path.
 
 ## Package ownership
