@@ -1,8 +1,8 @@
 ![](banner.png)
 
-Portable, version-controlled macOS setup including advanced tooling for Zsh, Homebrew, SSH, Node.js, AI agents, and more.
+Portable, version-controlled macOS setup including tools for Zsh, Homebrew, SSH, Node.js, AI agents, and more.
 
-> [!WARNING]
+> [!IMPORTANT]
 > This is a highly opinionated setup. Every default reflects my personal preference, not what I would recommend to anyone else.
 >
 > Before using the following files, fork this repository, review its content, and remove or change things you don't want or need. **Don't blindly use my settings** unless you know what you are doing. Use at your own risk.
@@ -11,19 +11,15 @@ Portable, version-controlled macOS setup including advanced tooling for Zsh, Hom
 
 #### Version-controlled home directory
 
-The home directory is version-controlled. The [`.gitignore`](/.gitignore) acts as an allowlist, so files are tracked only once opted-in and nothing leaks by accident. Git hooks run natively with no extra tooling.
+The whole home directory is version-controlled. [`.gitignore`](/.gitignore) acts as an allowlist and files are tracked only when opted-in.
 
-#### Single script to install everywhere
+#### Single Brewfile to manage machine dependencies
 
-[`.install.sh`](/.install.sh) clones the repo, copies every managed file into the home, and sets up Homebrew, runtimes, packages, and all other managed tools. It confirms before overwriting and backs up whatever it replaces.
-
-#### Synced Brewfile to manage all dependencies
-
-[`Brewfile`](/.homebrew/Brewfile) pins formulae, casks, and App Store apps. The wrapped `brew` command keeps everything synchronized, and `brew fresh` updates, upgrades, cleans, dumps, and runs health checks in one go.
+[`Brewfile`](/.homebrew/Brewfile) pins formulae, casks, and App Store apps. The extended `brew` command keeps everything automatically synchronized, and `brew fresh` updates, upgrades, cleans, dumps, and runs health checks in one go.
 
 #### Fast and powerful shell configuration
 
-Oh My Zsh runs with local plugins and themes under [`.zsh`](/.zsh). Plugins extend the shell with profile management, runtime version switching and installation, completions, and more. The custom themes display active runtime and package manager versions and indicators for available upgrades.
+Oh My Zsh runs with local plugins and themes under [`.zsh`](/.zsh). Plugins extend the shell with profile management, runtime version switching, completions, and more. The custom themes display active runtimes, package manager versions, and indicators for available upgrades.
 
 #### Managed runtimes and dependencies
 
@@ -236,13 +232,12 @@ The tracked [`Library/KeyBindings/DefaultKeyBinding.dict`](/Library/KeyBindings/
 
 ### iCloud synchronization
 
-Use the following snippet to point the system `Downloads`, `Movies`, `Music`, and `Pictures` folders to iCloud Drive and sync their contents across devices. Photos, Music, and TV libraries are moved next to their app data under `~/Library` instead, because those apps do not support a library stored in iCloud Drive.
-
-> [!WARNING]
-> The following operations permanently replace system folders with symbolic links to iCloud Drive. Make sure to back up your data before proceeding.
+Use the following snippet to point the system `Downloads`, `Movies`, `Music`, and `Pictures` folders to iCloud Drive and sync their contents across devices. The Photos, Music, TV, and iMovie libraries must be moved to `~/Library` to stay out of iCloud Drive.
 
 > [!IMPORTANT]
-> Removing a standard folder is restricted by TCC, so the terminal running the snippet needs Full Disk Access under System Settings > Privacy & Security. Without it `rmdir` fails with `Operation not permitted` even after `chmod -N`, leaving the folder empty and the symbolic link uncreated.
+> The following operations permanently replace system folders with symbolic links to iCloud Drive. Make sure to back up your data before proceeding.
+>
+> Removing a standard folder is restricted by TCC. The client running the snippet needs Full Disk Access under `System Settings > Privacy & Security`.
 
 ```sh
 typeset -A app_libraries=(
@@ -260,13 +255,12 @@ for folder in Downloads Movies Music Pictures; do
       target=$cloud_folder
       case $entry in
         (*.photoslibrary|*.musiclibrary|*.tvlibrary|*/Photo\ Booth\ Library|*/Media.localized|*/TV|*/Automatically\ Add\ to\ *|*/.Media\ Preferences.plist) target=${library_folder:-$cloud_folder} ;;
+        (*.imovielibrary) target=${library_folder:-$cloud_folder}/iMovie ;;
       esac
-      mv "$entry" $target/
+      mkdir -p $target && mv "$entry" $target/
     done
     chmod -N ~/$folder && rmdir ~/$folder
   fi
   ln -sfn ${cloud_folder#$HOME/} ~/$folder
 done
 ```
-
-The standard folders carry an `everyone deny delete` ACL, so `chmod -N` has to strip it before `rmdir` can succeed. Skipping that step leaves the folder in place and makes `ln` create a nested link inside it. After the move, open Photos, Music, and TV while holding Option to pick the relocated library in `~/Library`, and set the Photos one as the system photo library under Settings > General. On a machine with no libraries yet, hold Option on first launch and create them under `~/Library` too, otherwise each app writes a new library into iCloud Drive through the symbolic link.
