@@ -1,12 +1,12 @@
 {
   "dependencies": {
     "@commitlint/cli": "21.2.4",
-    "cf": "1.0.0-beta.25",
+    "cf": "1.0.0-beta.28",
     "corepack": "0.36.0",
-    "npm": "12.2.1",
-    "oxfmt": "0.75.0",
-    "portless": "0.15.12",
+    "npm": "12.2.2",
+    "oxfmt": "0.77.0",
+    "portless": "0.16.0",
     "typescript": "7.0.2",
-    "typescript-language-server": "6.0.2"
+    "typescript-language-server": "6.0.3"
   }
 }
