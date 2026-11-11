@@ -141,6 +141,16 @@
     "when": "activeEditorIsPinned"
   },
   {
+    "key": "cmd+k v",
+    "command": "-markdown.showPreviewToSide",
+    "when": "editorFocus && !notebookEditorFocused && editorLangId =~ /^(markdown|prompt|instructions|chatagent|skill)$/"
+  },
+  {
+    "key": "cmd+k v",
+    "command": "-markdown.extension.closePreview",
+    "when": "activeWebviewPanelId == 'markdown.preview'"
+  },
+  {
     "key": "cmd+n",
     "command": "-workbench.action.openChat",
     "when": "chatIsEnabled && inChat && inChatEditor"
@@ -233,6 +243,10 @@
     "when": "editorTextFocus"
   },
   {
+    "key": "ctrl+shift+cmd+m",
+    "command": "markdown.showLockedPreviewToSide"
+  },
+  {
     "key": "ctrl+shift+cmd+right",
     "command": "-editor.action.smartSelect.expand",
     "when": "editorTextFocus"
@@ -283,7 +297,13 @@
   },
   {
     "key": "ctrl+shift+m",
-    "command": "markdown.showLockedPreviewToSide"
+    "command": "markdown.showPreviewToSide",
+    "when": "editorFocus && !notebookEditorFocused && editorLangId =~ /^(markdown|prompt|instructions|chatagent|skill)$/"
+  },
+  {
+    "key": "ctrl+shift+m",
+    "command": "markdown.extension.closePreview",
+    "when": "activeWebviewPanelId == 'markdown.preview'"
   },
   {
     "key": "ctrl+shift+right",
