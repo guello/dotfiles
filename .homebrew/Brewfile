@@ -84,4 +84,5 @@ cask "transmission"
 cask "visual-studio-code"
 # Native desktop client for WhatsApp
 cask "whatsapp"
+mas "iMovie", id: 408981434
 mas "Toggl Track", id: 1291898086
