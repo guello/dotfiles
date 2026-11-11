@@ -84,7 +84,7 @@ defaults write com.apple.finder ShowSidebar -bool true
 defaults write com.apple.finder ShowPreviewPane -bool false
 defaults write com.apple.finder ShowRecentTags -bool false
 defaults write com.apple.finder QuitMenuItem -bool true
-defaults write com.apple.finder FXPreferredViewStyle -string clmv
+defaults write com.apple.finder FXPreferredViewStyle -string icnv
 defaults write com.apple.finder FXPreferredSearchViewStyle -string Nlsv
 defaults write com.apple.finder FXDefaultSearchScope -string SCsp
 defaults write com.apple.finder FXArrangeGroupViewBy -string Name
@@ -103,7 +103,7 @@ defaults write com.apple.screencapture location-screenshot -string "$HOME/Librar
 defaults write com.apple.screencapture location-screenrecording -string "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Downloads"
 defaults write com.apple.screencapture type -string png
 defaults write com.apple.screencapture target -string file
-defaults write com.apple.screencapture style -string window
+defaults write com.apple.screencapture style -string display
 defaults write com.apple.screencapture show-thumbnail -bool true
 defaults write com.apple.screencapture showsClicks -bool true
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
