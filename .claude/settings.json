@@ -48,7 +48,6 @@
   "model": "opus",
   "fallbackModel": ["sonnet"],
   "enabledMcpjsonServers": ["cloudflare"],
-  "disableClaudeAiConnectors": true,
   "skillOverrides": {
     "dataviz": "name-only",
     "fewer-permission-prompts": "user-invocable-only",
@@ -61,6 +60,11 @@
     "simplify": "user-invocable-only",
     "workflow-authoring": "name-only"
   },
+  "deniedMcpServers": [
+    {
+      "serverUrl": "https://api.anthropic.com/v1/pages/mcp"
+    }
+  ],
   "hooks": {
     "SessionStart": [
       {
