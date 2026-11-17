@@ -7,13 +7,13 @@ local function groups(p)
   end
 
   return vim.tbl_extend("error", rainbow, {
-    StatusLine = { fg = p.text, bg = p.canvas },
-    StatusLineNC = { fg = p.muted, bg = p.canvas },
-    TabLine = { fg = p.muted, bg = p.canvas },
-    TabLineFill = { bg = p.canvas },
+    StatusLine = { fg = p.text, bg = "NONE" },
+    StatusLineNC = { fg = p.muted, bg = "NONE" },
+    TabLine = { fg = p.muted, bg = "NONE" },
+    TabLineFill = { bg = "NONE" },
     TabLineSel = { fg = p.text, bg = p.tab_accent },
-    WinBar = { fg = p.muted, bg = p.canvas },
-    WinBarNC = { fg = p.muted, bg = p.canvas },
+    WinBar = { fg = p.muted, bg = "NONE" },
+    WinBarNC = { fg = p.muted, bg = "NONE" },
     WinSeparator = { fg = p.border },
     NormalFloat = { fg = p.text, bg = p.widget },
     FloatBorder = { fg = p.border, bg = p.widget },
@@ -56,7 +56,7 @@ local function groups(p)
     SnacksIndent = { fg = p.indent_guide },
     SnacksIndentScope = { fg = p.indent_active },
     SnacksIndentChunk = { fg = p.indent_active },
-    SnacksPickerList = { fg = p.text, bg = p.canvas },
+    SnacksPickerList = { fg = p.text, bg = "NONE" },
     SnacksPickerBorder = { fg = p.border },
     SnacksPickerTitle = { fg = p.text },
     SnacksPickerListCursorLine = { bg = p.list_active },
@@ -92,7 +92,8 @@ return {
     main = "github-theme",
     opts = {
       options = {
-        terminal_colors = false, -- `:terminal` keeps Ghostty's palette
+        transparent = true,
+        terminal_colors = false,
         darken = { floats = false, sidebars = { enable = false } },
       },
       palettes = {

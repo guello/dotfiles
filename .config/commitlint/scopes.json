@@ -8,6 +8,6 @@
   "python": [],
   "ruby": [],
   "shell": ["ssh"],
-  "tui": ["vim", "nvim", "lazygit"],
+  "tui": ["lazygit", "nvim", "vim"],
   "zsh": ["plugin", "theme"]
 }

@@ -12,6 +12,13 @@ local function blend(fg, alpha, bg)
   return string.format("#%02x%02x%02x", out[1], out[2], out[3])
 end
 
+local rex = vim.env.REX_SESSION ~= nil
+
+local canvas = {
+  light = rex and "#ffffff" or "#fafafa",
+  dark = rex and "#0d1117" or "#171b23",
+}
+
 local function resolve(theme)
   local palette = {}
   for key, value in pairs(theme) do
@@ -25,7 +32,7 @@ local function resolve(theme)
 end
 
 M.github_light = resolve({
-  canvas = "#fafafa",
+  canvas = canvas.light,
   text = "#1f2328",
   muted = "#656d76",
   line_number = "#8c959f",
@@ -70,7 +77,7 @@ M.github_light = resolve({
 })
 
 M.github_dark_default = resolve({
-  canvas = "#171b23",
+  canvas = canvas.dark,
   text = "#e6edf3",
   muted = "#7d8590",
   line_number = "#6e7681",
@@ -119,7 +126,7 @@ M.colorschemes = { light = "github_light", dark = "github_dark_default" }
 function M.lualine(name)
   local p = M[name]
   local function mode(bg)
-    return { a = { fg = p.status_fg, bg = bg }, b = { fg = p.text, bg = p.canvas }, c = { fg = p.muted, bg = p.canvas } }
+    return { a = { fg = p.status_fg, bg = bg }, b = { fg = p.text, bg = "NONE" }, c = { fg = p.muted, bg = "NONE" } }
   end
   return {
     normal = mode(p.status_bg),
@@ -129,9 +136,9 @@ function M.lualine(name)
     command = mode(p.attention),
     terminal = mode(p.accent),
     inactive = {
-      a = { fg = p.muted, bg = p.canvas },
-      b = { fg = p.muted, bg = p.canvas },
-      c = { fg = p.muted, bg = p.canvas },
+      a = { fg = p.muted, bg = "NONE" },
+      b = { fg = p.muted, bg = "NONE" },
+      c = { fg = p.muted, bg = "NONE" },
     },
   }
 end
