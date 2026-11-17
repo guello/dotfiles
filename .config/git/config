@@ -1,6 +1,6 @@
 [core]
   ignorecase = false
-	pager = less -FRSX
+	pager = delta
 [init]
   defaultBranch = main
 [includeIf "gitdir:~/.git"]
@@ -44,6 +44,11 @@
 [diff]
 	algorithm = histogram
 	colorMoved = dimmed-zebra
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  line-numbers = true
 [column]
 	ui = auto
 [color]

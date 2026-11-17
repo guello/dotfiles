@@ -10,9 +10,9 @@ gui:
 
 git:
   diffRenderers:
-    - name: delta (side by side)
-      command: delta --dark --paging=never --side-by-side --width={{columnWidth}}
     - name: delta
-      command: delta --dark --paging=never
+      command: delta --paging=never --width={{width}} {{if gt .width 160}}--side-by-side{{end}}
+    - name: delta (side by side)
+      command: delta --dark --paging=never --side-by-side --width={{width}}
     - type: rawGit
       name: git

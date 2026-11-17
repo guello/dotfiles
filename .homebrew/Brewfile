@@ -21,16 +21,20 @@ brew "coreutils"
 brew "gh"
 # Distributed revision control system
 brew "git"
+# Regular expressions library
+brew "oniguruma"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
 # Open-source GitLab command-line tool
 brew "glab"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
-# Regular expressions library
-brew "oniguruma"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Network authentication protocol
 brew "krb5"
+# Simple terminal UI for git commands
+brew "lazygit"
 # Mac App Store command-line interface
 brew "mas"
 # Deep clean and optimize your Mac
