@@ -1,0 +1,9 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "description": "Open the current session on claude.ai",
+  "author": {
+    "name": "Gabriele Canepa"
+  },
+  "license": "MIT"
+}
