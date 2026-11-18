@@ -19,6 +19,10 @@ Claude-only additions to the shared instructions.
 - When a worktree contains uncommitted changes, report them and keep the worktree.
 - Remove with `git worktree remove --force`, then run `git worktree prune`.
 
+## Memory
+
+- Keep each `MEMORY.md` entry to one line of about 100 characters, 150 at most.
+
 ## Artifacts
 
 - Before you create an artifact, list your artifacts to find one about the same or a related topic.
