@@ -58,6 +58,7 @@ Before the task, read the file of each row that applies, unless it is already in
 | Code, file changes, reviews, commands, delegation             | `references/verification.md`                          |
 | Work to commit                                                | `references/commit-handoff.md`, then render its block |
 | Past sessions named by id or slug                             | `references/session-references.md`                    |
+| Commands, installs, runtimes, or repository paths             | `rules/environment.md`                                |
 | Shell                                                         | `rules/shell.md`                                      |
 | TypeScript                                                    | `rules/typescript.md`                                 |
 | Node.js server                                                | `rules/node.md`                                       |
