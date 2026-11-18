@@ -155,10 +155,6 @@
     "command": "~/.claude/statusline.sh",
     "refreshInterval": 5
   },
-  "subagentStatusLine": {
-    "type": "command",
-    "command": "~/.claude/subagent-statusline.sh"
-  },
   "enabledPlugins": {
     "cowork-plugin-management@synced": false,
     "security-guidance@claude-plugins-official": true,

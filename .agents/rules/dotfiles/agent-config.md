@@ -53,8 +53,8 @@ Applies only in the `$HOME` repository.
 - Claude auto memory (`autoMemoryEnabled` in `.claude/settings.json`) writes machine-local notes under `~/.claude/projects/<project>/memory/`.
 - The first 200 lines or 25KB of each `MEMORY.md` load every session, outside the tracked stack.
 - Keep the memory directory untracked, and run `/compact-memory` for auto-memory reviews.
-- `.claude/statusline.sh` and `.claude/subagent-statusline.sh` are allowlisted executable entrypoints wired in `.claude/settings.json`.
-- Both read `$CLAUDE_STATUSLINE_CONFIG`, by default `.claude/statusline.json`. Update them and `statusline.schema.json` together.
+- `.claude/statusline.sh` is an executable entrypoint wired in `.claude/settings.json`.
+- The script reads `$CLAUDE_STATUSLINE_CONFIG`, by default `.claude/statusline.json`. Update it and `statusline.schema.json` together.
 - Keep statusline scripts Bash 3.2 compatible, expand possibly-empty arrays as `${arr[@]+"${arr[@]}"}`, and fail open per `../shell.md`.
 
 ## Instruction style and budgets
