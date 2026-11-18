@@ -48,9 +48,7 @@ End each unit of work with this sequence, skipping only lines that do not apply:
 2. Diff summary: one line per changed file as `path:line, resulting behavior`; describe behavior, not mechanics.
 3. Links: one compact block with the live preview URL, the PR or MR, the deploy preview (Vercel, Cloudflare, Netlify, or other), and CI status, when they exist.
 4. Desktop screenshots: when the change can affect rendered UI, send them here as the closing attachment of the update.
-5. Next step: a closed question offering the likely next actions (continue, adjust, ship, stop).
-
-- Deliver the closed question through the harness's prompt (AskUserQuestion in Claude Code); otherwise end with a short numbered list answerable with one word.
+5. Next step: a closed question offering the likely next actions (continue, adjust, ship, stop). Deliver the closed question through the harness's prompt (AskUserQuestion in Claude Code).
 
 ## Desktop screenshots
 
