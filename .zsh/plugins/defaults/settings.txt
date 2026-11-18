@@ -9,16 +9,12 @@
 -g AppleWindowTabbingMode -string
 -g NSQuitAlwaysKeepsWindows -bool
 -g NSCloseAlwaysConfirmsChanges -bool
-com.apple.WindowManager GloballyEnabled -bool
 com.apple.WindowManager EnableTiledWindowMargins -bool
 com.apple.WindowManager AppWindowGroupingBehavior -int
 com.apple.WindowManager StandardHideDesktopIcons -bool
 com.apple.WindowManager StandardHideWidgets -bool
 com.apple.WindowManager StageManagerHideWidgets -bool
 com.apple.WindowManager HideDesktop -bool
-com.apple.WindowManager AutoHide -bool
-com.apple.ActivityMonitor ShowCategory -int
-com.apple.ActivityMonitor SelectedTab -int
 com.apple.ActivityMonitor DisplayType -int
 com.apple.ActivityMonitor OpenMainWindow -bool
 com.apple.TextEdit RichText -int
@@ -39,7 +35,6 @@ com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool
 com.apple.Safari EnableNarrowTabs -bool
 com.apple.Safari ShowFullURLInSmartSearchField -bool
 com.apple.Safari ShowOverlayStatusBar -bool
-com.apple.Safari ShowSidebarInNewWindows -bool
 com.apple.Safari AlwaysRestoreSessionAtLaunch -bool
 com.apple.Safari NewWindowBehavior -int
 com.apple.Safari NewTabBehavior -int
@@ -80,15 +75,9 @@ com.apple.dock wvous-br-modifier -int
 com.apple.finder AppleShowAllFiles -bool
 com.apple.finder ShowPathbar -bool
 com.apple.finder ShowStatusBar -bool
-com.apple.finder ShowSidebar -bool
-com.apple.finder ShowPreviewPane -bool
 com.apple.finder ShowRecentTags -bool
 com.apple.finder QuitMenuItem -bool
-com.apple.finder FXPreferredViewStyle -string
-com.apple.finder FXPreferredSearchViewStyle -string
 com.apple.finder FXDefaultSearchScope -string
-com.apple.finder FXArrangeGroupViewBy -string
-com.apple.finder FXPreferredGroupBy -string
 com.apple.finder _FXSortFoldersFirst -bool
 com.apple.finder _FXSortFoldersFirstOnDesktop -bool
 com.apple.finder _FXEnableColumnAutoSizing -bool
@@ -103,7 +92,6 @@ com.apple.screencapture location-screenshot -string
 com.apple.screencapture location-screenrecording -string
 com.apple.screencapture type -string
 com.apple.screencapture target -string
-com.apple.screencapture style -string
 com.apple.screencapture show-thumbnail -bool
 com.apple.screencapture showsClicks -bool
 com.apple.desktopservices DSDontWriteNetworkStores -bool
@@ -186,7 +174,6 @@ com.apple.menuextra.clock FlashDateSeparators -bool
 -currentHost com.apple.controlcenter VoiceControl -int
 -currentHost com.apple.controlcenter ShowSuggestions -bool
 com.apple.Siri TypeToSiriEnabled -bool
-com.apple.Siri VoiceTriggerUserEnabled -bool
 com.apple.Siri ConfirmSiriInvokedViaEitherCmdTwice -bool
 com.apple.Siri StatusMenuVisible -bool
 com.apple.assistant.support 'Dictation Enabled' -bool
