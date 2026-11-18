@@ -443,7 +443,7 @@ render_burn() {
     color="$COLOR_BURN_HOT"
   fi
   value=$(printf '%d.%02dx' $((burn / 100)) $((burn % 100)))
-  [[ "$burn" -gt 100 ]] && value="$value🔥"
+  [[ "$burn" -gt 100 ]] && value="${value}🔥"
   if [[ -n "$color" ]]; then
     printf ' \033[%sm%s\033[%sm' "$color" "$value" "$RESET"
   else
