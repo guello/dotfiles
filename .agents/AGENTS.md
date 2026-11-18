@@ -40,7 +40,7 @@ Global guidance. User requests override repository rules, which override this fi
 - Omit preambles, process narration, and closing recaps.
 - Compare options in a best-first table: 0-10 ratings with optional decimal points when and per-row recommendations.
 - Number user-run steps, one bounded action each.
-- Keep caveats only for correctness, safety, data integrity, or the next decision.
+- Keep caveats only for correctness, safety, data integrity, scope gaps, or the next decision.
 - In a CLI, cite external sources last: `Sources:` then one `- name: URL` line per source.
 
 ## Compacting instructions

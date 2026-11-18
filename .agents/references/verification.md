@@ -65,8 +65,9 @@ Conditional workflow routed from `../AGENTS.md`. Read before coding, file change
 
 ## Evidence layers
 
-- Source, CI, package contents, installed runtime, release assets, registry, and deployed state are separate layers; one never implies another.
+- Source, CI, merge, package contents, installed runtime, release assets, registry, deployed state, and rendered screens are separate layers. One never implies another.
 - Report each layer checked and name the rest as gaps before calling anything released, published, installed, or done.
+- For UI work, done means that the named screens show the change when the app runs.
 
 ## Commit decision
 

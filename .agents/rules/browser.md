@@ -15,12 +15,14 @@ Procedures, rationale, and recovery steps: `~/.agents/references/browser-procedu
 
 ## Flow
 
-- Reuse the dev server and port already running; find it in the terminal, open tabs, or project config.
+- Reuse the dev server and port already running. Find it in the terminal, open tabs, or project config.
 - When no server runs, start the project's own dev command with its lockfile-selected package manager and configured port.
-- Load the workflow with `agent-browser skills get core`; name the session after the worktree or task.
+- Load the workflow with `agent-browser skills get core`, naming the session after the worktree or task.
 - Act on snapshot refs, wait for real URL, text, or network signals, and capture evidence for the changed behavior.
-- Run screenshot-heavy verification in a general-purpose subagent that returns a text verdict and the screenshot paths. Read a screenshot yourself only to settle a disputed verdict.
-- Run headless; drop `--headed` even when a skill's own example passes it, `next-dev-loop` included.
+- Run screenshot-heavy verification in a general-purpose subagent that returns a text verdict and the screenshot paths.
+- For each changed screen, examine one before and one after screenshot yourself.
+- Send both screenshots to the user with the report through the harness's file tool, else give their paths.
+- Run headless and drop `--headed` even when a skill's own example passes it, `next-dev-loop` included.
 
 ```sh
 agent-browser --session <task> open http://localhost:<port>/<route>
