@@ -3,6 +3,7 @@
   "cleanupPeriodDays": 180,
   "syncClaudeAiSkills": false,
   "env": {
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/.claude/mods",
     "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
   },
   "attribution": {
@@ -218,6 +219,7 @@
   "autoUpdatesChannel": "latest",
   "plansDirectory": ".agents/plans",
   "tui": "fullscreen",
+  "timeFormat": "auto",
   "autoMemoryEnabled": true,
   "showThinkingSummaries": false,
   "skipDangerousModePermissionPrompt": true,
