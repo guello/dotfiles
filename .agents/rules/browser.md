@@ -5,12 +5,13 @@ Procedures, rationale, and recovery steps: `~/.agents/references/browser-procedu
 ## Tool
 
 - Use the `agent-browser` skill for browser driving, QA, screenshots, scraping, and authenticated flows.
-- Keep `agent-browser` as the default when a browser MCP such as `claude-in-chrome` is loaded; an available tool is not an instruction to use it.
-- Test the running application with its real data; never create a throwaway page, mock route, auth bypass, or ad-hoc preview server.
-- Call it as `agent-browser`, never `npx agent-browser`.
-- When a skill states a minimum version, check `agent-browser --version`; upgrade only if the installed version is too old.
-- Install and update it only through Homebrew (`brew install agent-browser && agent-browser install`, then `agent-browser upgrade`); never `npm i -g`.
-- When the CLI is missing or fails `--version`, repair it yourself per the reference and rerun; hand the reinstall to the user only when blocked.
+- Keep `agent-browser` as the default when a browser MCP such as `claude-in-chrome` is loaded. An available tool is not an instruction to use it.
+- Test the running application with its real data. Never create a throwaway page, mock route, auth bypass, or ad-hoc preview server.
+- Call it as `agent-browser`, not `npx agent-browser`.
+- When a skill states a minimum version, check `agent-browser --version` and upgrade only if the installed version is too old.
+- Install and update it through Homebrew (`brew install agent-browser`, then `agent-browser upgrade`), never `npm i -g`.
+- Never run `agent-browser install`, even when its Chrome warning tells you to. `~/.agent-browser/config.json` pins Google Chrome, which updates itself.
+- When the CLI is missing or fails `--version`, repair it yourself per the reference and rerun. Hand the reinstall to the user only when blocked.
 
 ## Flow
 

@@ -1,27 +1,33 @@
 # Browser procedures
 
-The procedures and rationale behind `../rules/browser.md`. Read the section the current task needs.
+The procedures and rationale behind `../rules/browser.md`.
 
 ## Why Homebrew only
 
 - `agent-browser` is a machine-level CLI, like Chrome itself, never a dependency of a repository.
-- Its profiles, downloaded Chrome, sessions, and encryption key live in `~/.agent-browser`, shared by every repository and worktree.
+- Its config, profiles, sessions, and encryption key live in `~/.agent-browser`, shared by every repository and worktree.
 - Per-repository installs can select different binaries for one shared state store and duplicate downloaded dependencies.
-- nodenv scopes `npm i -g` to one Node version, so a Node bump or global prune silently swaps or removes the binary and strands the old copy.
-- Homebrew provides one machine-level installation; verify the binary resolves on the non-interactive PATH.
+- Homebrew provides one machine-level installation. Verify the binary resolves on the non-interactive PATH.
 - `npx agent-browser` with no local copy downloads whatever the registry tags `latest`, a version nobody chose.
 - Upstream skills such as `next-dev-loop` call the bare command, so the bare form is the only one that stays consistent.
 
 ## Repair
 
 - A binary that fails `agent-browser --version`, such as a version link dangling into a removed worktree, counts as broken.
-- Reinstall with `brew reinstall agent-browser && agent-browser install`.
+- Reinstall with `brew reinstall agent-browser`.
 - When an npm global is present, run `NODENV_VERSION=<version> npm uninstall -g agent-browser` for every Node version that has one.
-- Then run `nodenv rehash`; a dead shim keeps shadowing the Homebrew binary.
+- Then run `nodenv rehash`. A dead shim keeps shadowing the Homebrew binary.
+
+## Why system Chrome
+
+- The tracked `~/.agent-browser/config.json` sets `executablePath` to the Google Chrome from the Brewfile cask.
+- Google Updater keeps that Chrome current. Chrome for Testing from `agent-browser install` stays on one version, and agent-browser uses it first when it is present.
+- Each launch uses a temporary profile, and the user's Chrome profile stays separate.
+- Google Chrome ignores `--extension`. For an unpacked extension, run that session with `--executable-path` set to a Chrome for Testing build.
 
 ## Why headless
 
-- `--headed` activates Chrome for Testing on every launch and takes focus and the frontmost window.
+- `--headed` activates Chrome on every launch and takes focus and the frontmost window.
 - No launch flag, bundle plist key, or minimized window state prevents that.
 - Screenshots, snapshots, clicks, React introspection, and vitals all work headless.
 
@@ -35,7 +41,7 @@ The procedures and rationale behind `../rules/browser.md`. Read the section the 
 
 ```sh
 agent-browser close --all
-pgrep -f 'node_modules/agent-browser|\.agent-browser/browsers'
+pgrep -f 'node_modules/agent-browser|\.agent-browser/browsers|agent-browser-chrome-'
 ```
 
 ## Authentication ladder

@@ -37,7 +37,7 @@ if [[ -n $cli ]]; then
   kill "$watchdog" 2>/dev/null
 fi
 
-orphans=$(pgrep -f 'node_modules/agent-browser|\.agent-browser/browsers' 2>/dev/null |
+orphans=$(pgrep -f 'node_modules/agent-browser|\.agent-browser/browsers|agent-browser-chrome-' 2>/dev/null |
   while read -r pid; do
     [[ $(ps -o ppid= -p "$pid" 2>/dev/null | tr -d ' ') == 1 ]] && printf '%s\n' "$pid"
   done)

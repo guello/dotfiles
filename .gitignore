@@ -1,4 +1,7 @@
 /*
+!/.agent-browser/
+/.agent-browser/*
+!/.agent-browser/config.json
 !/.agents/
 !/.claude/
 /.claude/*
