@@ -1,21 +1,26 @@
 #!/bin/sh
 #
-# PreToolUse(Edit|Write|MultiEdit|Bash): enforce the AGENTS.md committed
-# writing and portability boundaries at write time.
+# PreToolUse(Edit|Write|MultiEdit|Bash): enforce writing and portability
+# boundaries at write time.
 #
 # Simplified Technical English (ASD-STE100) is applied to:
-# - committed *.md, *.mdx, and *.txt prose
-# - the text of Git commits and tags
+# - *.md, *.mdx, and *.txt prose
+# - Git commits and tags
 # - gh pr|issue|release|create|edit|comment|review commands
-# - net-new semicolons, contractions, and sentences over 25 words
-# Command text also blocks on:
+# - semicolons, contractions, and sentences over 25 words
+#
+# Hard boundaries are also applied to:
 # - em or en dashes
 # - session links
 # - Claude-Session trailers
-# - AI co-author or "Generated with" lines.
+# - AI co-author or "Generated with" lines
+#
 # Code, URLs, quotations, headings, and tables are skipped.
 #
-# Exit 2 blocks. Missing jq/git/python3 or any probe failure fails open (exit 0).
+# The pre-push Git hook runs `guard-committed-writing.sh --diff <old> <new>
+# <label>` to apply the same STE checks to each prose file.
+#
+# Exit 2 blocks. Missing jq/git/python3 or any probe failure exits 0.
 
 set -u
 
@@ -24,7 +29,11 @@ case ":$PATH:" in
   *) PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" ;;
 esac
 
-input="$(cat)"
+if [ "${1:-}" = "--diff" ]; then
+  input="$(jq -n --arg old "${2:-}" --arg new "${3:-}" --arg label "${4:-}" '{diff: {old: $old, new: $new, label: $label}}' 2>/dev/null)"
+else
+  input="$(cat)"
+fi
 
 ste() {
   command -v python3 >/dev/null 2>&1 || return 0
@@ -186,6 +195,12 @@ def emit(issues, advice, label):
     sys.exit(0)
 
 
+def compare(old, new, label, advise):
+    seen = set(sentences(old))
+    fresh = [s for s in sentences(new) if s not in seen]
+    emit(ste_issues(fresh), advisory(fresh) if advise else "", label)
+
+
 def file_mode(ti):
     fp = ti.get("file_path") or ""
     if not fp.endswith(PROSE_EXT):
@@ -206,9 +221,7 @@ def file_mode(ti):
             if not o or o not in new:
                 sys.exit(0)
             new = new.replace(o, n) if e.get("replace_all") else new.replace(o, n, 1)
-    seen = set(sentences(old))
-    fresh = [s for s in sentences(new) if s not in seen]
-    emit(ste_issues(fresh), advisory(fresh), p.name)
+    compare(old, new, p.name, True)
 
 
 def resolve(val, is_file, bodies, cwd):
@@ -302,11 +315,16 @@ def command_mode(cmd, cwd):
         issues.append("AI co-author or Generated-with line: remove it (AGENTS.md attribution rule)")
     prose = "\n\n".join(CC_PREFIX.sub("", t, count=1) for t in resolved)
     fresh = sentences(prose)
-    emit(issues + ste_issues(fresh), advisory(fresh), "this commit or GitHub text")
+    emit(issues + ste_issues(fresh), advisory(fresh), "this commit or pull request text")
 
 
 def main():
     data = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+    diff = data.get("diff")
+    if diff:
+        old = Path(diff["old"]).read_text(encoding="utf-8")
+        new = Path(diff["new"]).read_text(encoding="utf-8")
+        compare(old, new, diff["label"], False)
     ti = data.get("tool_input") or {}
     if isinstance(ti, str):
         ti = json.loads(ti)
@@ -328,6 +346,11 @@ PY
   [ "$status" -eq 2 ] && exit 2
   return 0
 }
+
+if [ "${1:-}" = "--diff" ]; then
+  ste
+  exit 0
+fi
 
 cmd="$(printf '%s' "$input" | jq -r '.tool_input.command // empty' 2>/dev/null)"
 case "$cmd" in

@@ -6,6 +6,8 @@ SCRIPT_PATHSPEC="*.sh *.bash .profile .bashrc .bash_profile .config/git/hooks/* 
 BASH_CONFIG=".config/defaults/config.sh"
 ZSH_STARTUP_PATHSPEC=".zshenv .zprofile .zshrc"
 ZSH_PATHSPEC=".zshenv .zprofile .zshrc *.zsh *.zsh-theme .zsh/plugins/*/_*"
+PROSE_PATHSPEC="*.md *.mdx"
+WRITING_GUARD=".agents/hooks/guard-committed-writing.sh"
 NPM_BINS="commitlint oxfmt"
 HOMEBREW_BINS="shellcheck shfmt"
 
@@ -41,30 +43,66 @@ zsh_scripts() {
   git ls-files -z -- $ZSH_PATHSPEC
 }
 
+check_prose() {
+  oldest="$(git rev-list --reverse --topo-order "$1" --not --remotes | head -n 1)"
+  [ -n "$oldest" ] || return 0
+  base="$(git rev-parse -q --verify "$oldest^" || git hash-object -t tree /dev/null)"
+  tmp="$(mktemp -d "${TMPDIR:-/tmp}/pre-push-prose.XXXXXX")"
+  trap 'rm -rf "$tmp"' EXIT
+  tab="$(printf '\t')"
+  rc=0
+  pids=""
+  n=0
+  # shellcheck disable=SC2086
+  git -c core.quotePath=false diff --name-status -M --diff-filter=AMR "$base" "$1" -- $PROSE_PATHSPEC >"$tmp/files"
+  while IFS="$tab" read -r change path renamed; do
+    n=$((n + 1))
+    old_path="$path"
+    case "$change" in
+      A) old_path="" ;;
+      R*) path="$renamed" ;;
+    esac
+    if [ -n "$old_path" ]; then
+      git cat-file blob "$base:$old_path" >"$tmp/old.$n"
+    else
+      : >"$tmp/old.$n"
+    fi
+    git cat-file blob "$1:$path" >"$tmp/new.$n"
+    "$WRITING_GUARD" --diff "$tmp/old.$n" "$tmp/new.$n" "$path" </dev/null &
+    pids="$pids $!"
+  done <"$tmp/files"
+  for pid in $pids; do
+    wait "$pid" || rc=1
+  done
+  rm -rf "$tmp"
+  return "$rc"
+}
+
 for bin in $NPM_BINS; do
-  command -v "$bin" >/dev/null 2>&1 || fail "missing $bin binary, run 'npm install -g' to install"
+  command -v "$bin" >/dev/null 2>&1 || fail "missing $bin binary, run 'npm install -g' to install it"
 done
 
 for bin in $HOMEBREW_BINS; do
-  command -v "$bin" >/dev/null 2>&1 || fail "missing $bin binary, run 'brew bundle install' to install"
+  command -v "$bin" >/dev/null 2>&1 || fail "missing $bin binary, run 'brew bundle install' to install it"
 done
 
 if [ -z "$(scripts | tr -d '\0')" ]; then
-  fail "no shell scripts matched"
+  fail "no shell scripts match"
 fi
 
 if git ls-files -z | xargs -0 grep -nIoE -d skip '/Users/[A-Za-z0-9._-]+' | grep -v ':/Users/Shared$' >&2; then
-  fail "tracked files must be portable, replace absolute paths with \$HOME, ~, or repo-relative ones"
+  fail "tracked files must be portable, replace absolute paths with \$HOME, ~, or relative ones"
 fi
 
-while read -r _ local_oid _ _; do
-  case "$local_oid" in
+while read -r _ oid _ _; do
+  case "$oid" in
     *[!0]*) ;;
     *) continue ;;
   esac
-  for commit in $(git rev-list "$local_oid" --not --remotes); do
-    git log -1 --format=%B "$commit" | commitlint
-  done
+  # shellcheck disable=SC2016
+  git rev-list "$oid" --not --remotes |
+    xargs -r -n 1 -P 8 sh -c 'git log -1 --format=%B "$1" | commitlint' _
+  check_prose "$oid" || fail "the prose does not follow STE, rewrite the sentences above"
 done
 
 scripts | xargs -0 shellcheck
