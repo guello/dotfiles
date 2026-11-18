@@ -7,7 +7,7 @@ Examples and reference detail behind `rules/react.md`. Read the section the curr
 A component with a DOM root merges `className` and spreads the rest onto that root.
 
 ```tsx
-const ChatFilters = ({
+function ChatFilters({
   className,
   counts,
   type,
@@ -17,11 +17,13 @@ const ChatFilters = ({
   counts: Record<string, number>
   type: ChatType
   unrepliedCount: number
-}) => (
-  <div className={cn('flex flex-col gap-2.5 border-b p-3', className)} {...props}>
-    {/* ... */}
-  </div>
-)
+}) {
+  return (
+    <div className={cn('flex flex-col gap-2.5 border-b p-3', className)} {...props}>
+      {/* ... */}
+    </div>
+  )
+}
 ```
 
 A pure provider takes `React.PropsWithChildren` and has no element to receive merged props.
@@ -29,7 +31,7 @@ A pure provider takes `React.PropsWithChildren` and has no element to receive me
 Render `{children}` supplied by the parent so provider-only state changes can reuse those child elements. Context updates can still re-render consumers.
 
 ```tsx
-export const DashboardProvider = ({
+export function DashboardProvider({
   advisors,
   children,
   sidebarOpen,
@@ -38,13 +40,15 @@ export const DashboardProvider = ({
   advisors: Advisor[]
   sidebarOpen: boolean
   user: AuthInfo
-}>) => (
-  <AuthProvider user={user}>
-    <AdvisorsProvider advisors={advisors}>
-      <SidebarProvider defaultOpen={sidebarOpen}>{children}</SidebarProvider>
-    </AdvisorsProvider>
-  </AuthProvider>
-)
+}>) {
+  return (
+    <AuthProvider user={user}>
+      <AdvisorsProvider advisors={advisors}>
+        <SidebarProvider defaultOpen={sidebarOpen}>{children}</SidebarProvider>
+      </AdvisorsProvider>
+    </AuthProvider>
+  )
+}
 ```
 
 ## Composition pressure

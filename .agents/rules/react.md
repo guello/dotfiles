@@ -60,7 +60,7 @@ Keep state at the lowest level that works. Escalate for measured re-renders, dee
 - App code imports features; features import shared code; shared `ui/`, `lib/`, `hooks/`, and `icons/` never import feature or app code.
 - Keep a module in `ui/` only if it could ship in a generic library; once domain-bound it moves to `features/<domain>/`.
 - In Next.js, keep framework-owned files in `app/`; application components and helpers belong in shared layers.
-- In Next.js, define pages and layouts as named arrow functions, then default-export them.
+- In Next.js, define each page and layout as a named default export: `export default function SettingsPage()`.
 - Before using version-specific Next.js APIs from the reference, confirm support in the installed version's docs.
 - With Cache Components on, mark shared reads with `'use cache'`, set `cacheLife` and `cacheTag`, and `updateTag` affected tags.
 - When calling a Server Action from a client event handler, use `startTransition`; apply `useOptimistic` in the same transition.
