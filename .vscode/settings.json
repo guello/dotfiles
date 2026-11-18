@@ -31,5 +31,13 @@
     ".zsh/aliases.zsh": true,
     ".zsh/plugins/*/_*": true,
     ".zsh/themes/*": true
-  }
+  },
+  "tailwindCSS.files.exclude": [
+    "**/.git/**",
+    "**/.hg/**",
+    "**/.svn/**",
+    "**/node_modules/**",
+    ".claude/jobs/**",
+    "Developer/**"
+  ]
 }
