@@ -5,9 +5,7 @@
     {
       "context": "Chat",
       "bindings": {
-        "ctrl+shift+m": "chat:modelPicker",
-        "ctrl+shift+e": "command:effort",
-        "ctrl+shift+f": "chat:fastMode"
+        "ctrl+shift+m": "chat:modelPicker"
       }
     }
   ]
