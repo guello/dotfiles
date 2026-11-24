@@ -4,7 +4,7 @@
 # boundaries at write time.
 #
 # Simplified Technical English (ASD-STE100) is applied to:
-# - *.md, *.mdx, and *.txt prose
+# - *.md and *.mdx prose
 # - Git commits and tags
 # - gh pr|issue|release|create|edit|comment|review commands
 # - semicolons, contractions, and sentences over 25 words
@@ -50,7 +50,7 @@ from pathlib import Path
 
 RSQ, LDQ, RDQ, EN, EM = (chr(c) for c in (0x2019, 0x201C, 0x201D, 0x2013, 0x2014))
 APOS = "['" + RSQ + "]"
-PROSE_EXT = (".md", ".mdx", ".txt")
+PROSE_EXT = (".md", ".mdx")
 CHECKER = Path.home() / ".agents/skills/simplified-technical-english/scripts/ste_check.py"
 WORDISH = re.compile("[A-Za-z0-9'&/" + RSQ + "-]+")
 CONTRACTION = re.compile(
@@ -409,7 +409,7 @@ count_home_refs() { printf '%s' "$1" | grep -oE '(~|\$HOME|\$\{HOME\})/(\.agents
   deny "this edit adds a reference to the user's agent tree or projects (~/.agents, ~/.claude, ~/.codex, ~/Developer) to a file in a project repository (AGENTS.md hard boundary). A repository depends only on what it contains; name a user-level procedure by its skill or command, never by path."
 
 case "$abs" in
-  *.md | *.mdx | *.txt) ste ;;
+  *.md | *.mdx) ste ;;
 esac
 
 exit 0

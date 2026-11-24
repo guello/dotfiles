@@ -25,7 +25,7 @@ The `simplified-technical-english` skill holds the full rules, the approved word
 
 ## Enforcement
 
-- `guard-committed-writing.sh` blocks net-new semicolons, contractions, and sentences over 25 words in committed markdown and text files, and in commit and GitHub text.
+- `guard-committed-writing.sh` blocks net-new semicolons, contractions, and sentences over 25 words in committed markdown files, and in commit and GitHub text.
 - The hook returns the other checker findings as advice. Fix each finding, or keep the word when it is a technical name.
 - In the `$HOME` repository, `pre-push` runs the same check on the content added by the push.
 
