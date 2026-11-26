@@ -1,0 +1,8 @@
+{
+  "name": "typescript-workspace-lsp",
+  "description": "TypeScript/JavaScript language server that follows the workspace version and supports TypeScript 7 projects",
+  "version": "1.0.0",
+  "author": {
+    "name": "Gabriele Canepa"
+  }
+}
