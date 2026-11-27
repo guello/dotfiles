@@ -1,0 +1,7 @@
+{
+  "find": ["cmd+shift+f", "ctrl+shift+f"],
+  "page.reload": ["cmd+r", "ctrl+shift+r"],
+  "tab.close": ["cmd+w", "ctrl+w"],
+  "tab.next": ["ctrl+tab", "ctrl+shift+right"],
+  "tab.previous": ["ctrl+shift+tab", "ctrl+shift+left"]
+}

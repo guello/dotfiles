@@ -1,0 +1,5 @@
+{
+  "telemetry.crashReports": "off",
+  "telemetry.usage": "off",
+  "window.transparent": "on"
+}
