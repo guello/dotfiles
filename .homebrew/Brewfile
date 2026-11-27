@@ -82,6 +82,8 @@ cask "nordvpn"
 cask "orbstack"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
+# Terminal-based web browser
+cask "terminal-browser"
 # Open-source BitTorrent client
 cask "transmission"
 # Open-source code editor
